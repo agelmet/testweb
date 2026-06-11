@@ -1,0 +1,758 @@
+Ο λόγος που το κείμενο στο Hero section δεν εμφανιζόταν είναι ότι οι keyframe animations (`fadeInUp`) είχαν οριστεί ως inline styles `style="animation: ... "`. To Tailwind CSS χρησιμοποιεί JIT (Just-In-Time) compiler και όταν δεν «βλέπει» την κλάση της animation στον κώδικα (π.χ. `animate-fade-in-up`), δεν δημιουργεί τους αντίστοιχους κανόνες (keyframes) στο CSS, με αποτέλεσμα το κείμενο να παραμένει μόνιμα με `opacity: 0`.
+
+Το διόρθωσα αντικαθιστώντας τα inline animations με την έτοιμη Tailwind κλάση `animate-fade-in-up` και ορίζοντας μόνο το `animation-delay` στο style.
+
+Εδώ είναι ο διορθωμένος, έτοιμος κώδικας:
+
+```html
+<!DOCTYPE html>
+<html lang="el" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Τζίνα Παναγιωτίδη | Ψυχοθεραπεία & Εικαστική Έκφραση</title>
+    <meta name="description" content="Η Τζίνα Παναγιωτίδη είναι Πιστοποιημένη Ψυχοθεραπεύτρια, εξειδικευμένη στην Εικαστική Ψυχοθεραπεία, την διαχείριση άγχους, PTSD και κατάθλιψης.">
+    <meta name="author" content="Advon Media">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lux: {
+                            light: '#FDFBF7',     /* Warm, bright background */
+                            cream: '#F4EFEA',     /* Soft secondary background */
+                            dark: '#2D2A26',      /* Soft black for text */
+                            taupe: '#B5A397',     /* Warm accent color */
+                            clay: '#C2A499',      /* Secondary warm accent */
+                            sand: '#E8E1D9',      /* Borders and subtle elements */
+                            white: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    },
+                    boxShadow: {
+                        'glass': '0 10px 40px -10px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 40px -10px rgba(181, 163, 151, 0.3)',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 8s ease-in-out infinite',
+                        'marquee-vertical': 'marqueeVertical 60s linear infinite',
+                        'slow-zoom': 'slowZoom 20s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        marqueeVertical: {
+                            '0%': { transform: 'translateY(0)' },
+                            '100%': { transform: 'translateY(-50%)' },
+                        },
+                        slowZoom: {
+                            '0%': { transform: 'scale(1.1)' },
+                            '100%': { transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Smooth Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #B5A397; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C2A499; }
+
+        body {
+            background-color: #FDFBF7;
+            color: #2D2A26;
+        }
+
+        .tracking-widest-plus { letter-spacing: 0.15em; }
+        
+        /* Reveal Animations via IntersectionObserver */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+
+        /* Luxurious Light Glassmorphism */
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(181, 163, 151, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(181, 163, 151, 0.2);
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(181, 163, 151, 0.6);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 30px -10px rgba(181, 163, 151, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Vertical Marquee Masking */
+        .marquee-mask {
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        /* Image treatment */
+        .portrait-frame {
+            position: relative;
+            z-index: 1;
+        }
+        .portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border: 1px solid rgba(181, 163, 151, 0.4);
+            z-index: -1;
+            transition: all 0.8s ease;
+        }
+        .portrait-frame:hover::before {
+            inset: -5px;
+            background: rgba(181, 163, 151, 0.1);
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-lux-taupe selection:text-lux-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-6" id="navbar">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="rounded-none flex justify-between items-center px-4 md:px-8 py-4 transition-all duration-500" id="nav-inner">
+                <!-- Elegant Text Logo -->
+                <a href="#" class="flex flex-col group">
+                    <span class="font-serif text-xl md:text-2xl tracking-widest text-lux-dark uppercase">Τζίνα Παναγιωτίδη</span>
+                    <span class="text-[10px] md:text-xs tracking-widest-plus text-lux-taupe uppercase mt-1 font-medium">Ψυχοθεραπευτρια</span>
+                </a>
+                
+                <div class="hidden lg:flex items-center space-x-10">
+                    <a href="#about" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Η Ψυχοθεραπευτρια</a>
+                    <a href="#services" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Υπηρεσιες</a>
+                    <a href="#approach" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Προσεγγιση</a>
+                    <a href="#reviews" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Εμπειριες</a>
+                </div>
+
+                <a href="#contact" class="hidden md:inline-flex px-8 py-3 bg-transparent border border-lux-taupe text-lux-dark text-xs tracking-widest font-medium hover:bg-lux-taupe hover:text-lux-white transition-all duration-300 uppercase">
+                    Κλειστε Ραντεβου
+                </a>
+
+                <button class="lg:hidden text-lux-dark focus:outline-none" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-lux-light/98 backdrop-blur-xl hidden flex-col items-center py-10 space-y-8 border-t border-lux-sand shadow-2xl">
+            <a href="#about" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Η Ψυχοθεραπευτρια</a>
+            <a href="#services" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Υπηρεσιες</a>
+            <a href="#approach" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Προσεγγιση</a>
+            <a href="#reviews" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Εμπειριες</a>
+            <a href="#contact" class="px-8 py-3 border border-lux-taupe text-lux-dark hover:bg-lux-taupe hover:text-lux-white transition-colors text-xs tracking-widest uppercase mobile-link font-medium">Κλειστε Ραντεβου</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-lux-light">
+        <!-- Space Background Image with Bright Overlay (Zoomed out on Mobile) -->
+        <div class="absolute inset-0 z-0">
+            <div class="w-full h-full bg-center bg-no-repeat animate-slow-zoom md:bg-cover max-md:bg-contain max-md:bg-top" style="background-image: url('https://github.com/agelmet/STREKLA/blob/main/1000016500.jpg?raw=true');"></div>
+        </div>
+        
+        <!-- Bright, Warm Gradient Overlays to make the dark text pop -->
+        <div class="absolute inset-0 bg-lux-light/85 backdrop-blur-[1px] z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-lux-light via-lux-light/60 to-transparent z-10"></div>
+
+        <div class="relative z-20 max-w-5xl mx-auto px-6 w-full text-center flex flex-col items-center">
+            <div class="mb-8 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <span class="inline-block py-1 px-5 border border-lux-clay/30 text-lux-clay text-xs tracking-widest uppercase font-medium bg-white/50 backdrop-blur-sm rounded-full">
+                    Σύμβουλος Ψυχικής Υγείας
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-lux-dark leading-tight mb-8 opacity-0 drop-shadow-sm animate-fade-in-up" style="animation-delay: 0.4s;">
+                Γεφυρώνοντας τον Νου με το <span class="italic text-lux-taupe font-light">Συναίσθημα.</span>
+            </h1>
+            
+            <p class="text-base md:text-lg text-lux-dark/70 max-w-3xl font-light leading-relaxed mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
+                Ένας ασφαλής χώρος υποστήριξης στον Πειραιά και διαδικτυακά. Όταν ο πόνος είναι πιο βαθύς από τις λέξεις, η Εικαστική Ψυχοθεραπεία σάς δίνει τον χώρο να εκφραστείτε, να επεξεργαστείτε το τραύμα και να βρείτε ξανά τη λύτρωση.
+            </p>
+            
+            <div class="opacity-0 flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style="animation-delay: 0.8s;">
+                <a href="#contact" class="group relative inline-flex items-center justify-center px-10 py-4 bg-lux-dark text-lux-white text-sm tracking-widest font-medium uppercase overflow-hidden transition-all hover:bg-lux-taupe hover:shadow-lg">
+                    <span class="relative z-10 flex items-center gap-3">
+                        ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
+                    </span>
+                </a>
+                <a href="#approach" class="inline-flex items-center justify-center px-10 py-4 bg-transparent border border-lux-taupe text-lux-dark text-sm tracking-widest font-medium uppercase transition-all hover:bg-white/50 backdrop-blur-sm">
+                    ΑΝΑΚΑΛΥΨΤΕ ΤΗΝ ΠΡΟΣΕΓΓΙΣΗ
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-0 animate-fade-in-up" style="animation-delay: 1s;">
+            <span class="text-[10px] text-lux-taupe font-medium uppercase tracking-widest">Ανακαλυψτε</span>
+            <div class="w-px h-12 bg-gradient-to-b from-lux-taupe to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 relative z-20 bg-lux-cream">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                
+                <!-- Portrait -->
+                <div class="relative reveal flex justify-center lg:justify-start order-2 lg:order-1">
+                    <div class="relative w-full max-w-md portrait-frame animate-float">
+                        <img src="https://cdn.doctoranytime.gr/profileimages/4bb6d5eb-e6b0-411e-a129-ed5486daeb9c.webp" alt="Τζίνα Παναγιωτίδη" class="w-full h-auto object-cover filter contrast-105 shadow-xl">
+                        <div class="absolute inset-0 bg-lux-clay/5 mix-blend-multiply"></div>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="reveal delay-200 order-1 lg:order-2">
+                    <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-8 leading-snug">Η Κλινική Ταυτότητα & Πορεία</h2>
+                    
+                    <div class="space-y-6 text-base text-lux-dark/80 font-light leading-relaxed">
+                        <p>
+                            Η <strong>Τζίνα Παναγιωτίδη</strong> είναι Πιστοποιημένη Ψυχοθεραπεύτρια, φέροντας την έγκριτη αναγνώριση της Εθνικής Εταιρείας Ψυχοθεραπείας Ελλάδας (Ε.Ε.Ψ.Ε.) και της Ευρωπαϊκής Εταιρείας Ψυχοθεραπείας (E.A.P.). Η κλινική της ταυτότητα είναι σφυρηλατημένη στα πιο απαιτητικά περιβάλλοντα της δημόσιας ψυχικής υγείας.
+                        </p>
+                        <p>
+                            Έχει εργαστεί στην «πρώτη γραμμή» του Αιγινήτειου Νοσοκομείου υποστηρίζοντας ψυχωσικό πληθυσμό, καθώς και στο Ελληνικό Κέντρο Ψυχικής Υγιεινής και Ερευνών (Ε.ΚΕ.Ψ.Υ.Ε.) στον Πειραιά, αναλαμβάνοντας ομάδες ενηλίκων με ψύχωση και νοητική υστέρηση.
+                        </p>
+                        <blockquote class="pl-6 py-2 border-l-2 border-lux-clay text-lux-dark font-serif italic text-xl my-8 bg-lux-taupe/5 rounded-r-lg">
+                            "Αυτή η σπάνια, πολυετής επαφή με τον βαθύ ψυχικό πόνο, μου έχει προσφέρει απόλυτη κλινική ψυχραιμία, ριζωμένη ενσυναίσθηση και μηδενική διάθεση επίκρισης."
+                        </blockquote>
+                        <p>
+                            Σήμερα, στο ιδιωτικό της γραφείο αλλά και διαδικτυακά, υποστηρίζει ενήλικες και ομάδες που παλεύουν με αγχώδεις διαταραχές, burnout, μετατραυματικό στρες (PTSD), κατάθλιψη και διαταραχές προσωπικότητας. Με την εμπιστοσύνη των θεραπευόμενών της να αποτυπώνεται ήδη σε δεκάδες εξαιρετικές συστάσεις (21+), η παρέμβασή της ξεχωρίζει χάρη σε ένα πανίσχυρο εργαλείο: την <strong>Εικαστική Ψυχοθεραπεία</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 px-6 bg-lux-light relative border-y border-lux-sand">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 reveal">
+                <span class="text-lux-taupe tracking-widest text-xs uppercase mb-4 block font-medium">Εξειδικευμενες Υπηρεσιες</span>
+                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark">Πώς Μπορώ να Βοηθήσω</h2>
+                <div class="w-16 h-px bg-lux-clay mx-auto mt-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Service 1 -->
+                <div class="glass-card p-10 reveal group rounded-2xl">
+                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
+                        <i data-lucide="palette" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Μετατραυματικό Στρες (PTSD) & Εικαστική Ψυχοθεραπεία</h3>
+                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
+                        Το ψυχικό τραύμα συχνά «αποθηκεύεται» στο σώμα και τις εικόνες. Ενσωματώνοντας την Εικαστική Ψυχοθεραπεία, σας δίνω τα υλικά για να εξωτερικεύσετε το τραύμα χωρίς να χρειαστεί να το περιγράψετε με λέξεις. Δεν απαιτείται καλλιτεχνική δεξιότητα.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Εικαστικη Ψυχοθεραπεια</span>
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Τραυμα (50')</span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-card p-10 reveal delay-100 group rounded-2xl">
+                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Άγχος, Πανικός & Burnout</h3>
+                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
+                        Η διαρκής αγωνία, οι κρίσεις πανικού και η επαγγελματική εξουθένωση στραγγίζουν την ενέργειά μας. Δουλεύουμε σταθερά για να ρυθμίσουμε το νευρικό σας σύστημα, αποκωδικοποιούμε τους παράγοντες πανικού και βρίσκουμε πρακτικούς τρόπους για να νιώσετε ξανά ασφάλεια.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Διαχειριση Αγχους</span>
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Burnout (50')</span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-card p-10 reveal group rounded-2xl">
+                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
+                        <i data-lucide="brain" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Κατάθλιψη, Ψυχοσωματικά & Διαταραχές Προσωπικότητας</h3>
+                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
+                        Ο αβάσταχτος εσωτερικός πόνος συχνά βρίσκει διέξοδο μέσα από σωματικά συμπτώματα. Παρέχεται εξειδικευμένη και ψύχραιμη κλινική υποστήριξη σε άτομα που βιώνουν επίμονη θλίψη ή παλεύουν με συναισθηματική αστάθεια. Στόχος η σταδιακή ανάκτηση λειτουργικότητας.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Καταθλιψη</span>
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Διαταραχες</span>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="glass-card p-10 reveal delay-100 group rounded-2xl">
+                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
+                        <i data-lucide="monitor" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Διαδικτυακές Συνεδρίες Ενηλίκων</h3>
+                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
+                        Ο θεραπευτικός χώρος δεν περιορίζεται στους τέσσερις τοίχους ενός γραφείου. Όλες οι υπηρεσίες ψυχοθεραπείας (συμπεριλαμβανομένων των εικαστικών τεχνικών) παρέχονται με την ίδια εχεμύθεια, ζεστασιά και επιστημονική αυστηρότητα διαδικτυακά.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Online (50')</span>
+                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Βιντεοκληση</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approach Section -->
+    <section id="approach" class="py-32 px-6 bg-lux-cream relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-lux-taupe/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-lux-clay/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Όταν Στερεύουν οι Λέξεις: <br><span class="text-lux-clay italic">Η Τέχνη ως Θεραπευτικός "Καθρέφτης"</span></h2>
+                <div class="w-px h-16 bg-lux-clay mx-auto"></div>
+            </div>
+
+            <div class="space-y-8 text-base text-lux-dark/80 font-light leading-relaxed reveal delay-100">
+                <p>
+                    Αν κοιτάξετε την πορεία μου, θα δείτε μια φαινομενικά παράδοξη διαδρομή. Από τη μία πλευρά, βρέθηκα στους διαδρόμους του Αιγινήτειου Νοσοκομείου και του Ε.ΚΕ.Ψ.Υ.Ε., δουλεύοντας με ανθρώπους που βίωναν την πιο ακραία μορφή ψυχικού πόνου, όπως η ψύχωση. Από την άλλη, εξειδικεύτηκα στην Εικαστική Ψυχοθεραπεία (Art Therapy). Στην πραγματικότητα, αυτά τα δύο συνδέονται απόλυτα.
+                </p>
+                <p>
+                    Στην πολυετή μου κλινική πρακτική, διαπίστωσα κάτι θεμελιώδες: Η ανθρώπινη γλώσσα έχει όρια. Όταν ένας άνθρωπος έχει υποστεί ένα βαρύ ψυχικό τραύμα, έχει βιώσει απώλεια, ή κατακλύζεται από κρίσεις πανικού, το κομμάτι του εγκεφάλου που είναι υπεύθυνο για τη λογική και τον λόγο συχνά «μπλοκάρει». Σου λέει: <em>«Δεν ξέρω πώς νιώθω. Νιώθω ένα σφίξιμο, νιώθω ένα κενό, δεν μπορώ να το περιγράψω».</em>
+                </p>
+                <p class="text-lux-dark text-xl font-serif italic text-center py-8 border-y border-lux-sand">
+                    Εκεί ακριβώς, η θεραπεία μέσω της τέχνης γίνεται σωτήρια.
+                </p>
+            </div>
+
+            <div class="mt-16 space-y-12">
+                <div class="flex gap-6 reveal bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
+                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
+                        <i data-lucide="paintbrush" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-serif text-lux-dark mb-3">Δεν κάνουμε μαθήματα ζωγραφικής</h4>
+                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Δεν με ενδιαφέρει καθόλου αν ξέρετε να σχεδιάζετε. Τα υλικά (χρώματα, πηλός, εικόνες) γίνονται η φωνή που χάσατε. Ένα μαύρο, έντονο μουτζούρωμα μπορεί να εκφράσει τον θυμό που δεν τολμήσατε ποτέ να φωνάξετε.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal delay-100 bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
+                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
+                        <i data-lucide="shield" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-serif text-lux-dark mb-3">Ασφάλεια και Απόσταση</h4>
+                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Το να μιλάς κατά πρόσωπο για ένα τραύμα είναι συχνά τρομακτικό. Όταν όμως το αποτυπώνεις στο χαρτί, το «βγάζεις» από μέσα σου. Το βάζεις απέναντί σου. Κρατάμε μια ασφαλή απόσταση από τον πόνο, τον παρατηρούμε μαζί και τον επεξεργαζόμαστε χωρίς να νιώθετε απειλή.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal delay-200 bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
+                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
+                        <i data-lucide="anchor" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-serif text-lux-dark mb-3">Η Ψυχραιμία ως Θεμέλιο</h4>
+                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Η επαφή μου με τον ψυχωσικό πληθυσμό με έχει "γειώσει" βαθιά. Δεν υπάρχει καμία σκοτεινή σκέψη, καμία φοβία και κανένα καταθλιπτικό σύμπτωμα που να με φοβίζει. Στο γραφείο μου (ή στην οθόνη σας) θα βρείτε ένα απόλυτα σταθερό «δοχείο», ικανό να χωρέσει και να αντέξει όποιο συναίσθημα φέρετε.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap / Therapeutic Journey FAQ -->
+    <section class="py-24 px-6 bg-lux-light border-y border-lux-sand">
+        <div class="max-w-4xl mx-auto reveal">
+            <h2 class="text-2xl font-serif text-lux-dark mb-16 text-center uppercase tracking-widest">Η Θεραπευτικη Πορεια</h2>
+            
+            <div class="relative border-l border-lux-taupe/30 ml-4 md:ml-8 space-y-12">
+                <!-- Step 1 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-clay rounded-full flex items-center justify-center">
+                        <div class="w-2 h-2 bg-lux-clay rounded-full"></div>
+                    </div>
+                    <h4 class="text-lux-dark font-serif text-xl mb-3">
+                        <span class="text-lux-clay text-xs tracking-widest font-sans uppercase block mb-1">Βημα 1</span> 
+                        Επικοινωνία & Σύνδεση
+                    </h4>
+                    <p class="text-base text-lux-dark/70 font-light">Η πρώτη επαφή είναι το πιο σημαντικό βήμα. Κλείνουμε το πρώτο ραντεβού σε μέρα και ώρα που εξυπηρετεί, διασφαλίζοντας ένα πλαίσιο απόλυτης εχεμύθειας και αποδοχής.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-taupe rounded-full flex items-center justify-center">
+                        <div class="w-2 h-2 bg-lux-taupe rounded-full"></div>
+                    </div>
+                    <h4 class="text-lux-dark font-serif text-xl mb-3">
+                        <span class="text-lux-taupe text-xs tracking-widest font-sans uppercase block mb-1">Βημα 2</span> 
+                        Αξιολόγηση & Ασφάλεια
+                    </h4>
+                    <p class="text-base text-lux-dark/70 font-light">Στις πρώτες συνεδρίες, εστιάζουμε στη δημιουργία μιας ασφαλούς θεραπευτικής σχέσης. Ακούω την ιστορία σας χωρίς καμία κριτική, χαρτογραφώντας τις ανάγκες σας.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-clay rounded-full flex items-center justify-center">
+                        <div class="w-2 h-2 bg-lux-clay rounded-full"></div>
+                    </div>
+                    <h4 class="text-lux-dark font-serif text-xl mb-3">
+                        <span class="text-lux-clay text-xs tracking-widest font-sans uppercase block mb-1">Βημα 3</span> 
+                        Σύνθεση & Εικαστική Έκφραση
+                    </h4>
+                    <p class="text-base text-lux-dark/70 font-light">Ενσωματώνουμε τεχνικές της συνθετικής προσέγγισης και, όπου κρίνεται ωφέλιμο, τα υλικά της εικαστικής θεραπείας. Δίνουμε μορφή στο άρρητο και επεξεργαζόμαστε το τραύμα εκ του ασφαλούς.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-taupe rounded-full flex items-center justify-center">
+                        <div class="w-2 h-2 bg-lux-taupe rounded-full"></div>
+                    </div>
+                    <h4 class="text-lux-dark font-serif text-xl mb-3">
+                        <span class="text-lux-taupe text-xs tracking-widest font-sans uppercase block mb-1">Βημα 4</span> 
+                        Επούλωση & Αυτονομία
+                    </h4>
+                    <p class="text-base text-lux-dark/70 font-light">Ο τελικός στόχος είναι η ρύθμιση του νευρικού συστήματος, η ανακούφιση από τα συμπτώματα και η ανάπτυξη ισχυρών εσωτερικών μηχανισμών για μια αυτόνομη, ισορροπημένη ζωή.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section (Vertical Marquee) -->
+    <section id="reviews" class="py-32 bg-lux-cream relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center lg:items-start h-auto lg:h-[800px]">
+            
+            <div class="lg:w-1/3 text-center lg:text-left reveal sticky top-32 z-10">
+                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Η Φωνή των Θεραπευόμενων</h2>
+                <p class="text-base text-lux-dark/70 font-light mb-8 leading-relaxed">
+                    Η εμπιστοσύνη σας αποτυπώνεται σε δεκάδες εξαιρετικές αξιολογήσεις. Κάθε ιστορία είναι μια διαδρομή προς το φως.
+                </p>
+                <div class="flex flex-col items-center lg:items-start">
+                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia#review-section" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center lg:items-start transition-all hover:opacity-80">
+                        <img src="https://raw.githubusercontent.com/agelmet/KARAZOLI/refs/heads/main/lgoodoc.jpg" alt="Doctoranytime" class="h-8 object-contain">
+                        <span class="text-xs text-lux-clay mt-3 font-medium tracking-widest uppercase flex items-center gap-2">
+                            Διαβαστε ολες τις κριτικες <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg:w-2/3 w-full h-[600px] lg:h-full relative marquee-mask overflow-hidden">
+                <!-- Scrolling Content -->
+                <div class="absolute w-full animate-marquee-vertical flex flex-col gap-6 marquee-content">
+                    
+                    <!-- Duplicate block 1 for infinite scroll -->
+                    <div class="flex flex-col gap-6">
+                        <!-- Review 1 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετική επαγγελματίας και πάνω από όλα άνθρωπος. Από την πρώτη κιόλας συνεδρία ένιωσα άνεση, ασφάλεια και εμπιστοσύνη... Τη συστήνω ανεπιφύλακτα σε όποιον θέλει πραγματικά να δουλέψει με τον εαυτό του."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">ΜΑΡΙΝΑ • 14 Απριλίου 2026</div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Ήμουν μόλις ένα βήμα πριν χάσω τελείως τον εαυτό μου. Η βοήθεια της ανεκτίμητη. Με υπομονή επιμονή ενθάρρυνση άρχισα να απολαμβάνω την ζωή..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Αλικη • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Είναι η ίσως η μία από τις καλύτερες θεραπείες που έχω ζήσει σε ψυχανάλυση. Ήταν η πρώτη φορά που ένιωσα ότι καταλαβαίνουν τον τρόπο σκέψης μου."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">bill • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <!-- Review 4 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Χάρη σε εκείνη, έχω αρχίσει να βρίσκω τον εαυτό μου και τα πατήματά μου στη ζωή. Με βοήθησε να αναγνωρίζω την τοξικότητα γύρω μου, αλλά και μέσα μου..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Marifilia • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <!-- Review 5 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Η Τζινα είναι εξαιρετική… Από το πρώτο ραντεβού ήταν ο ανθρωπος που μπορούσα να πω τα πάντα… με ηρεμεί αμεσως… Με βοηθάει πολύ να ξεπεράσω τις φοβίες μου."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Dimitra • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <!-- Review 6 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Πολύ καλή στο έργο της και πάνω απ´ολα άνθρωπος με κατανόηση που σε κάνει να βρείς τη χαμένη πίστη στον εαυτό σου! ... Την εμπιστεύομαι και την προτείνω με όλη μου την καρδιά!"</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Ελευθερία • 13 Απριλίου 2026</div>
+                        </div>
+                        
+                        <!-- Review 7 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετικη επαγγελματιας σε αφηνει και σου δινει χωρο να κατανοησεις και να βρεις την πηγη του προβληματος με εναν τεχνουργικο τροπο. Η τεχνη και η φιλοσοφια του art therapy ηταν κατι πρωτογνωρο..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">μ • 03 Απριλίου 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate block 2 for infinite scroll -->
+                    <div class="flex flex-col gap-6" aria-hidden="true">
+                         <!-- Reviews duplicated for seamless loop -->
+                         <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετική επαγγελματίας και πάνω από όλα άνθρωπος. Από την πρώτη κιόλας συνεδρία ένιωσα άνεση, ασφάλεια και εμπιστοσύνη... Τη συστήνω ανεπιφύλακτα σε όποιον θέλει πραγματικά να δουλέψει με τον εαυτό του."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">ΜΑΡΙΝΑ • 14 Απριλίου 2026</div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Ήμουν μόλις ένα βήμα πριν χάσω τελείως τον εαυτό μου. Η βοήθεια της ανεκτίμητη. Με υπομονή επιμονή ενθάρρυνση άρχισα να απολαμβάνω την ζωή..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Αλικη • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Είναι η ίσως η μία από τις καλύτερες θεραπείες που έχω ζήσει σε ψυχανάλυση. Ήταν η πρώτη φορά που ένιωσα ότι καταλαβαίνουν τον τρόπο σκέψης μου."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">bill • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Χάρη σε εκείνη, έχω αρχίσει να βρίσκω τον εαυτό μου και τα πατήματά μου στη ζωή. Με βοήθησε να αναγνωρίζω την τοξικότητα γύρω μου, αλλά και μέσα μου..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Marifilia • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Η Τζινα είναι εξαιρετική… Από το πρώτο ραντεβού ήταν ο ανθρωπος που μπορούσα να πω τα πάντα… με ηρεμεί αμεσως… Με βοηθάει πολύ να ξεπεράσω τις φοβίες μου."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Dimitra • 13 Απριλίου 2026</div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Πολύ καλή στο έργο της και πάνω απ´ολα άνθρωπος με κατανόηση που σε κάνει να βρείς τη χαμένη πίστη στον εαυτό σου! ... Την εμπιστεύομαι και την προτείνω με όλη μου την καρδιά!"</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Ελευθερία • 13 Απριλίου 2026</div>
+                        </div>
+                        
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
+                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
+                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
+                            </div>
+                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετικη επαγγελματιας σε αφηνει και σου δινει χωρο να κατανοησεις και να βρεις την πηγη του προβληματος με εναν τεχνουργικο τροπο. Η τεχνη και η φιλοσοφια του art therapy ηταν κατι πρωτογνωρο..."</p>
+                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">μ • 03 Απριλίου 2026</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer / Contact Section -->
+    <footer id="contact" class="bg-lux-cream pt-32 pb-12 border-t border-lux-sand relative">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
+                
+                <div class="lg:col-span-5 reveal">
+                    <h3 class="text-3xl font-serif text-lux-dark mb-6">Η επούλωση ξεκινά <br><span class="italic text-lux-clay">με ένα βήμα.</span></h3>
+                    <p class="text-lux-dark/70 text-base font-light leading-relaxed mb-10 max-w-sm">
+                        Επικοινωνήστε μαζί μου για να ορίσουμε την πρώτη σας συνεδρία σε ένα περιβάλλον απόλυτης αποδοχής και ασφάλειας.
+                    </p>
+                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-10 py-4 bg-lux-dark text-lux-white text-xs tracking-widest font-bold uppercase transition-all hover:bg-lux-clay shadow-lg hover:shadow-xl">
+                        Κλειστε Ραντεβου
+                    </a>
+                </div>
+
+                <div class="lg:col-span-4 reveal delay-100">
+                    <h4 class="text-xs font-bold text-lux-clay tracking-widest uppercase mb-8">Στοιχεια Επικοινωνιας</h4>
+                    <ul class="space-y-6 text-base text-lux-dark/80 font-medium">
+                        <li class="flex items-start gap-4 group">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-lux-clay mt-0.5 shrink-0 transition-transform group-hover:scale-110"></i>
+                            <span>Πειραιάς</span>
+                        </li>
+                        <li class="flex items-center gap-4 group">
+                            <i data-lucide="phone" class="w-5 h-5 text-lux-clay shrink-0 transition-transform group-hover:scale-110"></i>
+                            <a href="tel:+306972883902" class="hover:text-lux-taupe transition-colors">+30 697 288 3902</a>
+                        </li>
+                        <li class="flex items-center gap-4 group">
+                            <i data-lucide="mail" class="w-5 h-5 text-lux-clay shrink-0 transition-transform group-hover:scale-110"></i>
+                            <a href="mailto:ginapanagiotidi@gmail.com" class="hover:text-lux-taupe transition-colors">ginapanagiotidi@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-3 reveal delay-200">
+                    <h4 class="text-xs font-bold text-lux-clay tracking-widest uppercase mb-8">Ωραριο Λειτουργιας</h4>
+                    <ul class="space-y-4 text-base text-lux-dark/80 font-medium mb-10">
+                        <li class="flex flex-col gap-1">
+                            <span class="uppercase tracking-widest text-[10px] text-lux-dark/50">Δευτερα - Σαββατο</span>
+                            <span>Κατόπιν Ραντεβού</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/ginapanagiotidi_arttherapy/" target="_blank" rel="noopener" class="w-12 h-12 rounded-full border border-lux-sand bg-white flex items-center justify-center hover:border-lux-clay hover:shadow-md transition-all">
+                            <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/instagram-logo-instagram-icon-transparent-free-png.png.webp" alt="Instagram" class="w-6 h-6 opacity-70 hover:opacity-100 transition-opacity">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-lux-sand pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-lux-dark/50 reveal">
+                <p>&copy; 2026 Τζίνα Παναγιωτίδη. All rights reserved.</p>
+                <p>
+                    Designed by <a href="https://advonmedia.com" target="_blank" rel="noopener" class="text-lux-clay hover:text-lux-dark transition-colors uppercase tracking-widest">Advon Media</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbarInner = document.getElementById('nav-inner');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbarInner.classList.add('glass-nav');
+                navbarInner.classList.remove('px-4', 'md:px-8');
+                navbarInner.classList.add('px-6', 'md:px-10', 'rounded-full', 'mx-4');
+            } else {
+                navbarInner.classList.remove('glass-nav');
+                navbarInner.classList.remove('px-6', 'md:px-10', 'rounded-full', 'mx-4');
+                navbarInner.classList.add('px-4', 'md:px-8');
+            }
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+
+```
