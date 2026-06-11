@@ -1,10 +1,3 @@
-Ο λόγος που το κείμενο στο Hero section δεν εμφανιζόταν είναι ότι οι keyframe animations (`fadeInUp`) είχαν οριστεί ως inline styles `style="animation: ... "`. To Tailwind CSS χρησιμοποιεί JIT (Just-In-Time) compiler και όταν δεν «βλέπει» την κλάση της animation στον κώδικα (π.χ. `animate-fade-in-up`), δεν δημιουργεί τους αντίστοιχους κανόνες (keyframes) στο CSS, με αποτέλεσμα το κείμενο να παραμένει μόνιμα με `opacity: 0`.
-
-Το διόρθωσα αντικαθιστώντας τα inline animations με την έτοιμη Tailwind κλάση `animate-fade-in-up` και ορίζοντας μόνο το `animation-delay` στο style.
-
-Εδώ είναι ο διορθωμένος, έτοιμος κώδικας:
-
-```html
 <!DOCTYPE html>
 <html lang="el" class="scroll-smooth">
 <head>
