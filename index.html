@@ -1,751 +1,834 @@
 <!DOCTYPE html>
-<html lang="el" class="scroll-smooth">
+<html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Τζίνα Παναγιωτίδη | Ψυχοθεραπεία & Εικαστική Έκφραση</title>
-    <meta name="description" content="Η Τζίνα Παναγιωτίδη είναι Πιστοποιημένη Ψυχοθεραπεύτρια, εξειδικευμένη στην Εικαστική Ψυχοθεραπεία, την διαχείριση άγχους, PTSD και κατάθλιψης.">
-    <meta name="author" content="Advon Media">
-    <meta name="robots" content="index, follow">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        lux: {
-                            light: '#FDFBF7',     /* Warm, bright background */
-                            cream: '#F4EFEA',     /* Soft secondary background */
-                            dark: '#2D2A26',      /* Soft black for text */
-                            taupe: '#B5A397',     /* Warm accent color */
-                            clay: '#C2A499',      /* Secondary warm accent */
-                            sand: '#E8E1D9',      /* Borders and subtle elements */
-                            white: '#FFFFFF'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
-                        serif: ['Cinzel', 'serif'],
-                    },
-                    boxShadow: {
-                        'glass': '0 10px 40px -10px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 40px -10px rgba(181, 163, 151, 0.3)',
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'float': 'float 8s ease-in-out infinite',
-                        'marquee-vertical': 'marqueeVertical 60s linear infinite',
-                        'slow-zoom': 'slowZoom 20s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
-                        },
-                        marqueeVertical: {
-                            '0%': { transform: 'translateY(0)' },
-                            '100%': { transform: 'translateY(-50%)' },
-                        },
-                        slowZoom: {
-                            '0%': { transform: 'scale(1.1)' },
-                            '100%': { transform: 'scale(1)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        /* Smooth Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #FDFBF7; }
-        ::-webkit-scrollbar-thumb { background: #B5A397; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #C2A499; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ΦΙΝΦΙΝΗΣ | Λογιστικό & Φοροτεχνικό Γραφείο στον Πειραιά</title>
+<meta name="description" content="Λογιστικό γραφείο Μιχαήλ Θ. Φινφίνης στον Πειραιά. Λογιστική παρακολούθηση, φοροτεχνική συμβουλευτική, έναρξη επιχείρησης, μισθοδοσία για επιχειρήσεις. Εμπειρία, επαγγελματισμός, υπευθυνότητα.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Reference palette: cool light gray, warm greige/taupe, charcoal, pewter */
+  --bg:#eceef0;          /* page light cool gray */
+  --bg-warm:#b9b3a9;     /* warm greige panels */
+  --bg-warm-2:#a9a39a;   /* deeper greige */
+  --char:#5b5751;        /* charcoal panels */
+  --char-2:#46433f;      /* deep charcoal */
+  --ink:#3a3833;         /* text on light */
+  --paper:#f6f5f2;       /* off-white text on dark */
+  --pewter:#8d8a84;      /* muted accent */
+  --pewter-light:#cfcbc4;
+  --muted:#86827b;
+  --green:#1a4a3e;       /* dark green — headings on light, brand-aligned */
+  --green-2:#236153;     /* dark green softer */
+  --blue:#143a52;        /* dark blue — headings accent */
+  --green-paper:#a4ccba; /* light green for headings on dark */
+  --line:rgba(91,87,81,.22);
+  --line-light:rgba(246,245,242,.28);
+  --display:'Jost',system-ui,sans-serif;
+  --body:'Jost',system-ui,sans-serif;
+  --narrow:'Archivo Narrow',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --pad:clamp(1.4rem,5vw,7rem);
+  --sec:clamp(5rem,11vw,11rem);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.6;
+  font-weight:300;
+}
+::selection{background:var(--char);color:var(--paper)}
+::-webkit-scrollbar{width:11px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--pewter);border-radius:0}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+section{position:relative}
+.wrap{max-width:1340px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
 
-        body {
-            background-color: #FDFBF7;
-            color: #2D2A26;
-        }
+/* ---------- LOADER ---------- */
+#loader{
+  position:fixed;inset:0;z-index:9999;background:var(--char);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:opacity .8s var(--ease),visibility .8s;
+}
+#loader.done{opacity:0;visibility:hidden}
+.load-mark{
+  font-family:var(--display);font-weight:300;letter-spacing:.18em;
+  font-size:clamp(2rem,7vw,4rem);color:var(--paper);
+  overflow:hidden;display:flex;padding-left:.18em;
+}
+.load-mark span{
+  display:inline-block;transform:translateY(110%);
+  animation:loadUp .9s var(--ease) forwards;
+}
+@keyframes loadUp{to{transform:translateY(0)}}
+.load-line{
+  height:1px;background:var(--pewter-light);width:0;margin-top:1.6rem;
+  animation:loadLine 1s var(--ease) .7s forwards;
+}
+@keyframes loadLine{to{width:min(280px,60vw)}}
+.load-sub{
+  font-family:var(--narrow);text-transform:uppercase;letter-spacing:.42em;
+  font-size:.7rem;color:var(--pewter-light);margin-top:1.2rem;opacity:0;
+  animation:fadeIn .6s ease 1.3s forwards;
+}
+@keyframes fadeIn{to{opacity:1}}
 
-        .tracking-widest-plus { letter-spacing: 0.15em; }
-        
-        /* Reveal Animations via IntersectionObserver */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .delay-100 { transition-delay: 0.1s; }
-        .delay-200 { transition-delay: 0.2s; }
-        .delay-300 { transition-delay: 0.3s; }
+/* ---------- NAV ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem var(--pad);
+  transition:background .5s var(--ease),padding .5s var(--ease),box-shadow .5s var(--ease);
+}
+nav.scrolled{
+  background:rgba(236,238,240,.9);backdrop-filter:blur(14px);
+  padding-top:.85rem;padding-bottom:.85rem;
+  box-shadow:0 1px 0 var(--line);
+}
+.nav-brand{display:flex;align-items:center;gap:.85rem}
+.nav-brand img{height:62px;width:auto;border-radius:8px;box-shadow:0 4px 16px -8px rgba(26,74,62,.45);transition:height .5s var(--ease)}
+nav.scrolled .nav-brand img{height:50px}
+.nav-links{display:flex;align-items:center;gap:2.4rem;list-style:none}
+.nav-links a{
+  font-family:var(--display);font-weight:400;letter-spacing:.02em;
+  font-size:1rem;position:relative;padding:.3rem 0;color:var(--ink);
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--char);
+  transition:width .4s var(--ease);
+}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  font-family:var(--display);font-weight:400;letter-spacing:.02em;font-size:1rem;
+  border:1px solid var(--char);color:var(--ink);padding:.6rem 1.5rem;border-radius:30px;
+  transition:background .4s var(--ease),color .4s var(--ease);
+}
+.nav-cta:hover{background:var(--char);color:var(--paper)}
+.burger{display:none;background:none;border:none;cursor:pointer;width:34px;height:24px;position:relative;z-index:1100}
+.burger span{position:absolute;left:0;height:2px;width:100%;background:var(--ink);transition:.4s var(--ease)}
+.burger span:nth-child(1){top:2px}
+.burger span:nth-child(2){top:11px}
+.burger span:nth-child(3){top:20px}
+.burger.open span{background:var(--paper)}
+.burger.open span:nth-child(1){top:11px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){top:11px;transform:rotate(-45deg)}
+.mobile-menu{
+  position:fixed;inset:0;z-index:1050;background:var(--char);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;
+  opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s;
+}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu a{font-family:var(--display);font-size:1.9rem;font-weight:300;color:var(--paper);opacity:0;transform:translateY(20px);transition:.5s var(--ease)}
+.mobile-menu.open a{opacity:1;transform:none}
+.mobile-menu.open a:nth-child(1){transition-delay:.1s}
+.mobile-menu.open a:nth-child(2){transition-delay:.16s}
+.mobile-menu.open a:nth-child(3){transition-delay:.22s}
+.mobile-menu.open a:nth-child(4){transition-delay:.28s}
+.mobile-menu.open a:nth-child(5){transition-delay:.34s}
 
-        /* Luxurious Light Glassmorphism */
-        .glass-nav {
-            background: rgba(253, 251, 247, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(181, 163, 151, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-        }
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr;
+  position:relative;overflow:hidden;background:var(--bg);
+}
+.hero-panel{
+  position:relative;overflow:hidden;display:flex;align-items:center;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(180deg,rgba(20,69,47,.42),rgba(15,47,77,.55)),
+  url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;background-position:center;
+  will-change:transform;
+}
+.hero-content{position:relative;z-index:2;padding:clamp(2rem,6vw,5rem);padding-top:14vh;max-width:640px}
+.hero-eyebrow{
+  font-family:var(--narrow);text-transform:uppercase;letter-spacing:.42em;font-size:.74rem;
+  color:var(--paper);display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;
+}
+.hero-eyebrow .ln{height:1px;width:46px;background:var(--paper)}
+.hero h1{
+  font-family:var(--display);font-weight:300;color:var(--paper);
+  font-size:clamp(2.6rem,5.2vw,5rem);line-height:1.04;letter-spacing:-.005em;
+}
+.hero p.lede{
+  margin-top:1.8rem;max-width:42ch;font-size:clamp(1rem,1.3vw,1.16rem);font-weight:300;
+  color:rgba(246,245,242,.9);
+}
+.hero-actions{display:flex;gap:1rem;margin-top:2.8rem;flex-wrap:wrap}
+.btn{
+  font-family:var(--display);font-weight:400;letter-spacing:.02em;font-size:1rem;
+  padding:.95rem 2.1rem;display:inline-flex;align-items:center;gap:.7rem;cursor:pointer;border:none;border-radius:32px;
+  transition:.4s var(--ease);
+}
+.btn-solid{background:var(--char-2);color:var(--paper)}
+.btn-solid:hover{background:var(--ink)}
+.btn-ghost{background:transparent;color:var(--paper);border:1px solid var(--line-light)}
+.btn-ghost:hover{border-color:var(--paper);background:rgba(246,245,242,.1)}
+.hero-aside{
+  position:relative;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(2rem,5vw,4rem);background:var(--bg);
+}
+.hero-aside .floatmark{
+  position:absolute;top:12vh;right:clamp(2rem,5vw,4rem);font-family:var(--display);
+  font-weight:300;font-size:clamp(4rem,11vw,9rem);color:rgba(91,87,81,.07);line-height:.8;letter-spacing:-.02em;user-select:none;
+}
+.hero-aside-inner{position:relative;z-index:2}
+.hero-aside h2{font-family:var(--display);font-weight:300;font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--green);line-height:1.2;margin-bottom:1.2rem}
+.aside-years{display:flex;align-items:baseline;gap:.7rem;margin-bottom:.9rem;font-family:var(--display)}
+.aside-years{font-weight:300;font-size:clamp(2.4rem,4vw,3.4rem);color:var(--green);line-height:1}
+.aside-years em{font-style:normal;font-size:.9rem;font-family:var(--narrow);text-transform:uppercase;letter-spacing:.22em;color:var(--blue)}
+.aside-quote{font-family:var(--display);font-weight:300;font-size:clamp(1.02rem,1.4vw,1.18rem);line-height:1.4;color:var(--ink);border-left:2px solid var(--green);padding-left:1.2rem;margin-bottom:2rem;max-width:40ch}
+.hero-aside p{color:var(--muted);max-width:38ch;margin-bottom:2rem}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.7rem}
+.pill{font-family:var(--narrow);text-transform:uppercase;letter-spacing:.2em;font-size:.7rem;padding:.55rem 1.1rem;border:1px solid var(--line);border-radius:30px;color:var(--ink)}
+.scroll-cue{display:flex;align-items:center;gap:.7rem;margin-top:2.6rem;font-family:var(--narrow);text-transform:uppercase;letter-spacing:.3em;font-size:.66rem;color:var(--muted)}
+.scroll-cue .dot{width:1px;height:42px;background:var(--pewter);position:relative;overflow:hidden}
+.scroll-cue .dot::after{content:"";position:absolute;top:0;left:0;width:100%;height:40%;background:var(--char);animation:cue 1.8s var(--ease) infinite}
+@keyframes cue{0%{transform:translateY(-100%)}100%{transform:translateY(280%)}}
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(181, 163, 151, 0.2);
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.03);
-        }
-        
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(181, 163, 151, 0.6);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 30px -10px rgba(181, 163, 151, 0.2);
-            background: rgba(255, 255, 255, 0.9);
-        }
+/* hero entrance */
+.h-anim{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.loaded .h-anim{opacity:1;transform:none}
+.loaded .h-anim.d1{transition-delay:.15s}
+.loaded .h-anim.d2{transition-delay:.3s}
+.loaded .h-anim.d3{transition-delay:.45s}
+.loaded .h-anim.d4{transition-delay:.6s}
+.loaded .h-anim.d5{transition-delay:.75s}
 
-        /* Vertical Marquee Masking */
-        .marquee-mask {
-            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
-        }
+/* ---------- MARQUEE ---------- */
+.marquee{background:var(--char);color:var(--paper);overflow:hidden;padding:1.05rem 0}
+.marquee-track{display:flex;white-space:nowrap;will-change:transform;animation:scrollx 36s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee span{font-family:var(--display);font-weight:300;font-size:1.3rem;letter-spacing:.04em;padding:0 2.2rem;display:inline-flex;align-items:center;gap:2.2rem}
+.marquee span::after{content:"";width:5px;height:5px;background:var(--pewter-light);display:inline-block}
+@keyframes scrollx{to{transform:translateX(-50%)}}
 
-        .marquee-content:hover {
-            animation-play-state: paused;
-        }
+/* ---------- SECTION SHELL ---------- */
+.sec-pad{padding-top:var(--sec);padding-bottom:var(--sec)}
+.eyebrow{
+  font-family:var(--narrow);text-transform:uppercase;letter-spacing:.36em;font-size:.74rem;
+  color:var(--pewter);display:flex;align-items:center;gap:.9rem;margin-bottom:1.5rem;
+}
+.eyebrow .num{font-family:var(--display);font-weight:400;font-size:1rem;color:var(--green)}
+.sec-title{font-family:var(--display);font-weight:300;font-size:clamp(2rem,4.6vw,3.7rem);line-height:1.08;letter-spacing:-.01em;color:var(--green)}
+.sec-title em{font-style:normal;color:var(--blue)}
 
-        /* Image treatment */
-        .portrait-frame {
-            position: relative;
-            z-index: 1;
-        }
-        .portrait-frame::before {
-            content: '';
-            position: absolute;
-            inset: -15px;
-            border: 1px solid rgba(181, 163, 151, 0.4);
-            z-index: -1;
-            transition: all 0.8s ease;
-        }
-        .portrait-frame:hover::before {
-            inset: -5px;
-            background: rgba(181, 163, 151, 0.1);
-        }
-    </style>
-    <script src="https://unpkg.com/lucide@latest"></script>
+/* ---------- ABOUT ---------- */
+.about{background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,6rem);align-items:center;margin-top:3.2rem}
+.about-portrait{position:relative}
+.about-portrait .frame{position:relative;overflow:hidden;background:var(--char)}
+.about-portrait img{transition:transform 1.2s var(--ease),filter 1.2s var(--ease);width:100%;height:100%;object-fit:cover;min-height:460px}
+.about-portrait:hover img{transform:scale(1.05)}
+.about-portrait::after{content:"";position:absolute;top:20px;left:20px;right:-20px;bottom:-20px;border:1px solid var(--green);z-index:-1}
+.about-name{font-family:var(--display);font-weight:500;font-size:clamp(1.6rem,3vw,2.3rem);margin-bottom:.3rem;color:var(--green)}
+.about-role{font-family:var(--narrow);text-transform:uppercase;letter-spacing:.26em;font-size:.78rem;color:var(--pewter);margin-bottom:1.9rem}
+.about p{margin-bottom:1.1rem;color:var(--muted);max-width:54ch}
+.pullquote{
+  font-family:var(--display);font-weight:300;
+  font-size:clamp(1.3rem,2.4vw,1.95rem);line-height:1.32;color:var(--blue);
+  border-left:2px solid var(--green);padding-left:1.6rem;margin:2.1rem 0;
+}
+.about-stats{display:flex;gap:2.8rem;margin-top:2.3rem;flex-wrap:wrap}
+.stat .n{font-family:var(--display);font-weight:300;font-size:2.6rem;color:var(--green);line-height:1}
+.stat .l{font-family:var(--narrow);text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;color:var(--pewter);margin-top:.4rem}
+
+/* ---------- PARALLAX BANNER ---------- */
+.parallax{
+  min-height:64vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;
+}
+.parallax-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;will-change:transform}
+.parallax::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(20,69,47,.72),rgba(15,47,77,.8))}
+.parallax .wrap{position:relative;z-index:2}
+.parallax .big{font-family:var(--display);font-weight:300;font-size:clamp(1.7rem,4vw,3.1rem);line-height:1.28;max-width:24ch;margin:0 auto;color:var(--paper)}
+.parallax .big b{color:var(--pewter-light);font-weight:500}
+
+/* ---------- SERVICES ---------- */
+.services{background:var(--char)}
+.services .eyebrow{color:var(--pewter-light)}
+.services .eyebrow .num{color:var(--green-paper)}
+.services .sec-title{color:var(--paper)}
+.services .sec-title em{color:var(--green-paper)}
+.svc-list{margin-top:3.4rem;border-top:1px solid var(--line-light)}
+.svc{border-bottom:1px solid var(--line-light);cursor:pointer;transition:background .4s var(--ease)}
+.svc:hover{background:rgba(246,245,242,.04)}
+.svc-head{display:grid;grid-template-columns:auto 1fr auto;gap:1.6rem;align-items:center;padding:2rem 0}
+.svc-num{font-family:var(--display);font-weight:300;font-size:1.2rem;color:var(--pewter-light)}
+.svc-name{font-family:var(--display);font-weight:300;font-size:clamp(1.35rem,2.6vw,2.1rem);color:var(--green-paper);transition:color .4s var(--ease)}
+.svc:hover .svc-name{color:var(--paper)}
+.svc-toggle{width:36px;height:36px;border:1px solid var(--line-light);border-radius:50%;position:relative;flex-shrink:0;transition:.4s var(--ease)}
+.svc-toggle::before,.svc-toggle::after{content:"";position:absolute;background:var(--paper);left:50%;top:50%;transition:.4s var(--ease)}
+.svc-toggle::before{width:13px;height:1.5px;transform:translate(-50%,-50%)}
+.svc-toggle::after{width:1.5px;height:13px;transform:translate(-50%,-50%)}
+.svc.active .svc-toggle{background:var(--paper);border-color:var(--paper)}
+.svc.active .svc-toggle::before,.svc.active .svc-toggle::after{background:var(--char)}
+.svc.active .svc-toggle::after{transform:translate(-50%,-50%) scaleY(0)}
+.svc-body{max-height:0;overflow:hidden;transition:max-height .55s var(--ease)}
+.svc-body-inner{padding:0 0 2.3rem 0;display:grid;grid-template-columns:auto 1fr;gap:1.6rem;color:rgba(246,245,242,.82);font-weight:300}
+.svc-body-inner .sp{grid-column:1}
+.svc-body-inner p{max-width:66ch}
+
+/* ---------- PROCESS ---------- */
+.process{background:var(--bg-warm)}
+.process .eyebrow{color:var(--char-2)}
+.process .eyebrow .num{color:var(--green)}
+.process .sec-title{color:var(--green)}
+.process .sec-title em{color:var(--blue)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3.6rem;counter-reset:step}
+.step{padding:2.3rem 1.6rem 2.3rem 0;border-top:2px solid var(--char-2);position:relative}
+.step:not(:last-child){border-right:1px solid rgba(70,67,63,.2);padding-right:1.6rem}
+.step:not(:first-child){padding-left:1.6rem}
+.step-n{font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--green);margin-bottom:1.1rem}
+.step h3{font-family:var(--display);font-weight:500;font-size:1.35rem;margin-top:.4rem;margin-bottom:.7rem;color:var(--green)}
+.step p{font-size:.95rem;color:var(--char);font-weight:300}
+.process-quote{font-family:var(--display);font-weight:300;font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.3;color:var(--green);border-left:2px solid var(--blue);padding-left:1.6rem;margin-top:3.4rem;max-width:34ch}
+
+/* ---------- PHILOSOPHY ---------- */
+.philosophy{background:var(--bg)}
+.phil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.4rem}
+.phil-card{
+  border:1px solid var(--line);padding:2.6rem 2.1rem;position:relative;overflow:hidden;background:var(--paper);
+  transition:.5s var(--ease);
+}
+.phil-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.phil-card:hover{transform:translateY(-6px);box-shadow:0 24px 50px -28px rgba(70,67,63,.4)}
+.phil-card:hover::before{transform:scaleX(1)}
+.phil-icon{width:44px;height:44px;margin-bottom:1.6rem}
+.phil-icon svg{width:100%;height:100%;stroke:var(--green);fill:none;stroke-width:1.3}
+.phil-card h3{font-family:var(--display);font-weight:400;font-size:1.55rem;margin-bottom:.8rem;color:var(--green)}
+.phil-card p{color:var(--muted);font-size:.97rem;font-weight:300}
+
+/* ---------- TESTIMONIALS ---------- */
+.reviews{background:var(--char-2);overflow:hidden}
+.reviews .eyebrow{color:var(--pewter-light)}
+.reviews .eyebrow .num{color:var(--green-paper)}
+.reviews .sec-title{color:var(--paper)}
+.reviews .sec-title em{color:var(--green-paper)}
+.rev-viewport{overflow:hidden;margin-top:3.4rem}
+.rev-intro{margin-top:1.2rem;font-family:var(--display);font-weight:300;font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--green-paper);max-width:46ch}
+.rev-track{display:flex;gap:1.6rem;transition:transform .7s var(--ease)}
+.rev-card{
+  flex:0 0 clamp(280px,42vw,440px);background:var(--char);border:1px solid var(--line-light);
+  padding:2.6rem;display:flex;flex-direction:column;
+}
+.rev-stars{color:var(--pewter-light);letter-spacing:.3em;margin-bottom:1.2rem;font-size:.9rem}
+.rev-text{font-family:var(--display);font-weight:300;font-size:1.18rem;line-height:1.5;color:var(--paper);margin-bottom:1.6rem}
+.rev-author{margin-top:auto;font-family:var(--narrow);text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;color:var(--pewter-light)}
+.rev-author span{display:block;color:var(--muted);text-transform:none;letter-spacing:0;font-family:var(--body);font-size:.82rem;margin-top:.3rem;font-weight:300}
+.rev-nav{display:flex;gap:.8rem;margin-top:2rem}
+.rev-btn{width:50px;height:50px;border:1px solid var(--line-light);background:transparent;color:var(--paper);cursor:pointer;transition:.4s var(--ease);display:flex;align-items:center;justify-content:center;border-radius:50%}
+.rev-btn:hover{background:var(--paper);color:var(--char);border-color:var(--paper)}
+.rev-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--bg)}
+.faq-list{margin-top:3rem;max-width:900px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:1.4rem;padding:1.8rem 0;cursor:pointer}
+.faq-q h3{font-family:var(--display);font-weight:400;font-size:clamp(1.15rem,2vw,1.5rem);color:var(--green)}
+.faq-icon{width:24px;height:24px;flex-shrink:0;position:relative}
+.faq-icon::before,.faq-icon::after{content:"";position:absolute;background:var(--char);left:50%;top:50%;transition:.4s var(--ease)}
+.faq-icon::before{width:16px;height:1.5px;transform:translate(-50%,-50%)}
+.faq-icon::after{width:1.5px;height:16px;transform:translate(-50%,-50%)}
+.faq-item.active .faq-icon::after{transform:translate(-50%,-50%) scaleY(0)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.faq-a p{padding:0 0 1.8rem 0;color:var(--muted);max-width:72ch;font-weight:300}
+
+/* ---------- CONTACT ---------- */
+.contact{position:relative;overflow:hidden;background:var(--char)}
+.contact-bg{position:absolute;inset:0;z-index:0;opacity:.22;background-size:cover;background-position:center;will-change:transform}
+.contact .wrap{position:relative;z-index:1}
+.contact .eyebrow{color:var(--pewter-light)}
+.contact .eyebrow .num{color:var(--green-paper)}
+.contact .sec-title{color:var(--paper)}
+.contact .sec-title em{color:var(--green-paper)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);margin-top:3rem}
+.ci{margin-bottom:2rem}
+.ci .lbl{font-family:var(--narrow);text-transform:uppercase;letter-spacing:.26em;font-size:.7rem;color:var(--pewter-light);margin-bottom:.55rem}
+.ci a,.ci p{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,2.2vw,1.6rem);color:var(--paper);transition:color .3s var(--ease)}
+.ci a:hover{color:var(--pewter-light)}
+.contact-map{border:1px solid var(--line-light);overflow:hidden;min-height:360px}
+.contact-map iframe{width:100%;height:100%;min-height:360px;border:0}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--char-2);padding:3.4rem var(--pad);border-top:1px solid var(--line-light)}
+.foot-in{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.foot-brand{display:flex;align-items:center;gap:.85rem}
+.foot-brand img{height:52px;border-radius:8px}
+.foot-brand b{font-family:var(--display);font-weight:400;letter-spacing:.06em;color:var(--paper)}
+.foot-copy{font-family:var(--narrow);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--muted)}
+.foot-copy a{color:var(--pewter-light)}
+
+/* back to top */
+.totop{position:fixed;right:1.6rem;bottom:1.6rem;z-index:900;width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--char);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:.4s var(--ease);box-shadow:0 10px 30px -12px rgba(70,67,63,.5)}
+.totop.show{opacity:1;visibility:visible}
+.totop:hover{background:var(--char);color:var(--paper)}
+.totop svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}.reveal.d4{transition-delay:.4s}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .hero-panel{min-height:64vh}
+  .hero-aside{padding-top:3rem;padding-bottom:3.5rem}
+  .hero-aside .floatmark{top:auto;bottom:0;opacity:.5}
+  .about-grid{grid-template-columns:1fr}
+  .about-portrait{order:-1}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .step:nth-child(2){border-right:none}
+  .step{padding-left:0!important}
+  .step:nth-child(odd){padding-right:1.4rem;border-right:1px solid rgba(70,67,63,.2)}
+  .step:nth-child(even){padding-left:1.4rem!important}
+  .phil-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+}
+@media(max-width:520px){
+  .steps{grid-template-columns:1fr}
+  .step{border-right:none!important;padding-left:0!important;padding-right:0!important}
+  .svc-body-inner{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .marquee-track{animation:none}
+}
+</style>
 </head>
-<body class="font-sans antialiased overflow-x-hidden selection:bg-lux-taupe selection:text-lux-white">
+<body>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-500 py-6" id="navbar">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="rounded-none flex justify-between items-center px-4 md:px-8 py-4 transition-all duration-500" id="nav-inner">
-                <!-- Elegant Text Logo -->
-                <a href="#" class="flex flex-col group">
-                    <span class="font-serif text-xl md:text-2xl tracking-widest text-lux-dark uppercase">Τζίνα Παναγιωτίδη</span>
-                    <span class="text-[10px] md:text-xs tracking-widest-plus text-lux-taupe uppercase mt-1 font-medium">Ψυχοθεραπευτρια</span>
-                </a>
-                
-                <div class="hidden lg:flex items-center space-x-10">
-                    <a href="#about" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Η Ψυχοθεραπευτρια</a>
-                    <a href="#services" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Υπηρεσιες</a>
-                    <a href="#approach" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Προσεγγιση</a>
-                    <a href="#reviews" class="text-sm tracking-wider text-lux-dark/70 hover:text-lux-clay transition-colors uppercase font-medium">Εμπειριες</a>
-                </div>
+<div id="loader">
+  <div class="load-mark" aria-hidden="true">
+    <span style="animation-delay:.05s">Φ</span><span style="animation-delay:.1s">Ι</span><span style="animation-delay:.15s">Ν</span><span style="animation-delay:.2s">Φ</span><span style="animation-delay:.25s">Ι</span><span style="animation-delay:.3s">Ν</span><span style="animation-delay:.35s">Η</span><span style="animation-delay:.4s">Σ</span>
+  </div>
+  <div class="load-line"></div>
+  <div class="load-sub">Λογιστικό & Φοροτεχνικό Γραφείο</div>
+</div>
 
-                <a href="#contact" class="hidden md:inline-flex px-8 py-3 bg-transparent border border-lux-taupe text-lux-dark text-xs tracking-widest font-medium hover:bg-lux-taupe hover:text-lux-white transition-all duration-300 uppercase">
-                    Κλειστε Ραντεβου
-                </a>
+<nav id="nav">
+  <a href="#top" class="nav-brand" aria-label="ΦΙΝΦΙΝΗΣ αρχική">
+    <img src="https://raw.githubusercontent.com/agelmet/FINFINIS/refs/heads/main/logooreo.jpg" alt="Λογότυπο ΦΙΝΦΙΝΗΣ" loading="eager">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Το γραφείο μας</a></li>
+    <li><a href="#services">Υπηρεσίες</a></li>
+    <li><a href="#process">Συνεργασία</a></li>
+    <li><a href="#faq">Ερωτήσεις</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Επικοινωνία</a>
+  <button class="burger" id="burger" aria-label="Άνοιγμα μενού"><span></span><span></span><span></span></button>
+</nav>
 
-                <button class="lg:hidden text-lux-dark focus:outline-none" id="mobile-menu-btn">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">Το γραφείο μας</a>
+  <a href="#services">Υπηρεσίες</a>
+  <a href="#process">Συνεργασία</a>
+  <a href="#faq">Ερωτήσεις</a>
+  <a href="#contact">Επικοινωνία</a>
+</div>
+
+<main id="top">
+
+<section class="hero">
+  <div class="hero-panel">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow h-anim d1"><span class="ln"></span>Μιχάλης Φινφίνης & Συνεργάτες</div>
+      <h1 class="h-anim d2">Τριάντα χρόνια δίπλα στο επιχειρείν και τον επαγγελματία.</h1>
+      <p class="lede h-anim d3">Ο Μιχάλης Φινφίνης και οι συνεργάτες του υποστηρίζουν επιχειρήσεις και επαγγελματίες εδώ και τρεις δεκαετίες, προσφέροντας εξειδικευμένες λογιστικές, φοροτεχνικές και συμβουλευτικές υπηρεσίες. Σε ένα διαρκώς μεταβαλλόμενο φορολογικό περιβάλλον, λειτουργούμε ως σταθερός συνεργάτης — με υπεύθυνη ενημέρωση, άμεση εξυπηρέτηση και απόλυτη εχεμύθεια.</p>
+      <div class="hero-actions h-anim d4">
+        <a href="#contact" class="btn btn-solid">Επικοινωνία</a>
+        <a href="#services" class="btn btn-ghost">Οι υπηρεσίες μας</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-aside">
+    <span class="floatmark" aria-hidden="true">30</span>
+    <div class="hero-aside-inner">
+      <span class="aside-years h-anim d2">30 <em>χρόνια εμπειρίας</em></span>
+      <h2 class="h-anim d3">Ένα γραφείο με παρουσία τριών δεκαετιών.</h2>
+      <blockquote class="aside-quote h-anim d4">Τα οικονομικά δεδομένα αποτελούν τη βάση κάθε επιχειρηματικής απόφασης. Εμείς φροντίζουμε να έχετε πάντα καθαρή εικόνα και αξιόπιστη καθοδήγηση.</blockquote>
+      <div class="hero-pills h-anim d5">
+        <span class="pill">Εμπειρία</span>
+        <span class="pill">Επαγγελματισμός</span>
+        <span class="pill">Υπευθυνότητα</span>
+      </div>
+      <div class="scroll-cue h-anim d5"><span class="dot"></span>Κυλήστε</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Λογιστική</span><span>Φοροτεχνικά</span><span>Έναρξη Επιχείρησης</span><span>Μισθοδοσία</span><span>Συμβουλευτική</span><span>Ανθρώπινο Δυναμικό</span>
+    <span>Λογιστική</span><span>Φοροτεχνικά</span><span>Έναρξη Επιχείρησης</span><span>Μισθοδοσία</span><span>Συμβουλευτική</span><span>Ανθρώπινο Δυναμικό</span>
+  </div>
+</div>
+
+<section class="about sec-pad" id="about">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">01</span>Το γραφείο μας</div>
+    <h2 class="sec-title reveal d1" style="max-width:18ch">Ένα γραφείο με <em>συνέπεια</em> τριών δεκαετιών.</h2>
+    <div class="about-grid">
+      <div>
+        <div class="reveal d1">
+          <div class="about-name">Μιχαήλ Θ. Φινφίνης</div>
+          <div class="about-role">Λογιστής — Φοροτεχνικός</div>
         </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-lux-light/98 backdrop-blur-xl hidden flex-col items-center py-10 space-y-8 border-t border-lux-sand shadow-2xl">
-            <a href="#about" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Η Ψυχοθεραπευτρια</a>
-            <a href="#services" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Υπηρεσιες</a>
-            <a href="#approach" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Προσεγγιση</a>
-            <a href="#reviews" class="text-sm tracking-widest text-lux-dark hover:text-lux-clay uppercase mobile-link font-medium">Εμπειριες</a>
-            <a href="#contact" class="px-8 py-3 border border-lux-taupe text-lux-dark hover:bg-lux-taupe hover:text-lux-white transition-colors text-xs tracking-widest uppercase mobile-link font-medium">Κλειστε Ραντεβου</a>
+        <p class="reveal d2">Ο Μιχάλης Φινφίνης και οι συνεργάτες του υποστηρίζουν επιχειρήσεις και επαγγελματίες εδώ και τρεις δεκαετίες, προσφέροντας εξειδικευμένες λογιστικές, φοροτεχνικές και συμβουλευτικές υπηρεσίες. Η εμπειρία μας, σε συνδυασμό με τη διαρκή παρακολούθηση των εξελίξεων, διασφαλίζει έγκυρη καθοδήγηση και ουσιαστική υποστήριξη σε κάθε στάδιο της επιχειρηματικής δραστηριότητας.</p>
+        <p class="reveal d2">Σε ένα διαρκώς μεταβαλλόμενο φορολογικό περιβάλλον, λειτουργούμε ως σταθερός συνεργάτης, παρέχοντας υπεύθυνη ενημέρωση, άμεση εξυπηρέτηση και απόλυτη εχεμύθεια, ώστε να λαμβάνετε αποφάσεις με σιγουριά και προοπτική.</p>
+        <blockquote class="pullquote reveal d3">«Τα οικονομικά δεδομένα αποτελούν τη βάση κάθε επιχειρηματικής απόφασης. Εμείς φροντίζουμε να έχετε πάντα καθαρή εικόνα και αξιόπιστη καθοδήγηση.»</blockquote>
+        <div class="about-stats reveal d3">
+          <div class="stat"><div class="n">30+</div><div class="l">Χρόνια Εμπειρίας</div></div>
+          <div class="stat"><div class="n">100%</div><div class="l">Αξιοπιστία</div></div>
+          <div class="stat"><div class="n">1:1</div><div class="l">Προσωπική Επαφή</div></div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-lux-light">
-        <!-- Space Background Image with Bright Overlay (Zoomed out on Mobile) -->
-        <div class="absolute inset-0 z-0">
-            <div class="w-full h-full bg-center bg-no-repeat animate-slow-zoom md:bg-cover max-md:bg-contain max-md:bg-top" style="background-image: url('https://github.com/agelmet/STREKLA/blob/main/1000016500.jpg?raw=true');"></div>
+      </div>
+      <div class="about-portrait reveal d2">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1100&q=80" alt="Επαγγελματικό περιβάλλον γραφείου — οικονομική ανάλυση και συνεργασία" loading="lazy">
         </div>
-        
-        <!-- Bright, Warm Gradient Overlays to make the dark text pop -->
-        <div class="absolute inset-0 bg-lux-light/85 backdrop-blur-[1px] z-10"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-lux-light via-lux-light/60 to-transparent z-10"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="relative z-20 max-w-5xl mx-auto px-6 w-full text-center flex flex-col items-center">
-            <div class="mb-8 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
-                <span class="inline-block py-1 px-5 border border-lux-clay/30 text-lux-clay text-xs tracking-widest uppercase font-medium bg-white/50 backdrop-blur-sm rounded-full">
-                    Σύμβουλος Ψυχικής Υγείας
-                </span>
-            </div>
-            
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-lux-dark leading-tight mb-8 opacity-0 drop-shadow-sm animate-fade-in-up" style="animation-delay: 0.4s;">
-                Γεφυρώνοντας τον Νου με το <span class="italic text-lux-taupe font-light">Συναίσθημα.</span>
-            </h1>
-            
-            <p class="text-base md:text-lg text-lux-dark/70 max-w-3xl font-light leading-relaxed mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
-                Ένας ασφαλής χώρος υποστήριξης στον Πειραιά και διαδικτυακά. Όταν ο πόνος είναι πιο βαθύς από τις λέξεις, η Εικαστική Ψυχοθεραπεία σάς δίνει τον χώρο να εκφραστείτε, να επεξεργαστείτε το τραύμα και να βρείτε ξανά τη λύτρωση.
-            </p>
-            
-            <div class="opacity-0 flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style="animation-delay: 0.8s;">
-                <a href="#contact" class="group relative inline-flex items-center justify-center px-10 py-4 bg-lux-dark text-lux-white text-sm tracking-widest font-medium uppercase overflow-hidden transition-all hover:bg-lux-taupe hover:shadow-lg">
-                    <span class="relative z-10 flex items-center gap-3">
-                        ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
-                    </span>
-                </a>
-                <a href="#approach" class="inline-flex items-center justify-center px-10 py-4 bg-transparent border border-lux-taupe text-lux-dark text-sm tracking-widest font-medium uppercase transition-all hover:bg-white/50 backdrop-blur-sm">
-                    ΑΝΑΚΑΛΥΨΤΕ ΤΗΝ ΠΡΟΣΕΓΓΙΣΗ
-                </a>
-            </div>
+<section class="parallax">
+  <div class="parallax-bg" id="px1" style="background-image:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="wrap">
+    <p class="big reveal">Σε κάθε επιχείρηση, τα οικονομικά είναι η γλώσσα.<br><b>Εμείς φροντίζουμε να μιλάτε σωστά.</b></p>
+  </div>
+</section>
+
+<section class="services sec-pad" id="services">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">02</span>Οι υπηρεσίες μας</div>
+    <h2 class="sec-title reveal d1">Όσα χρειάζεται η επιχείρησή σας, <em>κάτω από μία στέγη.</em></h2>
+    <div class="svc-list">
+      <article class="svc">
+        <div class="svc-head">
+          <span class="svc-num">I</span>
+          <h3 class="svc-name">Λογιστική</h3>
+          <span class="svc-toggle" aria-hidden="true"></span>
         </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-0 animate-fade-in-up" style="animation-delay: 1s;">
-            <span class="text-[10px] text-lux-taupe font-medium uppercase tracking-widest">Ανακαλυψτε</span>
-            <div class="w-px h-12 bg-gradient-to-b from-lux-taupe to-transparent"></div>
+        <div class="svc-body"><div class="svc-body-inner"><span class="sp"></span><p>Η σωστή λογιστική παρακολούθηση αποτελεί τη βάση της υγιούς επιχειρηματικής λειτουργίας. Με υπευθυνότητα και συνέπεια, διαχειριζόμαστε τα λογιστικά δεδομένα της επιχείρησής σας, εξασφαλίζοντας ακρίβεια, συμμόρφωση και αξιόπιστη πληροφόρηση. Έτσι, αποκτάτε καθαρή οικονομική εικόνα και τη βεβαιότητα που απαιτείται για τη λήψη στρατηγικών αποφάσεων.</p></div></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head">
+          <span class="svc-num">II</span>
+          <h3 class="svc-name">Συμβουλευτική Φοροτεχνικών Θεμάτων</h3>
+          <span class="svc-toggle" aria-hidden="true"></span>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-32 px-6 relative z-20 bg-lux-cream">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                
-                <!-- Portrait -->
-                <div class="relative reveal flex justify-center lg:justify-start order-2 lg:order-1">
-                    <div class="relative w-full max-w-md portrait-frame animate-float">
-                        <img src="https://cdn.doctoranytime.gr/profileimages/4bb6d5eb-e6b0-411e-a129-ed5486daeb9c.webp" alt="Τζίνα Παναγιωτίδη" class="w-full h-auto object-cover filter contrast-105 shadow-xl">
-                        <div class="absolute inset-0 bg-lux-clay/5 mix-blend-multiply"></div>
-                    </div>
-                </div>
-
-                <!-- Text -->
-                <div class="reveal delay-200 order-1 lg:order-2">
-                    <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-8 leading-snug">Η Κλινική Ταυτότητα & Πορεία</h2>
-                    
-                    <div class="space-y-6 text-base text-lux-dark/80 font-light leading-relaxed">
-                        <p>
-                            Η <strong>Τζίνα Παναγιωτίδη</strong> είναι Πιστοποιημένη Ψυχοθεραπεύτρια, φέροντας την έγκριτη αναγνώριση της Εθνικής Εταιρείας Ψυχοθεραπείας Ελλάδας (Ε.Ε.Ψ.Ε.) και της Ευρωπαϊκής Εταιρείας Ψυχοθεραπείας (E.A.P.). Η κλινική της ταυτότητα είναι σφυρηλατημένη στα πιο απαιτητικά περιβάλλοντα της δημόσιας ψυχικής υγείας.
-                        </p>
-                        <p>
-                            Έχει εργαστεί στην «πρώτη γραμμή» του Αιγινήτειου Νοσοκομείου υποστηρίζοντας ψυχωσικό πληθυσμό, καθώς και στο Ελληνικό Κέντρο Ψυχικής Υγιεινής και Ερευνών (Ε.ΚΕ.Ψ.Υ.Ε.) στον Πειραιά, αναλαμβάνοντας ομάδες ενηλίκων με ψύχωση και νοητική υστέρηση.
-                        </p>
-                        <blockquote class="pl-6 py-2 border-l-2 border-lux-clay text-lux-dark font-serif italic text-xl my-8 bg-lux-taupe/5 rounded-r-lg">
-                            "Αυτή η σπάνια, πολυετής επαφή με τον βαθύ ψυχικό πόνο, μου έχει προσφέρει απόλυτη κλινική ψυχραιμία, ριζωμένη ενσυναίσθηση και μηδενική διάθεση επίκρισης."
-                        </blockquote>
-                        <p>
-                            Σήμερα, στο ιδιωτικό της γραφείο αλλά και διαδικτυακά, υποστηρίζει ενήλικες και ομάδες που παλεύουν με αγχώδεις διαταραχές, burnout, μετατραυματικό στρες (PTSD), κατάθλιψη και διαταραχές προσωπικότητας. Με την εμπιστοσύνη των θεραπευόμενών της να αποτυπώνεται ήδη σε δεκάδες εξαιρετικές συστάσεις (21+), η παρέμβασή της ξεχωρίζει χάρη σε ένα πανίσχυρο εργαλείο: την <strong>Εικαστική Ψυχοθεραπεία</strong>.
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="svc-body"><div class="svc-body-inner"><span class="sp"></span><p>Σε ένα διαρκώς μεταβαλλόμενο φορολογικό και ασφαλιστικό πλαίσιο, η έγκαιρη ενημέρωση και η σωστή καθοδήγηση αποτελούν κρίσιμους παράγοντες για την ομαλή λειτουργία κάθε επιχείρησης. Παρακολουθούμε στενά τις εξελίξεις και σας παρέχουμε τεκμηριωμένες συμβουλές και πρακτικές λύσεις, διασφαλίζοντας συμμόρφωση, περιορισμό των κινδύνων και αξιοποίηση κάθε διαθέσιμης δυνατότητας προς όφελος της επιχείρησής σας.</p></div></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head">
+          <span class="svc-num">III</span>
+          <h3 class="svc-name">Έναρξη Επιχείρησης - Μετατροπές</h3>
+          <span class="svc-toggle" aria-hidden="true"></span>
         </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="py-32 px-6 bg-lux-light relative border-y border-lux-sand">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20 reveal">
-                <span class="text-lux-taupe tracking-widest text-xs uppercase mb-4 block font-medium">Εξειδικευμενες Υπηρεσιες</span>
-                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark">Πώς Μπορώ να Βοηθήσω</h2>
-                <div class="w-16 h-px bg-lux-clay mx-auto mt-8"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Service 1 -->
-                <div class="glass-card p-10 reveal group rounded-2xl">
-                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
-                        <i data-lucide="palette" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Μετατραυματικό Στρες (PTSD) & Εικαστική Ψυχοθεραπεία</h3>
-                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
-                        Το ψυχικό τραύμα συχνά «αποθηκεύεται» στο σώμα και τις εικόνες. Ενσωματώνοντας την Εικαστική Ψυχοθεραπεία, σας δίνω τα υλικά για να εξωτερικεύσετε το τραύμα χωρίς να χρειαστεί να το περιγράψετε με λέξεις. Δεν απαιτείται καλλιτεχνική δεξιότητα.
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Εικαστικη Ψυχοθεραπεια</span>
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Τραυμα (50')</span>
-                    </div>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="glass-card p-10 reveal delay-100 group rounded-2xl">
-                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
-                        <i data-lucide="activity" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Άγχος, Πανικός & Burnout</h3>
-                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
-                        Η διαρκής αγωνία, οι κρίσεις πανικού και η επαγγελματική εξουθένωση στραγγίζουν την ενέργειά μας. Δουλεύουμε σταθερά για να ρυθμίσουμε το νευρικό σας σύστημα, αποκωδικοποιούμε τους παράγοντες πανικού και βρίσκουμε πρακτικούς τρόπους για να νιώσετε ξανά ασφάλεια.
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Διαχειριση Αγχους</span>
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Burnout (50')</span>
-                    </div>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="glass-card p-10 reveal group rounded-2xl">
-                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
-                        <i data-lucide="brain" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Κατάθλιψη, Ψυχοσωματικά & Διαταραχές Προσωπικότητας</h3>
-                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
-                        Ο αβάσταχτος εσωτερικός πόνος συχνά βρίσκει διέξοδο μέσα από σωματικά συμπτώματα. Παρέχεται εξειδικευμένη και ψύχραιμη κλινική υποστήριξη σε άτομα που βιώνουν επίμονη θλίψη ή παλεύουν με συναισθηματική αστάθεια. Στόχος η σταδιακή ανάκτηση λειτουργικότητας.
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Καταθλιψη</span>
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Διαταραχες</span>
-                    </div>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="glass-card p-10 reveal delay-100 group rounded-2xl">
-                    <div class="w-14 h-14 bg-white border border-lux-sand shadow-sm flex items-center justify-center mb-8 text-lux-clay group-hover:bg-lux-clay group-hover:text-white transition-all duration-300 rounded-xl">
-                        <i data-lucide="monitor" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-serif text-lux-dark mb-4">Διαδικτυακές Συνεδρίες Ενηλίκων</h3>
-                    <p class="text-base text-lux-dark/70 font-light leading-relaxed mb-8">
-                        Ο θεραπευτικός χώρος δεν περιορίζεται στους τέσσερις τοίχους ενός γραφείου. Όλες οι υπηρεσίες ψυχοθεραπείας (συμπεριλαμβανομένων των εικαστικών τεχνικών) παρέχονται με την ίδια εχεμύθεια, ζεστασιά και επιστημονική αυστηρότητα διαδικτυακά.
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Online (50')</span>
-                        <span class="text-[10px] font-medium tracking-wider uppercase border border-lux-taupe/30 bg-white px-3 py-1 text-lux-dark/60 rounded-full">Βιντεοκληση</span>
-                    </div>
-                </div>
-            </div>
+        <div class="svc-body"><div class="svc-body-inner"><span class="sp"></span><p>Από την ίδρυση μιας ατομικής επιχείρησης έως τη σύσταση ή μετατροπή προσωπικών και κεφαλαιουχικών εταιρειών, παρέχουμε ολοκληρωμένη υποστήριξη σε κάθε στάδιο της διαδικασίας. Σας καθοδηγούμε στην επιλογή της κατάλληλης εταιρικής μορφής και αναλαμβάνουμε όλες τις απαραίτητες ενέργειες, ώστε η επιχειρηματική σας δραστηριότητα να ξεκινήσει ή να εξελιχθεί με ασφάλεια, ταχύτητα και πλήρη συμμόρφωση με το ισχύον θεσμικό πλαίσιο.</p></div></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head">
+          <span class="svc-num">IV</span>
+          <h3 class="svc-name">Υποστήριξη Μισθοδοσίας & Ανθρώπινου Δυναμικού</h3>
+          <span class="svc-toggle" aria-hidden="true"></span>
         </div>
-    </section>
+        <div class="svc-body"><div class="svc-body-inner"><span class="sp"></span><p>Το ανθρώπινο δυναμικό αποτελεί έναν από τους σημαντικότερους παράγοντες επιτυχίας κάθε επιχείρησης, αλλά και ένα από τα μεγαλύτερα κόστη της. Παρέχουμε ολοκληρωμένες υπηρεσίες μισθοδοσίας, ασφαλιστικής και εργατικής υποστήριξης, εξασφαλίζοντας την ορθή τήρηση των υποχρεώσεών σας και την απρόσκοπτη λειτουργία της επιχείρησης. Με έγκυρη ενημέρωση και συνεχή υποστήριξη, σας βοηθάμε να διαχειρίζεστε το προσωπικό σας με ασφάλεια, αποτελεσματικότητα και στρατηγική προοπτική, κρατώντας τις σωστές ισορροπίες.</p></div></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <!-- Approach Section -->
-    <section id="approach" class="py-32 px-6 bg-lux-cream relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-lux-taupe/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-lux-clay/10 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <div class="max-w-4xl mx-auto relative z-10">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Όταν Στερεύουν οι Λέξεις: <br><span class="text-lux-clay italic">Η Τέχνη ως Θεραπευτικός "Καθρέφτης"</span></h2>
-                <div class="w-px h-16 bg-lux-clay mx-auto"></div>
-            </div>
+<section class="process sec-pad" id="process">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">03</span>Η Συνεργασία</div>
+    <h2 class="sec-title reveal d1">Πώς <em>δουλεύουμε</em> μαζί.</h2>
+    <div class="steps">
+      <div class="step reveal d1">
+        <h3>Γνωριμία</h3>
+        <p>Η συνεργασία μας ξεκινά με την κατανόηση της επιχειρηματικής σας πραγματικότητας. Ακούμε, αναλύουμε και χαρτογραφούμε τις ανάγκες σας, θέτοντας τις βάσεις για μια αποτελεσματική και μακροχρόνια συνεργασία.</p>
+      </div>
+      <div class="step reveal d2">
+        <h3>Οργάνωση</h3>
+        <p>Οργανώνουμε τα οικονομικά σας δεδομένα και θέτουμε τις βάσεις για μια σαφή, αποτελεσματική και αποδοτική συνεργασία.</p>
+      </div>
+      <div class="step reveal d3">
+        <h3>Παρακολούθηση</h3>
+        <p>Παρέχουμε συνεχή λογιστική και φορολογική υποστήριξη, διασφαλίζοντας την ορθή παρακολούθηση των οικονομικών σας δεδομένων και την έγκαιρη προληπτική ενημέρωση για κάθε φορολογική εξέλιξη που σας αφορά.</p>
+      </div>
+      <div class="step reveal d4">
+        <h3>Καθοδήγηση</h3>
+        <p>Μετατρέπουμε τα οικονομικά σας δεδομένα σε στρατηγική πληροφόρηση που ενισχύει τη λήψη σωστών επιχειρηματικών αποφάσεων.</p>
+      </div>
+    </div>
+    <blockquote class="process-quote reveal d2">Το φορολογικό περιβάλλον αλλάζει. Η εμπιστοσύνη στη συνεργασία σας με τον λογιστή παραμένει σταθερή.</blockquote>
+  </div>
+</section>
 
-            <div class="space-y-8 text-base text-lux-dark/80 font-light leading-relaxed reveal delay-100">
-                <p>
-                    Αν κοιτάξετε την πορεία μου, θα δείτε μια φαινομενικά παράδοξη διαδρομή. Από τη μία πλευρά, βρέθηκα στους διαδρόμους του Αιγινήτειου Νοσοκομείου και του Ε.ΚΕ.Ψ.Υ.Ε., δουλεύοντας με ανθρώπους που βίωναν την πιο ακραία μορφή ψυχικού πόνου, όπως η ψύχωση. Από την άλλη, εξειδικεύτηκα στην Εικαστική Ψυχοθεραπεία (Art Therapy). Στην πραγματικότητα, αυτά τα δύο συνδέονται απόλυτα.
-                </p>
-                <p>
-                    Στην πολυετή μου κλινική πρακτική, διαπίστωσα κάτι θεμελιώδες: Η ανθρώπινη γλώσσα έχει όρια. Όταν ένας άνθρωπος έχει υποστεί ένα βαρύ ψυχικό τραύμα, έχει βιώσει απώλεια, ή κατακλύζεται από κρίσεις πανικού, το κομμάτι του εγκεφάλου που είναι υπεύθυνο για τη λογική και τον λόγο συχνά «μπλοκάρει». Σου λέει: <em>«Δεν ξέρω πώς νιώθω. Νιώθω ένα σφίξιμο, νιώθω ένα κενό, δεν μπορώ να το περιγράψω».</em>
-                </p>
-                <p class="text-lux-dark text-xl font-serif italic text-center py-8 border-y border-lux-sand">
-                    Εκεί ακριβώς, η θεραπεία μέσω της τέχνης γίνεται σωτήρια.
-                </p>
-            </div>
+<section class="parallax">
+  <div class="parallax-bg" id="px2" style="background-image:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="wrap">
+    <p class="big reveal">Το φορολογικό τοπίο αλλάζει.<br><b>Η σχέση σας με τον λογιστή σας δεν πρέπει.</b></p>
+  </div>
+</section>
 
-            <div class="mt-16 space-y-12">
-                <div class="flex gap-6 reveal bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
-                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
-                        <i data-lucide="paintbrush" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-serif text-lux-dark mb-3">Δεν κάνουμε μαθήματα ζωγραφικής</h4>
-                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Δεν με ενδιαφέρει καθόλου αν ξέρετε να σχεδιάζετε. Τα υλικά (χρώματα, πηλός, εικόνες) γίνονται η φωνή που χάσατε. Ένα μαύρο, έντονο μουτζούρωμα μπορεί να εκφράσει τον θυμό που δεν τολμήσατε ποτέ να φωνάξετε.</p>
-                    </div>
-                </div>
+<section class="philosophy sec-pad">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">04</span>Η Φιλοσοφία μας</div>
+    <h2 class="sec-title reveal d1">Τρεις αξίες <em>αδιαπραγμάτευτης δέσμευσης.</em></h2>
+    <div class="phil-grid">
+      <div class="phil-card reveal d1">
+        <div class="phil-icon"><svg viewBox="0 0 48 48"><path d="M24 4v40M8 14l16-8 16 8M8 14v8M40 14v8M6 22h12l-6 12-6-12zM30 22h12l-6 12-6-12z"/></svg></div>
+        <h3>Εμπειρία</h3>
+        <p>Η πολυετής παρουσία στον χώρο των επιχειρήσεων μάς επιτρέπει να αναγνωρίζουμε εγκαίρως κρίσιμες παραμέτρους, να εστιάζουμε στο ουσιώδες και να προλαμβάνουμε ζητήματα πριν εξελιχθούν σε προβλήματα.</p>
+      </div>
+      <div class="phil-card reveal d2">
+        <div class="phil-icon"><svg viewBox="0 0 48 48"><path d="M24 6l16 6v10c0 10-7 16-16 20-9-4-16-10-16-20V12l16-6z"/><path d="M17 24l5 5 9-10"/></svg></div>
+        <h3>Επαγγελματισμός</h3>
+        <p>Κάθε εγγραφή, δήλωση και υποχρέωση αντιμετωπίζεται με ακρίβεια, συνέπεια και απόλυτο επαγγελματισμό. Στους αριθμούς δεν υπάρχει χώρος για αστοχίες. Στη δουλειά μας, η προχειρότητα δεν έχει θέση.</p>
+      </div>
+      <div class="phil-card reveal d3">
+        <div class="phil-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><path d="M24 14v10l7 5"/></svg></div>
+        <h3>Υπευθυνότητα</h3>
+        <p>Διαχειριζόμαστε τα ευαίσθητα οικονομικά σας δεδομένα με απόλυτη εχεμύθεια, επαγγελματισμό και συνέπεια. Παραμένουμε σταθερά διαθέσιμοι, με άμεση και αξιόπιστη επικοινωνία κάθε φορά που μας χρειάζεστε.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <div class="flex gap-6 reveal delay-100 bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
-                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
-                        <i data-lucide="shield" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-serif text-lux-dark mb-3">Ασφάλεια και Απόσταση</h4>
-                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Το να μιλάς κατά πρόσωπο για ένα τραύμα είναι συχνά τρομακτικό. Όταν όμως το αποτυπώνεις στο χαρτί, το «βγάζεις» από μέσα σου. Το βάζεις απέναντί σου. Κρατάμε μια ασφαλή απόσταση από τον πόνο, τον παρατηρούμε μαζί και τον επεξεργαζόμαστε χωρίς να νιώθετε απειλή.</p>
-                    </div>
-                </div>
+<section class="reviews sec-pad">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">05</span>Λόγια Πελατών</div>
+    <h2 class="sec-title reveal d1">Η εμπιστοσύνη <em>μετριέται σε χρόνια.</em></h2>
+    <p class="rev-intro reveal d1">Η εμπιστοσύνη καλλιεργείται και αποδεικνύεται μέσα στον χρόνο.</p>
+    <div class="rev-viewport reveal d1">
+      <div class="rev-track" id="revTrack">
+        <article class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">Συνεργαζόμαστε χρόνια για την επιχείρησή μας. Πάντα προετοιμασμένοι, πάντα διαθέσιμοι. Νιώθω ότι τα οικονομικά της εταιρείας είναι σε καλά χέρια.</p>
+          <div class="rev-author">Γιώργος Π. <span>Ιδιοκτήτης επιχείρησης εστίασης</span></div>
+        </article>
+        <article class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">Μας βοήθησαν στην έναρξη της εταιρείας από το μηδέν. Εξήγησαν το κάθε βήμα με υπομονή και καθαρές απαντήσεις.</p>
+          <div class="rev-author">Ελένη Κ. <span>Συνιδρύτρια εμπορικής εταιρείας</span></div>
+        </article>
+        <article class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">Το πιο σημαντικό για εμάς είναι η συνέπεια. Δεν χρειάζεται να κυνηγάμε για απαντήσεις — μας ενημερώνουν πριν προλάβουμε να ρωτήσουμε.</p>
+          <div class="rev-author">Δημήτρης Α. <span>Διαχειριστής Ε.Π.Ε.</span></div>
+        </article>
+        <article class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">Φοροτεχνική καθοδήγηση που πραγματικά καταλαβαίνουμε. Μετέτρεψαν κάτι αγχωτικό σε μια απλή, ξεκάθαρη διαδικασία για την εταιρεία μας.</p>
+          <div class="rev-author">Μαρία Σ. <span>Οικονομική διευθύντρια Α.Ε.</span></div>
+        </article>
+      </div>
+    </div>
+    <div class="rev-nav reveal d2">
+      <button class="rev-btn" id="revPrev" aria-label="Προηγούμενη κριτική"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="rev-btn" id="revNext" aria-label="Επόμενη κριτική"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
 
-                <div class="flex gap-6 reveal delay-200 bg-white/50 p-8 rounded-2xl shadow-sm border border-lux-sand">
-                    <div class="shrink-0 text-lux-clay mt-1 bg-lux-cream w-12 h-12 flex items-center justify-center rounded-full">
-                        <i data-lucide="anchor" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-serif text-lux-dark mb-3">Η Ψυχραιμία ως Θεμέλιο</h4>
-                        <p class="text-base font-light text-lux-dark/70 leading-relaxed">Η επαφή μου με τον ψυχωσικό πληθυσμό με έχει "γειώσει" βαθιά. Δεν υπάρχει καμία σκοτεινή σκέψη, καμία φοβία και κανένα καταθλιπτικό σύμπτωμα που να με φοβίζει. Στο γραφείο μου (ή στην οθόνη σας) θα βρείτε ένα απόλυτα σταθερό «δοχείο», ικανό να χωρέσει και να αντέξει όποιο συναίσθημα φέρετε.</p>
-                    </div>
-                </div>
-            </div>
+<section class="faq sec-pad" id="faq">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">06</span>Συχνές Ερωτήσεις</div>
+    <h2 class="sec-title reveal d1">Καλό είναι να <em>ξέρετε.</em></h2>
+    <div class="faq-list">
+      <div class="faq-item reveal d1">
+        <div class="faq-q"><h3>Σε τι είδους επιχειρήσεις απευθύνεστε;</h3><span class="faq-icon" aria-hidden="true"></span></div>
+        <div class="faq-a"><p>Υποστηρίζουμε επιχειρήσεις κάθε νομικής μορφής — ατομικές, Ο.Ε., Ε.Ε., Ε.Π.Ε. και Α.Ε. — σε όλο το φάσμα της λογιστικής και φοροτεχνικής τους λειτουργίας. Η προσέγγισή μας προσαρμόζεται στο μέγεθος και τον κλάδο της δικής σας επιχείρησης.</p></div>
+      </div>
+      <div class="faq-item reveal d1">
+        <div class="faq-q"><h3>Θέλω να ξεκινήσω επιχείρηση. Από πού αρχίζω;</h3><span class="faq-icon" aria-hidden="true"></span></div>
+        <div class="faq-a"><p>Από μια απλή κουβέντα. Συζητάμε τους στόχους σας και σας καθοδηγούμε στην επιλογή της κατάλληλης μορφής — ατομική, Ο.Ε., Ε.Ε., Ε.Π.Ε. ή Α.Ε. — αναλαμβάνοντας όλη τη διαδικασία σύστασης.</p></div>
+      </div>
+      <div class="faq-item reveal d1">
+        <div class="faq-q"><h3>Πόσο συχνά θα έχω ενημέρωση για τα οικονομικά της επιχείρησης;</h3><span class="faq-icon" aria-hidden="true"></span></div>
+        <div class="faq-a"><p>Πιστεύουμε στην προληπτική επικοινωνία. Σας ενημερώνουμε για υποχρεώσεις, προθεσμίες και αλλαγές πριν αυτές γίνουν πρόβλημα, και είμαστε διαθέσιμοι όποτε μας χρειαστείτε.</p></div>
+      </div>
+      <div class="faq-item reveal d1">
+        <div class="faq-q"><h3>Μπορώ να αλλάξω λογιστή μέσα στη χρονιά;</h3><span class="faq-icon" aria-hidden="true"></span></div>
+        <div class="faq-a"><p>Ναι. Αναλαμβάνουμε ομαλά τη μεταφορά των στοιχείων της επιχείρησής σας και φροντίζουμε ώστε η μετάβαση να γίνει χωρίς κενά και χωρίς άγχος για εσάς.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact sec-pad" id="contact">
+  <div class="contact-bg" id="contactBg" style="background-image:url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="num">07</span>Επικοινωνία</div>
+    <h2 class="sec-title reveal d1">Ας μιλήσουμε για τα <em>νούμερα</em> της επιχείρησής σας.</h2>
+    <div class="contact-grid">
+      <div>
+        <div class="ci reveal d1">
+          <div class="lbl">Τοποθεσία</div>
+          <p>Αντιπλοιάρχου Βλαχάκου & Μεθώνης 36<br>Πειραιάς, 2ος όροφος</p>
         </div>
-    </section>
-
-    <!-- Roadmap / Therapeutic Journey FAQ -->
-    <section class="py-24 px-6 bg-lux-light border-y border-lux-sand">
-        <div class="max-w-4xl mx-auto reveal">
-            <h2 class="text-2xl font-serif text-lux-dark mb-16 text-center uppercase tracking-widest">Η Θεραπευτικη Πορεια</h2>
-            
-            <div class="relative border-l border-lux-taupe/30 ml-4 md:ml-8 space-y-12">
-                <!-- Step 1 -->
-                <div class="relative pl-8 md:pl-12">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-clay rounded-full flex items-center justify-center">
-                        <div class="w-2 h-2 bg-lux-clay rounded-full"></div>
-                    </div>
-                    <h4 class="text-lux-dark font-serif text-xl mb-3">
-                        <span class="text-lux-clay text-xs tracking-widest font-sans uppercase block mb-1">Βημα 1</span> 
-                        Επικοινωνία & Σύνδεση
-                    </h4>
-                    <p class="text-base text-lux-dark/70 font-light">Η πρώτη επαφή είναι το πιο σημαντικό βήμα. Κλείνουμε το πρώτο ραντεβού σε μέρα και ώρα που εξυπηρετεί, διασφαλίζοντας ένα πλαίσιο απόλυτης εχεμύθειας και αποδοχής.</p>
-                </div>
-                <!-- Step 2 -->
-                <div class="relative pl-8 md:pl-12">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-taupe rounded-full flex items-center justify-center">
-                        <div class="w-2 h-2 bg-lux-taupe rounded-full"></div>
-                    </div>
-                    <h4 class="text-lux-dark font-serif text-xl mb-3">
-                        <span class="text-lux-taupe text-xs tracking-widest font-sans uppercase block mb-1">Βημα 2</span> 
-                        Αξιολόγηση & Ασφάλεια
-                    </h4>
-                    <p class="text-base text-lux-dark/70 font-light">Στις πρώτες συνεδρίες, εστιάζουμε στη δημιουργία μιας ασφαλούς θεραπευτικής σχέσης. Ακούω την ιστορία σας χωρίς καμία κριτική, χαρτογραφώντας τις ανάγκες σας.</p>
-                </div>
-                <!-- Step 3 -->
-                <div class="relative pl-8 md:pl-12">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-clay rounded-full flex items-center justify-center">
-                        <div class="w-2 h-2 bg-lux-clay rounded-full"></div>
-                    </div>
-                    <h4 class="text-lux-dark font-serif text-xl mb-3">
-                        <span class="text-lux-clay text-xs tracking-widest font-sans uppercase block mb-1">Βημα 3</span> 
-                        Σύνθεση & Εικαστική Έκφραση
-                    </h4>
-                    <p class="text-base text-lux-dark/70 font-light">Ενσωματώνουμε τεχνικές της συνθετικής προσέγγισης και, όπου κρίνεται ωφέλιμο, τα υλικά της εικαστικής θεραπείας. Δίνουμε μορφή στο άρρητο και επεξεργαζόμαστε το τραύμα εκ του ασφαλούς.</p>
-                </div>
-                <!-- Step 4 -->
-                <div class="relative pl-8 md:pl-12">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-lux-light border-2 border-lux-taupe rounded-full flex items-center justify-center">
-                        <div class="w-2 h-2 bg-lux-taupe rounded-full"></div>
-                    </div>
-                    <h4 class="text-lux-dark font-serif text-xl mb-3">
-                        <span class="text-lux-taupe text-xs tracking-widest font-sans uppercase block mb-1">Βημα 4</span> 
-                        Επούλωση & Αυτονομία
-                    </h4>
-                    <p class="text-base text-lux-dark/70 font-light">Ο τελικός στόχος είναι η ρύθμιση του νευρικού συστήματος, η ανακούφιση από τα συμπτώματα και η ανάπτυξη ισχυρών εσωτερικών μηχανισμών για μια αυτόνομη, ισορροπημένη ζωή.</p>
-                </div>
-            </div>
+        <div class="ci reveal d2">
+          <div class="lbl">Πληροφορίες</div>
+          <a href="tel:2104200697">210 420 0697</a>
         </div>
-    </section>
-
-    <!-- Reviews Section (Vertical Marquee) -->
-    <section id="reviews" class="py-32 bg-lux-cream relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center lg:items-start h-auto lg:h-[800px]">
-            
-            <div class="lg:w-1/3 text-center lg:text-left reveal sticky top-32 z-10">
-                <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Η Φωνή των Θεραπευόμενων</h2>
-                <p class="text-base text-lux-dark/70 font-light mb-8 leading-relaxed">
-                    Η εμπιστοσύνη σας αποτυπώνεται σε δεκάδες εξαιρετικές αξιολογήσεις. Κάθε ιστορία είναι μια διαδρομή προς το φως.
-                </p>
-                <div class="flex flex-col items-center lg:items-start">
-                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia#review-section" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center lg:items-start transition-all hover:opacity-80">
-                        <img src="https://raw.githubusercontent.com/agelmet/KARAZOLI/refs/heads/main/lgoodoc.jpg" alt="Doctoranytime" class="h-8 object-contain">
-                        <span class="text-xs text-lux-clay mt-3 font-medium tracking-widest uppercase flex items-center gap-2">
-                            Διαβαστε ολες τις κριτικες <i data-lucide="external-link" class="w-3 h-3"></i>
-                        </span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="lg:w-2/3 w-full h-[600px] lg:h-full relative marquee-mask overflow-hidden">
-                <!-- Scrolling Content -->
-                <div class="absolute w-full animate-marquee-vertical flex flex-col gap-6 marquee-content">
-                    
-                    <!-- Duplicate block 1 for infinite scroll -->
-                    <div class="flex flex-col gap-6">
-                        <!-- Review 1 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετική επαγγελματίας και πάνω από όλα άνθρωπος. Από την πρώτη κιόλας συνεδρία ένιωσα άνεση, ασφάλεια και εμπιστοσύνη... Τη συστήνω ανεπιφύλακτα σε όποιον θέλει πραγματικά να δουλέψει με τον εαυτό του."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">ΜΑΡΙΝΑ • 14 Απριλίου 2026</div>
-                        </div>
-
-                        <!-- Review 2 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Ήμουν μόλις ένα βήμα πριν χάσω τελείως τον εαυτό μου. Η βοήθεια της ανεκτίμητη. Με υπομονή επιμονή ενθάρρυνση άρχισα να απολαμβάνω την ζωή..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Αλικη • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <!-- Review 3 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Είναι η ίσως η μία από τις καλύτερες θεραπείες που έχω ζήσει σε ψυχανάλυση. Ήταν η πρώτη φορά που ένιωσα ότι καταλαβαίνουν τον τρόπο σκέψης μου."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">bill • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <!-- Review 4 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Χάρη σε εκείνη, έχω αρχίσει να βρίσκω τον εαυτό μου και τα πατήματά μου στη ζωή. Με βοήθησε να αναγνωρίζω την τοξικότητα γύρω μου, αλλά και μέσα μου..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Marifilia • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <!-- Review 5 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Η Τζινα είναι εξαιρετική… Από το πρώτο ραντεβού ήταν ο ανθρωπος που μπορούσα να πω τα πάντα… με ηρεμεί αμεσως… Με βοηθάει πολύ να ξεπεράσω τις φοβίες μου."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Dimitra • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <!-- Review 6 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Πολύ καλή στο έργο της και πάνω απ´ολα άνθρωπος με κατανόηση που σε κάνει να βρείς τη χαμένη πίστη στον εαυτό σου! ... Την εμπιστεύομαι και την προτείνω με όλη μου την καρδιά!"</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Ελευθερία • 13 Απριλίου 2026</div>
-                        </div>
-                        
-                        <!-- Review 7 -->
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετικη επαγγελματιας σε αφηνει και σου δινει χωρο να κατανοησεις και να βρεις την πηγη του προβληματος με εναν τεχνουργικο τροπο. Η τεχνη και η φιλοσοφια του art therapy ηταν κατι πρωτογνωρο..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">μ • 03 Απριλίου 2026</div>
-                        </div>
-                    </div>
-
-                    <!-- Duplicate block 2 for infinite scroll -->
-                    <div class="flex flex-col gap-6" aria-hidden="true">
-                         <!-- Reviews duplicated for seamless loop -->
-                         <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετική επαγγελματίας και πάνω από όλα άνθρωπος. Από την πρώτη κιόλας συνεδρία ένιωσα άνεση, ασφάλεια και εμπιστοσύνη... Τη συστήνω ανεπιφύλακτα σε όποιον θέλει πραγματικά να δουλέψει με τον εαυτό του."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">ΜΑΡΙΝΑ • 14 Απριλίου 2026</div>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Ήμουν μόλις ένα βήμα πριν χάσω τελείως τον εαυτό μου. Η βοήθεια της ανεκτίμητη. Με υπομονή επιμονή ενθάρρυνση άρχισα να απολαμβάνω την ζωή..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Αλικη • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Είναι η ίσως η μία από τις καλύτερες θεραπείες που έχω ζήσει σε ψυχανάλυση. Ήταν η πρώτη φορά που ένιωσα ότι καταλαβαίνουν τον τρόπο σκέψης μου."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">bill • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Χάρη σε εκείνη, έχω αρχίσει να βρίσκω τον εαυτό μου και τα πατήματά μου στη ζωή. Με βοήθησε να αναγνωρίζω την τοξικότητα γύρω μου, αλλά και μέσα μου..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Marifilia • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Η Τζινα είναι εξαιρετική… Από το πρώτο ραντεβού ήταν ο ανθρωπος που μπορούσα να πω τα πάντα… με ηρεμεί αμεσως… Με βοηθάει πολύ να ξεπεράσω τις φοβίες μου."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Dimitra • 13 Απριλίου 2026</div>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Πολύ καλή στο έργο της και πάνω απ´ολα άνθρωπος με κατανόηση που σε κάνει να βρείς τη χαμένη πίστη στον εαυτό σου! ... Την εμπιστεύομαι και την προτείνω με όλη μου την καρδιά!"</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">Ελευθερία • 13 Απριλίου 2026</div>
-                        </div>
-                        
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-lux-sand relative">
-                            <div class="absolute top-8 right-8 text-lux-taupe/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-2 font-serif text-lux-dark font-medium">10.0</span>
-                            </div>
-                            <p class="text-base text-lux-dark/80 italic font-light leading-relaxed mb-6">"Εξαιρετικη επαγγελματιας σε αφηνει και σου δινει χωρο να κατανοησεις και να βρεις την πηγη του προβληματος με εναν τεχνουργικο τροπο. Η τεχνη και η φιλοσοφια του art therapy ηταν κατι πρωτογνωρο..."</p>
-                            <div class="text-[10px] uppercase tracking-widest text-lux-dark/50 font-medium">μ • 03 Απριλίου 2026</div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            
+        <div class="ci reveal d3">
+          <div class="lbl">Email</div>
+          <a href="mailto:office.finfinis@gmail.com">office.finfinis@gmail.com</a>
         </div>
-    </section>
-
-    <!-- Footer / Contact Section -->
-    <footer id="contact" class="bg-lux-cream pt-32 pb-12 border-t border-lux-sand relative">
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
-                
-                <div class="lg:col-span-5 reveal">
-                    <h3 class="text-3xl font-serif text-lux-dark mb-6">Η επούλωση ξεκινά <br><span class="italic text-lux-clay">με ένα βήμα.</span></h3>
-                    <p class="text-lux-dark/70 text-base font-light leading-relaxed mb-10 max-w-sm">
-                        Επικοινωνήστε μαζί μου για να ορίσουμε την πρώτη σας συνεδρία σε ένα περιβάλλον απόλυτης αποδοχής και ασφάλειας.
-                    </p>
-                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-10 py-4 bg-lux-dark text-lux-white text-xs tracking-widest font-bold uppercase transition-all hover:bg-lux-clay shadow-lg hover:shadow-xl">
-                        Κλειστε Ραντεβου
-                    </a>
-                </div>
-
-                <div class="lg:col-span-4 reveal delay-100">
-                    <h4 class="text-xs font-bold text-lux-clay tracking-widest uppercase mb-8">Στοιχεια Επικοινωνιας</h4>
-                    <ul class="space-y-6 text-base text-lux-dark/80 font-medium">
-                        <li class="flex items-start gap-4 group">
-                            <i data-lucide="map-pin" class="w-5 h-5 text-lux-clay mt-0.5 shrink-0 transition-transform group-hover:scale-110"></i>
-                            <span>Πειραιάς</span>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <i data-lucide="phone" class="w-5 h-5 text-lux-clay shrink-0 transition-transform group-hover:scale-110"></i>
-                            <a href="tel:+306972883902" class="hover:text-lux-taupe transition-colors">+30 697 288 3902</a>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <i data-lucide="mail" class="w-5 h-5 text-lux-clay shrink-0 transition-transform group-hover:scale-110"></i>
-                            <a href="mailto:ginapanagiotidi@gmail.com" class="hover:text-lux-taupe transition-colors">ginapanagiotidi@gmail.com</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="lg:col-span-3 reveal delay-200">
-                    <h4 class="text-xs font-bold text-lux-clay tracking-widest uppercase mb-8">Ωραριο Λειτουργιας</h4>
-                    <ul class="space-y-4 text-base text-lux-dark/80 font-medium mb-10">
-                        <li class="flex flex-col gap-1">
-                            <span class="uppercase tracking-widest text-[10px] text-lux-dark/50">Δευτερα - Σαββατο</span>
-                            <span>Κατόπιν Ραντεβού</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="flex gap-4">
-                        <a href="https://www.instagram.com/ginapanagiotidi_arttherapy/" target="_blank" rel="noopener" class="w-12 h-12 rounded-full border border-lux-sand bg-white flex items-center justify-center hover:border-lux-clay hover:shadow-md transition-all">
-                            <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/instagram-logo-instagram-icon-transparent-free-png.png.webp" alt="Instagram" class="w-6 h-6 opacity-70 hover:opacity-100 transition-opacity">
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="border-t border-lux-sand pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-lux-dark/50 reveal">
-                <p>&copy; 2026 Τζίνα Παναγιωτίδη. All rights reserved.</p>
-                <p>
-                    Designed by <a href="https://advonmedia.com" target="_blank" rel="noopener" class="text-lux-clay hover:text-lux-dark transition-colors uppercase tracking-widest">Advon Media</a>
-                </p>
-            </div>
+        <div class="hero-actions reveal d3" style="margin-top:1.4rem">
+          <a href="mailto:office.finfinis@gmail.com" class="btn btn-solid">Στείλτε μήνυμα</a>
         </div>
-    </footer>
+      </div>
+      <div class="contact-map reveal d2">
+        <iframe title="Χάρτης γραφείου ΦΙΝΦΙΝΗΣ" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Antiploiarchou+Vlachakou+%26+Methonis+36,+Piraeus&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Initialize Icons
-        lucide.createIcons();
+</main>
 
-        // Mobile Menu Toggle
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+<footer>
+  <div class="foot-in">
+    <a href="#top" class="foot-brand">
+      <img src="https://raw.githubusercontent.com/agelmet/FINFINIS/refs/heads/main/logooreo.jpg" alt="Λογότυπο ΦΙΝΦΙΝΗΣ" loading="lazy">
+      <b>ΜΙΧΑΗΛ Θ. ΦΙΝΦΙΝΗΣ</b>
+    </a>
+    <div class="foot-copy">© <span id="yr"></span> ΦΙΝΦΙΝΗΣ — Λογιστικό & Φοροτεχνικό Γραφείο · Πειραιάς</div>
+  </div>
+</footer>
 
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
-        });
+<button class="totop" id="toTop" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></button>
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-            });
-        });
+<script>
+(function(){
+  "use strict";
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
 
-        // Navbar Scroll Effect
-        const navbarInner = document.getElementById('nav-inner');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbarInner.classList.add('glass-nav');
-                navbarInner.classList.remove('px-4', 'md:px-8');
-                navbarInner.classList.add('px-6', 'md:px-10', 'rounded-full', 'mx-4');
-            } else {
-                navbarInner.classList.remove('glass-nav');
-                navbarInner.classList.remove('px-6', 'md:px-10', 'rounded-full', 'mx-4');
-                navbarInner.classList.add('px-4', 'md:px-8');
-            }
-        });
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      $('#loader').classList.add('done');
+      document.body.classList.add('loaded');
+    }, 1600);
+  });
 
-        // Intersection Observer for Animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+  // Nav scroll state + back to top
+  const nav = $('#nav'), toTop = $('#toTop');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    toTop.classList.toggle('show', window.scrollY > 600);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
+  // Mobile menu
+  const burger = $('#burger'), menu = $('#mobileMenu');
+  const toggleMenu = open => {
+    burger.classList.toggle('open', open);
+    menu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', () => toggleMenu(!menu.classList.contains('open')));
+  $$('.mobile-menu a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
+  // Reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  $$('.reveal').forEach(el => io.observe(el));
+
+  // Services accordion
+  $$('.svc').forEach(svc => {
+    const head = svc.querySelector('.svc-head');
+    const body = svc.querySelector('.svc-body');
+    head.addEventListener('click', () => {
+      const active = svc.classList.contains('active');
+      $$('.svc').forEach(s => { s.classList.remove('active'); s.querySelector('.svc-body').style.maxHeight = null; });
+      if(!active){ svc.classList.add('active'); body.style.maxHeight = body.scrollHeight + 'px'; }
+    });
+  });
+
+  // FAQ accordion
+  $$('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const active = item.classList.contains('active');
+      $$('.faq-item').forEach(i => { i.classList.remove('active'); i.querySelector('.faq-a').style.maxHeight = null; });
+      if(!active){ item.classList.add('active'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+
+  // Reviews carousel
+  const track = $('#revTrack');
+  const cards = track ? track.children : [];
+  let idx = 0;
+  const step = () => cards.length ? cards[0].getBoundingClientRect().width + 26 : 0;
+  const visible = () => Math.max(1, Math.floor(track.parentElement.getBoundingClientRect().width / step()));
+  const maxIdx = () => Math.max(0, cards.length - visible());
+  const render = () => { track.style.transform = `translateX(${-idx*step()}px)`; };
+  $('#revNext').addEventListener('click', () => { idx = idx >= maxIdx() ? 0 : idx+1; render(); });
+  $('#revPrev').addEventListener('click', () => { idx = idx <= 0 ? maxIdx() : idx-1; render(); });
+  let auto = setInterval(() => { idx = idx >= maxIdx() ? 0 : idx+1; render(); }, 5000);
+  const viewport = $('.rev-viewport');
+  viewport.addEventListener('mouseenter', () => clearInterval(auto));
+  viewport.addEventListener('mouseleave', () => { auto = setInterval(() => { idx = idx >= maxIdx() ? 0 : idx+1; render(); }, 5000); });
+  window.addEventListener('resize', () => { idx = Math.min(idx, maxIdx()); render(); });
+
+  // Parallax (rAF-throttled, CSS transform only)
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    const layers = [
+      {el:$('#heroBg'), s:0.3},
+      {el:$('#px1'), s:0.28},
+      {el:$('#px2'), s:0.28},
+      {el:$('#contactBg'), s:0.2}
+    ].filter(l => l.el);
+    let ticking = false;
+    const para = () => {
+      layers.forEach(l => {
+        const r = l.el.parentElement.getBoundingClientRect();
+        if(r.bottom > 0 && r.top < window.innerHeight){
+          const off = (r.top - window.innerHeight/2) * -l.s;
+          l.el.style.transform = `translate3d(0, ${off}px, 0) scale(1.16)`;
+        }
+      });
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => { if(!ticking){ requestAnimationFrame(para); ticking = true; } }, {passive:true});
+    para();
+  }
+
+  // Year
+  $('#yr').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
-
-```
