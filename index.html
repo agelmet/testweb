@@ -9,7 +9,7 @@
         --sz-gold: #d4af37;       /* Luxury Gold */
         --sz-gold-light: #f3e5ab;
         --sz-white: #f8fafc;
-        --sz-glass: rgba(15, 23, 42, 0.7);
+        --sz-glass: rgba(30, 41, 59, 0.7);
     }
 
     /* GHL Reset */
@@ -25,6 +25,7 @@
         font-family: 'Manrope', sans-serif;
         color: var(--sz-dark);
         line-height: 1.6;
+        margin: 0;
     }
 
     h1, h2, h3 {
@@ -45,7 +46,7 @@
     }
 
     /* =========================================
-       1. HERO SECTION (Cinema Style)
+       1. HERO SECTION
        ========================================= */
     .sz-hero {
         position: relative;
@@ -61,7 +62,7 @@
     .sz-hero-bg {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f55aa15885e41afe71b94.jpg');
+        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff9b21f0da3c683ba1.jpeg') !important;
         background-size: cover;
         background-position: center;
         z-index: 0;
@@ -84,20 +85,22 @@
         padding: 20px;
     }
 
-    /* Floating Logo in Hero */
     .sz-hero-logo {
         width: 140px;
         height: 140px;
-        border-radius: 50%;
+        border-radius: 25px !important; 
         margin: 0 auto 30px;
         border: 2px solid rgba(212, 175, 55, 0.5);
         padding: 5px;
         background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(10px);
         animation: floatLogo 6s ease-in-out infinite;
+        overflow: hidden;
     }
+    
     .sz-hero-logo img {
-        width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+        width: 100%; height: 100%; object-fit: cover; 
+        border-radius: 20px !important; 
     }
 
     .sz-title {
@@ -116,7 +119,6 @@
         font-weight: 300;
     }
 
-    /* Gold Button */
     .sz-btn-gold {
         display: inline-block;
         padding: 18px 50px;
@@ -139,7 +141,7 @@
     }
 
     /* =========================================
-       2. BIO SECTION (Split Layout)
+       2. BIO SECTION (FIXED LAYOUT)
        ========================================= */
     .sz-bio-section {
         padding: 100px 20px;
@@ -147,42 +149,14 @@
         position: relative;
     }
 
-    .sz-container {
+    .sz-bio-layout {
         max-width: 1200px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr; /* Equal columns Desktop */
         gap: 80px;
         align-items: center;
     }
-
-    .sz-bio-img-wrapper {
-        position: relative;
-    }
-
-    /* The Frame Effect */
-    .sz-bio-frame {
-        position: absolute;
-        top: -20px; left: -20px;
-        width: 100%; height: 100%;
-        border: 2px solid var(--sz-gold);
-        z-index: 0;
-        transition: 0.5s;
-    }
-    
-    .sz-bio-img {
-        width: 100%;
-        height: auto;
-        display: block;
-        position: relative;
-        z-index: 1;
-        filter: grayscale(20%); /* Artistic touch */
-        transition: 0.5s;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    }
-
-    .sz-bio-img-wrapper:hover .sz-bio-img { filter: grayscale(0%); transform: translate(10px, 10px); }
-    .sz-bio-img-wrapper:hover .sz-bio-frame { transform: translate(-10px, -10px); }
 
     .sz-bio-content h2 {
         font-size: 3rem;
@@ -206,82 +180,144 @@
         font-style: italic;
     }
 
+    .sz-bio-img-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .sz-bio-frame {
+        position: absolute;
+        top: -20px; left: -20px;
+        width: 100%; height: 100%;
+        border: 2px solid var(--sz-gold);
+        z-index: 0;
+        transition: 0.5s;
+    }
+    
+    .sz-bio-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 1;
+        filter: grayscale(20%);
+        transition: 0.5s;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    }
+
+    .sz-bio-img-wrapper:hover .sz-bio-img { filter: grayscale(0%); transform: translate(10px, 10px); }
+    .sz-bio-img-wrapper:hover .sz-bio-frame { transform: translate(-10px, -10px); }
+
+
     /* =========================================
-       3. SERVICES (Dark Cards)
+       3. SERVICES (VISIBILITY FIX)
        ========================================= */
     .sz-services {
-        background-color: var(--sz-dark);
-        color: white;
+        /* Light Platinum Gradient */
+        background: linear-gradient(to bottom, #f8fafc 0%, #e2e8f0 100%);
+        color: var(--sz-dark); 
         padding: 120px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .sz-services::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+        pointer-events: none;
     }
 
     .sz-head-center {
         text-align: center;
         margin-bottom: 70px;
+        position: relative; z-index: 2;
     }
-    .sz-head-center h2 { font-size: 3.5rem; color: white; }
+    
+    /* --- FIXED VISIBILITY HERE --- */
+    .sz-head-center h2 { 
+        font-size: 3.5rem; 
+        color: #0f172a !important; /* Force Dark Navy */
+        text-shadow: none !important;
+    }
     .sz-head-center p { color: var(--sz-gold); text-transform: uppercase; letter-spacing: 2px; }
 
     .sz-grid-3 {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
+        gap: 40px;
         max-width: 1300px;
         margin: 0 auto;
+        position: relative; z-index: 2;
     }
 
+    /* CARDS */
     .sz-card {
-        background: var(--sz-dark-light);
-        padding: 50px 30px;
+        background: var(--sz-dark-light); /* Dark slate card */
+        padding: 50px 35px;
         border: 1px solid rgba(255,255,255,0.05);
-        transition: 0.4s;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         position: relative;
-        overflow: hidden;
+        border-radius: 10px;
+        border-bottom: 3px solid transparent;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
     .sz-card:hover {
-        transform: translateY(-10px);
-        border-color: var(--sz-gold);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        transform: translateY(-12px);
+        background: var(--sz-dark);
+        border-color: rgba(212, 175, 55, 0.3);
+        border-bottom: 3px solid var(--sz-gold);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
     }
 
     .sz-card-icon {
-        font-size: 2.5rem;
+        width: 70px; height: 70px;
+        background: rgba(212, 175, 55, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
         color: var(--sz-gold);
-        margin-bottom: 25px;
+        margin-bottom: 30px;
+        transition: 0.4s;
+    }
+    
+    .sz-card:hover .sz-card-icon {
+        background: var(--sz-gold);
+        color: var(--sz-dark);
+        transform: rotateY(180deg);
     }
 
-    .sz-card h3 {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-        color: white;
-    }
+    .sz-card h3 { font-size: 1.8rem; margin-bottom: 25px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
 
-    .sz-list {
-        list-style: none;
-        padding: 0;
-    }
+    .sz-list { list-style: none; padding: 0; }
     .sz-list li {
-        margin-bottom: 12px;
-        padding-left: 20px;
+        margin-bottom: 15px;
+        padding-left: 25px;
         position: relative;
-        color: #cbd5e1;
-        font-size: 0.95rem;
+        color: #e2e8f0;
+        font-size: 1rem;
     }
     .sz-list li::before {
-        content: '•';
+        content: '\f00c';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         color: var(--sz-gold);
-        position: absolute; left: 0;
+        position: absolute; left: 0; top: 2px;
+        font-size: 0.85rem;
     }
 
     /* =========================================
-       4. THE SPACE (Wide Parallax)
+       4. THE SPACE
        ========================================= */
     .sz-space {
         position: relative;
         height: 60vh;
         background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
-        background-attachment: fixed; /* Parallax */
+        background-attachment: fixed;
         background-size: cover;
         background-position: center;
         display: flex;
@@ -289,10 +325,7 @@
         justify-content: center;
     }
 
-    .sz-space-overlay {
-        position: absolute; top:0; left:0; width:100%; height:100%;
-        background: rgba(15, 23, 42, 0.5);
-    }
+    .sz-space-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.5); }
 
     .sz-quote-box {
         position: relative;
@@ -313,13 +346,72 @@
     }
 
     /* =========================================
-       5. CONTACT & MAP
+       5. TRUSTWORTHINESS
        ========================================= */
-    .sz-contact {
+    .sz-trust-section {
+        position: relative;
         padding: 100px 20px;
-        background: var(--sz-white);
+        background-color: var(--sz-dark);
+        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        text-align: center;
+        color: var(--sz-white);
+    }
+    
+    .sz-trust-overlay {
+        position: absolute; top:0; left:0; width:100%; height:100%;
+        background: rgba(15, 23, 42, 0.9);
     }
 
+    .sz-trust-grid {
+        position: relative; z-index: 2;
+        display: grid;
+        /* DESKTOP: 4 Columns, Centered */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: start;
+    }
+
+    .sz-trust-item {
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sz-trust-number {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 5rem;
+        font-weight: 700;
+        color: var(--sz-gold);
+        line-height: 1;
+        margin-bottom: 15px;
+        display: block;
+        min-height: 80px;
+    }
+    
+    .sz-trust-item:nth-child(1) .sz-trust-number::after,
+    .sz-trust-item:nth-child(2) .sz-trust-number::after,
+    .sz-trust-item:nth-child(4) .sz-trust-number::after { content: '+'; font-size: 3rem; vertical-align: top; }
+    .sz-trust-item:nth-child(3) .sz-trust-number::after { content: '%'; font-size: 3rem; vertical-align: top; }
+
+    .sz-trust-text {
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #cbd5e1;
+    }
+
+    /* =========================================
+       6. CONTACT & MAP
+       ========================================= */
+    .sz-contact { padding: 100px 20px; background: var(--sz-white); }
     .sz-contact-grid {
         max-width: 1200px;
         margin: 0 auto;
@@ -329,13 +421,7 @@
         align-items: center;
     }
 
-    .sz-info-item {
-        margin-bottom: 30px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
+    .sz-info-item { margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
     .sz-icon-circle {
         width: 60px; height: 60px;
         background: var(--sz-dark);
@@ -346,11 +432,9 @@
         justify-content: center;
         font-size: 1.5rem;
     }
-
     .sz-info-text h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 5px; }
     .sz-info-text p, .sz-info-text a { font-size: 1.2rem; color: var(--sz-dark); font-weight: 600; text-decoration: none; }
 
-    /* Map Card */
     .sz-map-card {
         background: var(--sz-dark);
         border-radius: 20px;
@@ -362,38 +446,50 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg'); /* Blurred background of office */
+        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
         background-size: cover;
     }
-    
-    .sz-map-overlay {
-        position: absolute; top:0; left:0; width:100%; height:100%;
-        background: rgba(15, 23, 42, 0.85);
-        backdrop-filter: blur(5px);
-    }
-
-    .sz-map-content {
-        position: relative; z-index: 2; padding: 40px;
-        color: white;
-    }
+    .sz-map-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); }
+    .sz-map-content { position: relative; z-index: 2; padding: 40px; color: white; }
 
     /* =========================================
-       RESPONSIVE
+       MOBILE RESPONSIVE RULES (PRIORITY)
        ========================================= */
     @media (max-width: 900px) {
-        .sz-container, .sz-contact-grid { grid-template-columns: 1fr; gap: 50px; }
-        .sz-title { font-size: 3rem; }
+        /* BIO: Text Top, Image Bottom */
+        .sz-bio-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+        .sz-bio-content { text-align: left; order: 1; }
+        .sz-bio-img-wrapper { order: 2; width: 100%; }
+
+        /* NUMBERS: One below other */
+        .sz-trust-grid {
+            display: block !important;
+            width: 100%;
+        }
+        .sz-trust-item {
+            width: 100%;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sz-trust-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .sz-trust-number { font-size: 3.5rem; }
+
+        /* General */
+        .sz-contact-grid { grid-template-columns: 1fr; }
+        .sz-title { font-size: 2.8rem; }
         .sz-bio-section { padding: 60px 20px; }
-        .sz-bio-img-wrapper { order: -1; } /* Image on top mobile */
         .sz-space { height: 50vh; }
-        .sz-quote { font-size: 1.5rem; }
+        .sz-quote { font-size: 1.4rem; }
         .sz-quote-box { width: 90%; padding: 30px; }
     }
 
-    /* Keyframes */
     @keyframes breathHero { 0% { transform: scale(1.1); } 100% { transform: scale(1.2); } }
     @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
 </style>
 
 <div class="sz-hero">
@@ -403,22 +499,15 @@
         <div class="sz-hero-logo">
             <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ffd4fb90244971d047.jpeg" alt="Logo">
         </div>
-        
         <h1 class="sz-title reveal-trigger">Stefanos Zampelis</h1>
         <h2 class="sz-subtitle reveal-trigger" style="transition-delay: 0.2s;">ΚΛΙΝΙΚΟΣ & ΑΘΛΗΤΙΚΟΣ ΨΥΧΟΛΟΓΟΣ</h2>
-        
-        <a href="#contact" class="sz-btn-gold reveal-trigger" style="transition-delay: 0.4s;">ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ</a>
+        <a href="https://www.instadoctor.gr/booking/67f51f56ddc41?o=67f51f56e0f6c&hl=en-GR&gei=KldvabOhHJiK9u8P17Km6AU&rwg_token=AFd1xnFXX8oxfcl0VOQPpMUnfyqKcY0cQQ12OTk1azUHZgT5S2EfjrS8Twf06xuDH7HdODCmjStv-BMvi__ZGriY_c3-gV6a0w%3D%3D" target="_blank" class="sz-btn-gold reveal-trigger" style="transition-delay: 0.4s;">ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ</a>
     </div>
 </div>
 
 <div class="sz-bio-section">
-    <div class="sz-container">
+    <div class="sz-bio-layout">
         
-        <div class="sz-bio-img-wrapper reveal-trigger">
-            <div class="sz-bio-frame"></div>
-            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885e0683e6e87b.jpeg" alt="Stefanos Zampelis" class="sz-bio-img">
-        </div>
-
         <div class="sz-bio-content reveal-trigger">
             <h2>Γνωρίστε τον <span>Ειδικό</span></h2>
             <div class="sz-bio-text">
@@ -429,6 +518,11 @@
             <div class="sz-signature">Στέφανος Ζαμπέλης</div>
         </div>
 
+        <div class="sz-bio-img-wrapper reveal-trigger">
+            <div class="sz-bio-frame"></div>
+            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885e0683e6e87b.jpeg" alt="Stefanos Zampelis" class="sz-bio-img">
+        </div>
+
     </div>
 </div>
 
@@ -437,9 +531,7 @@
         <p>ΕΞΕΙΔΙΚΕΥΣΗ & ΥΠΟΣΤΗΡΙΞΗ</p>
         <h2>Υπηρεσίες</h2>
     </div>
-
     <div class="sz-grid-3">
-        
         <div class="sz-card reveal-trigger">
             <div class="sz-card-icon"><i class="fas fa-brain"></i></div>
             <h3>Κλινική Ψυχολογία</h3>
@@ -451,7 +543,6 @@
                 <li>Αντιμετώπιση Αυτοάνοσων</li>
             </ul>
         </div>
-
         <div class="sz-card reveal-trigger" style="transition-delay: 0.2s;">
             <div class="sz-card-icon"><i class="fas fa-medal"></i></div>
             <h3>Αθλητική Ψυχολογία</h3>
@@ -463,7 +554,6 @@
                 <li>Ομαδική Συμβουλευτική</li>
             </ul>
         </div>
-
         <div class="sz-card reveal-trigger" style="transition-delay: 0.4s;">
             <div class="sz-card-icon"><i class="fas fa-users"></i></div>
             <h3>Συμβουλευτική</h3>
@@ -475,7 +565,6 @@
                 <li>Συμβουλευτική Γονέων</li>
             </ul>
         </div>
-
     </div>
 </div>
 
@@ -486,12 +575,34 @@
     </div>
 </div>
 
+<div class="sz-trust-section">
+    <div class="sz-trust-overlay"></div>
+    <div style="width: 100%; max-width: 1200px; margin: 0 auto;">
+        <div class="sz-trust-grid">
+            <div class="sz-trust-item reveal-trigger">
+                <div class="sz-trust-number" data-target="10">0</div>
+                <div class="sz-trust-text">Διαφορετικές Υπηρεσίες</div>
+            </div>
+            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.1s;">
+                <div class="sz-trust-number" data-target="10">0</div>
+                <div class="sz-trust-text">Χρόνια Εμπειρίας</div>
+            </div>
+            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.2s;">
+                <div class="sz-trust-number" data-target="100">0</div>
+                <div class="sz-trust-text">Εξατομικευμένη Φροντίδα</div>
+            </div>
+            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.3s;">
+                <div class="sz-trust-number" data-target="295">0</div>
+                <div class="sz-trust-text">Ευχαριστημένοι Πελάτες</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="sz-contact" id="contact">
     <div class="sz-contact-grid">
-        
         <div class="reveal-trigger">
             <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: var(--sz-dark);">Επικοινωνία</h2>
-            
             <div class="sz-info-item">
                 <div class="sz-icon-circle"><i class="fas fa-phone"></i></div>
                 <div class="sz-info-text">
@@ -499,7 +610,6 @@
                     <a href="tel:6973080203">697 308 0203</a>
                 </div>
             </div>
-
             <div class="sz-info-item">
                 <div class="sz-icon-circle"><i class="fas fa-envelope"></i></div>
                 <div class="sz-info-text">
@@ -507,7 +617,6 @@
                     <a href="mailto:st.zampelis@gmail.com">st.zampelis@gmail.com</a>
                 </div>
             </div>
-
             <div class="sz-info-item">
                 <div class="sz-icon-circle"><i class="fab fa-instagram"></i></div>
                 <div class="sz-info-text">
@@ -515,7 +624,6 @@
                     <a href="https://instagram.com/mind_mentality" target="_blank">@mind_mentality</a>
                 </div>
             </div>
-
              <div class="sz-info-item">
                 <div class="sz-icon-circle"><i class="far fa-clock"></i></div>
                 <div class="sz-info-text">
@@ -524,36 +632,73 @@
                 </div>
             </div>
         </div>
-
         <div class="sz-map-card reveal-trigger">
             <div class="sz-map-overlay"></div>
             <div class="sz-map-content">
                 <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--sz-gold); margin-bottom: 20px;"></i>
                 <h3 style="font-size: 1.8rem; margin-bottom: 10px;">Κορυδαλλός, Αθήνα</h3>
                 <p style="margin-bottom: 30px; opacity: 0.8;">Ιδιωτικό Γραφείο Ψυχολόγου</p>
-                <a href="https://goo.gl/maps/YOUR_MAP_LINK_HERE" target="_blank" class="sz-btn-gold" style="background: var(--sz-gold); color: var(--sz-dark);">ΑΝΟΙΓΜΑ ΧΑΡΤΗ</a>
+                <a href="https://maps.app.goo.gl/8Mx81VWWkgbLquhdA" target="_blank" class="sz-btn-gold" style="background: var(--sz-gold); color: var(--sz-dark);">ΑΝΟΙΓΜΑ ΧΑΡΤΗ</a>
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
-    // Reveal Animation on Scroll
     document.addEventListener("DOMContentLoaded", function() {
-        const observer = new IntersectionObserver((entries) => {
+        
+        // 1. Reveal Animation
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
+                    revealObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        const targets = document.querySelectorAll('.reveal-trigger');
-        targets.forEach(el => {
-            el.classList.add('reveal'); // Add base class via JS to avoid hiding if JS fails
-            observer.observe(el);
+        document.querySelectorAll('.reveal-trigger').forEach(el => {
+            el.classList.add('reveal');
+            revealObserver.observe(el);
         });
+
+        // 2. Trust Numbers Animation (REBUILT FOR MOBILE)
+        const startCounter = (el) => {
+            const target = +el.getAttribute('data-target');
+            const duration = 2000;
+            const increment = target / (duration / 16); 
+            
+            let current = 0;
+            const timer = setInterval(() => {
+                current += increment;
+                if(current >= target) {
+                    el.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.ceil(current);
+                }
+            }, 16);
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Check if intersecting
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.sz-trust-number');
+                    counters.forEach(counter => startCounter(counter));
+                    // Important: Stop observing once triggered so it doesn't reset or glitch
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { 
+            // VITAL FOR MOBILE: Threshold 0 means "start as soon as 1 pixel is visible"
+            threshold: 0,
+            rootMargin: "0px 0px -10% 0px" 
+        });
+
+        const trustSection = document.querySelector('.sz-trust-section');
+        if (trustSection) {
+            counterObserver.observe(trustSection);
+        }
     });
 </script>
