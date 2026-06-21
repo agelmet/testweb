@@ -1,704 +1,414 @@
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 <style>
-    /* --- VARIABLES --- */
-    :root {
-        --sz-dark: #0f172a;       /* Midnight Blue */
-        --sz-dark-light: #1e293b; /* Slate */
-        --sz-gold: #d4af37;       /* Luxury Gold */
-        --sz-gold-light: #f3e5ab;
-        --sz-white: #f8fafc;
-        --sz-glass: rgba(30, 41, 59, 0.7);
-    }
+  /* FONTS */
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
-    /* GHL Reset */
-    .hl_page-creator--content {
-        padding: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow-x: hidden;
-    }
+  /* VARIABLES */
+  :root {
+    --z-col-dark: #1a2c32;    /* Deep Slate */
+    --z-col-primary: #2d4f56; /* Teal */
+    --z-col-accent: #c4a989;  /* Muted Gold */
+    --z-col-light: #f4f5f0;   /* Bone/Off-white */
+    --z-font-heading: 'Playfair Display', serif;
+    --z-font-body: 'Manrope', sans-serif;
+    --z-ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
 
-    body {
-        background-color: var(--sz-white);
-        font-family: 'Manrope', sans-serif;
-        color: var(--sz-dark);
-        line-height: 1.6;
-        margin: 0;
-    }
+  /* SCOPED RESET via #zampelis-root */
+  #zampelis-root {
+    font-family: var(--z-font-body);
+    color: var(--z-col-dark);
+    background-color: var(--z-col-light);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    h1, h2, h3 {
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 700;
-        line-height: 1.1;
-    }
+  #zampelis-root *, #zampelis-root *::before, #zampelis-root *::after {
+    box-sizing: border-box;
+  }
 
-    /* --- ANIMATION UTILS --- */
-    .reveal {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  /* TYPOGRAPHY */
+  #zampelis-root h1, 
+  #zampelis-root h2, 
+  #zampelis-root h3, 
+  #zampelis-root h4 {
+    font-family: var(--z-font-heading);
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+  }
 
-    /* =========================================
-       1. HERO SECTION
-       ========================================= */
-    .sz-hero {
-        position: relative;
-        height: 100vh;
-        min-height: 700px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        color: white;
-    }
+  #zampelis-root p {
+    margin-bottom: 1.5rem;
+    color: rgba(26, 44, 50, 0.85);
+    font-size: 1.05rem;
+  }
 
-    .sz-hero-bg {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff9b21f0da3c683ba1.jpeg') !important;
-        background-size: cover;
-        background-position: center;
-        z-index: 0;
-        transform: scale(1.1);
-        animation: breathHero 20s infinite alternate ease-in-out;
-    }
+  #zampelis-root a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+  }
 
-    .sz-hero-overlay {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
-        z-index: 1;
-    }
+  #zampelis-root img {
+    max-width: 100%;
+    display: block;
+  }
 
-    .sz-hero-content {
-        position: relative;
-        z-index: 10;
-        text-align: center;
-        max-width: 900px;
-        padding: 20px;
-    }
+  /* UTILITY: CONTAINER */
+  .z-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
 
-    .sz-hero-logo {
-        width: 140px;
-        height: 140px;
-        border-radius: 25px !important; 
-        margin: 0 auto 30px;
-        border: 2px solid rgba(212, 175, 55, 0.5);
-        padding: 5px;
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(10px);
-        animation: floatLogo 6s ease-in-out infinite;
-        overflow: hidden;
-    }
-    
-    .sz-hero-logo img {
-        width: 100%; height: 100%; object-fit: cover; 
-        border-radius: 20px !important; 
-    }
+  /* UTILITY: BUTTONS (Magnetic) */
+  .z-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background-color: var(--z-col-primary);
+    color: white !important;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all 0.4s var(--z-ease);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+    cursor: pointer;
+  }
 
-    .sz-title {
-        font-size: clamp(3rem, 6vw, 5.5rem);
-        color: var(--sz-gold-light);
-        margin-bottom: 15px;
-        text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
+  .z-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--z-col-accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--z-ease);
+    z-index: -1;
+    border-radius: 50px;
+  }
 
-    .sz-subtitle {
-        font-size: clamp(1rem, 2vw, 1.5rem);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 40px;
-        color: rgba(255,255,255,0.9);
-        font-weight: 300;
-    }
+  .z-btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 
-    .sz-btn-gold {
-        display: inline-block;
-        padding: 18px 50px;
-        background: transparent;
-        border: 1px solid var(--sz-gold);
-        color: var(--sz-gold);
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        text-decoration: none;
-        transition: 0.4s;
-        position: relative;
-        overflow: hidden;
-    }
+  .z-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(45, 79, 86, 0.25);
+  }
 
-    .sz-btn-gold:hover {
-        background: var(--sz-gold);
-        color: var(--sz-dark);
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-    }
+  /* UTILITY: ANIMATIONS */
+  .z-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s var(--z-ease);
+  }
 
-    /* =========================================
-       2. BIO SECTION (FIXED LAYOUT)
-       ========================================= */
-    .sz-bio-section {
-        padding: 100px 20px;
-        background: var(--sz-white);
-        position: relative;
-    }
+  .z-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .sz-bio-layout {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Equal columns Desktop */
-        gap: 80px;
-        align-items: center;
-    }
+  /* SECTION SPECIFIC STYLES */
+  
+  /* Hero */
+  .z-hero-overlay {
+    background: linear-gradient(90deg, rgba(244,245,240,0.98) 0%, rgba(244,245,240,0.8) 50%, rgba(244,245,240,0.2) 100%);
+  }
 
-    .sz-bio-content h2 {
-        font-size: 3rem;
-        color: var(--sz-dark);
-        margin-bottom: 25px;
-    }
-    .sz-bio-content h2 span { color: var(--sz-gold); font-style: italic; }
+  /* Bio Image Mask */
+  .z-bio-img-mask {
+    border-radius: 200px 200px 20px 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
 
-    .sz-bio-text p {
-        margin-bottom: 20px;
-        color: #4a5568;
-        font-size: 1.05rem;
-        text-align: justify;
-    }
+  /* Service Grid */
+  .z-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
 
-    .sz-signature {
-        margin-top: 30px;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.8rem;
-        color: var(--sz-gold);
-        font-style: italic;
-    }
+  .z-card {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0,0,0,0.02);
+  }
 
-    .sz-bio-img-wrapper {
-        position: relative;
-        width: 100%;
-    }
+  .z-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(45, 79, 86, 0.1);
+    border-color: rgba(196, 169, 137, 0.3);
+  }
 
-    .sz-bio-frame {
-        position: absolute;
-        top: -20px; left: -20px;
-        width: 100%; height: 100%;
-        border: 2px solid var(--sz-gold);
-        z-index: 0;
-        transition: 0.5s;
-    }
-    
-    .sz-bio-img {
-        width: 100%;
-        height: auto;
-        display: block;
-        position: relative;
-        z-index: 1;
-        filter: grayscale(20%);
-        transition: 0.5s;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    }
+  .z-card h3 {
+    font-family: var(--z-font-body);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--z-col-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+  }
+  
+  .z-icon { color: var(--z-col-accent); }
 
-    .sz-bio-img-wrapper:hover .sz-bio-img { filter: grayscale(0%); transform: translate(10px, 10px); }
-    .sz-bio-img-wrapper:hover .sz-bio-frame { transform: translate(-10px, -10px); }
-
-
-    /* =========================================
-       3. SERVICES (VISIBILITY FIX)
-       ========================================= */
-    .sz-services {
-        /* Light Platinum Gradient */
-        background: linear-gradient(to bottom, #f8fafc 0%, #e2e8f0 100%);
-        color: var(--sz-dark); 
-        padding: 120px 20px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .sz-services::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
-        pointer-events: none;
-    }
-
-    .sz-head-center {
-        text-align: center;
-        margin-bottom: 70px;
-        position: relative; z-index: 2;
-    }
-    
-    /* --- FIXED VISIBILITY HERE --- */
-    .sz-head-center h2 { 
-        font-size: 3.5rem; 
-        color: #0f172a !important; /* Force Dark Navy */
-        text-shadow: none !important;
-    }
-    .sz-head-center p { color: var(--sz-gold); text-transform: uppercase; letter-spacing: 2px; }
-
-    .sz-grid-3 {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 40px;
-        max-width: 1300px;
-        margin: 0 auto;
-        position: relative; z-index: 2;
-    }
-
-    /* CARDS */
-    .sz-card {
-        background: var(--sz-dark-light); /* Dark slate card */
-        padding: 50px 35px;
-        border: 1px solid rgba(255,255,255,0.05);
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        position: relative;
-        border-radius: 10px;
-        border-bottom: 3px solid transparent;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    .sz-card:hover {
-        transform: translateY(-12px);
-        background: var(--sz-dark);
-        border-color: rgba(212, 175, 55, 0.3);
-        border-bottom: 3px solid var(--sz-gold);
-        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
-    }
-
-    .sz-card-icon {
-        width: 70px; height: 70px;
-        background: rgba(212, 175, 55, 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        color: var(--sz-gold);
-        margin-bottom: 30px;
-        transition: 0.4s;
-    }
-    
-    .sz-card:hover .sz-card-icon {
-        background: var(--sz-gold);
-        color: var(--sz-dark);
-        transform: rotateY(180deg);
-    }
-
-    .sz-card h3 { font-size: 1.8rem; margin-bottom: 25px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-
-    .sz-list { list-style: none; padding: 0; }
-    .sz-list li {
-        margin-bottom: 15px;
-        padding-left: 25px;
-        position: relative;
-        color: #e2e8f0;
-        font-size: 1rem;
-    }
-    .sz-list li::before {
-        content: '\f00c';
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        color: var(--sz-gold);
-        position: absolute; left: 0; top: 2px;
-        font-size: 0.85rem;
-    }
-
-    /* =========================================
-       4. THE SPACE
-       ========================================= */
-    .sz-space {
-        position: relative;
-        height: 60vh;
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .sz-space-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.5); }
-
-    .sz-quote-box {
-        position: relative;
-        z-index: 2;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 60px;
-        max-width: 800px;
-        text-align: center;
-        border-top: 5px solid var(--sz-gold);
-    }
-
-    .sz-quote {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 2.2rem;
-        color: var(--sz-dark);
-        font-style: italic;
-        line-height: 1.4;
-    }
-
-    /* =========================================
-       5. TRUSTWORTHINESS
-       ========================================= */
-    .sz-trust-section {
-        position: relative;
-        padding: 100px 20px;
-        background-color: var(--sz-dark);
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        text-align: center;
-        color: var(--sz-white);
-    }
-    
-    .sz-trust-overlay {
-        position: absolute; top:0; left:0; width:100%; height:100%;
-        background: rgba(15, 23, 42, 0.9);
-    }
-
-    .sz-trust-grid {
-        position: relative; z-index: 2;
-        display: grid;
-        /* DESKTOP: 4 Columns, Centered */
-        grid-template-columns: repeat(4, 1fr);
-        gap: 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-        align-items: start;
-    }
-
-    .sz-trust-item {
-        padding: 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .sz-trust-number {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 5rem;
-        font-weight: 700;
-        color: var(--sz-gold);
-        line-height: 1;
-        margin-bottom: 15px;
-        display: block;
-        min-height: 80px;
-    }
-    
-    .sz-trust-item:nth-child(1) .sz-trust-number::after,
-    .sz-trust-item:nth-child(2) .sz-trust-number::after,
-    .sz-trust-item:nth-child(4) .sz-trust-number::after { content: '+'; font-size: 3rem; vertical-align: top; }
-    .sz-trust-item:nth-child(3) .sz-trust-number::after { content: '%'; font-size: 3rem; vertical-align: top; }
-
-    .sz-trust-text {
-        font-size: 1.1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #cbd5e1;
-    }
-
-    /* =========================================
-       6. CONTACT & MAP
-       ========================================= */
-    .sz-contact { padding: 100px 20px; background: var(--sz-white); }
-    .sz-contact-grid {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-    }
-
-    .sz-info-item { margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
-    .sz-icon-circle {
-        width: 60px; height: 60px;
-        background: var(--sz-dark);
-        color: var(--sz-gold);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-    .sz-info-text h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 5px; }
-    .sz-info-text p, .sz-info-text a { font-size: 1.2rem; color: var(--sz-dark); font-weight: 600; text-decoration: none; }
-
-    .sz-map-card {
-        background: var(--sz-dark);
-        border-radius: 20px;
-        overflow: hidden;
-        position: relative;
-        height: 400px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-image: url('https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg');
-        background-size: cover;
-    }
-    .sz-map-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); }
-    .sz-map-content { position: relative; z-index: 2; padding: 40px; color: white; }
-
-    /* =========================================
-       MOBILE RESPONSIVE RULES (PRIORITY)
-       ========================================= */
-    @media (max-width: 900px) {
-        /* BIO: Text Top, Image Bottom */
-        .sz-bio-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-        }
-        .sz-bio-content { text-align: left; order: 1; }
-        .sz-bio-img-wrapper { order: 2; width: 100%; }
-
-        /* NUMBERS: One below other */
-        .sz-trust-grid {
-            display: block !important;
-            width: 100%;
-        }
-        .sz-trust-item {
-            width: 100%;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .sz-trust-item:last-child { border-bottom: none; margin-bottom: 0; }
-        .sz-trust-number { font-size: 3.5rem; }
-
-        /* General */
-        .sz-contact-grid { grid-template-columns: 1fr; }
-        .sz-title { font-size: 2.8rem; }
-        .sz-bio-section { padding: 60px 20px; }
-        .sz-space { height: 50vh; }
-        .sz-quote { font-size: 1.4rem; }
-        .sz-quote-box { width: 90%; padding: 30px; }
-    }
-
-    @keyframes breathHero { 0% { transform: scale(1.1); } 100% { transform: scale(1.2); } }
-    @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+  /* Responsive Text */
+  @media (max-width: 768px) {
+    #zampelis-root h1 { font-size: 2.5rem; }
+    #zampelis-root h2 { font-size: 2rem; }
+    .z-grid { grid-template-columns: 1fr; }
+    .z-bio-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .z-footer-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (min-width: 769px) {
+    #zampelis-root h1 { font-size: 4.5rem; }
+    #zampelis-root h2 { font-size: 3rem; }
+    .z-bio-grid { grid-template-columns: 1fr 1fr; gap: 80px; }
+    .z-footer-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  }
 </style>
 
-<div class="sz-hero">
-    <div class="sz-hero-bg"></div>
-    <div class="sz-hero-overlay"></div>
-    <div class="sz-hero-content">
-        <div class="sz-hero-logo">
-            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ffd4fb90244971d047.jpeg" alt="Logo">
-        </div>
-        <h1 class="sz-title reveal-trigger">Stefanos Zampelis</h1>
-        <h2 class="sz-subtitle reveal-trigger" style="transition-delay: 0.2s;">ΚΛΙΝΙΚΟΣ & ΑΘΛΗΤΙΚΟΣ ΨΥΧΟΛΟΓΟΣ</h2>
-        <a href="https://www.instadoctor.gr/booking/67f51f56ddc41?o=67f51f56e0f6c&hl=en-GR&gei=KldvabOhHJiK9u8P17Km6AU&rwg_token=AFd1xnFXX8oxfcl0VOQPpMUnfyqKcY0cQQ12OTk1azUHZgT5S2EfjrS8Twf06xuDH7HdODCmjStv-BMvi__ZGriY_c3-gV6a0w%3D%3D" target="_blank" class="sz-btn-gold reveal-trigger" style="transition-delay: 0.4s;">ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ</a>
-    </div>
-</div>
+<div id="zampelis-root">
 
-<div class="sz-bio-section">
-    <div class="sz-bio-layout">
-        
-        <div class="sz-bio-content reveal-trigger">
-            <h2>Γνωρίστε τον <span>Ειδικό</span></h2>
-            <div class="sz-bio-text">
-                <p><strong>Ονομάζομαι Στέφανος Ζαμπέλης.</strong> Είμαι Κλινικός και Αθλητικός Ψυχολόγος, με εξειδικευμένες σπουδές στο Ηνωμένο Βασίλειο και την Ισπανία. Στο ιδιωτικό μου γραφείο στον Κορυδαλλό, στόχος μου είναι να δημιουργήσω ένα περιβάλλον απόλυτης αποδοχής και ασφάλειας.</p>
-                <p>Συνδυάζοντας τη <strong>Γνωσιακή-Συμπεριφορική (CBT)</strong> και τη Συστημική προσέγγιση, εργάζομαι με ενήλικες, ζευγάρια και οικογένειες για τη διαχείριση προσωπικών δυσκολιών. Παράλληλα, ως Αθλητικός Ψυχολόγος, συνεργάζομαι με αθλητές υψηλών επιδόσεων για τη διαχείριση του άγχους και την μεγιστοποίηση της απόδοσης.</p>
-                <p>Πιστεύω στη θεραπευτική σχέση που βασίζεται στην εμπιστοσύνη. Μαζί θέτουμε ρεαλιστικούς στόχους με σκοπό τη βελτίωση της ποιότητας ζωής σας.</p>
-            </div>
-            <div class="sz-signature">Στέφανος Ζαμπέλης</div>
+    <nav style="position: absolute; top: 0; left: 0; width: 100%; padding: 25px 0; z-index: 100;">
+        <div class="z-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ffd4fb90244971d047.jpeg" alt="Logo" style="height: 60px; border-radius: 50%;">
+            <a href="#contact" class="z-btn" style="background: rgba(255,255,255,0.5); backdrop-filter: blur(8px); color: var(--z-col-dark) !important; padding: 10px 24px; font-size: 0.9rem;">
+                Επικοινωνία
+            </a>
+        </div>
+    </nav>
+
+    <section id="z-hero" style="position: relative; min-height: 90vh; display: flex; align-items: center;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff9b21f0da3c683ba1.jpeg" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            <div class="z-hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
         </div>
 
-        <div class="sz-bio-img-wrapper reveal-trigger">
-            <div class="sz-bio-frame"></div>
-            <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885e0683e6e87b.jpeg" alt="Stefanos Zampelis" class="sz-bio-img">
-        </div>
-
-    </div>
-</div>
-
-<div class="sz-services">
-    <div class="sz-head-center reveal-trigger">
-        <p>ΕΞΕΙΔΙΚΕΥΣΗ & ΥΠΟΣΤΗΡΙΞΗ</p>
-        <h2>Υπηρεσίες</h2>
-    </div>
-    <div class="sz-grid-3">
-        <div class="sz-card reveal-trigger">
-            <div class="sz-card-icon"><i class="fas fa-brain"></i></div>
-            <h3>Κλινική Ψυχολογία</h3>
-            <ul class="sz-list">
-                <li>Αγχώδεις Διαταραχές & Στρες</li>
-                <li>Διαχείριση Πένθους</li>
-                <li>Διαχείριση Θυμού</li>
-                <li>Σύνδρομο Burnout</li>
-                <li>Αντιμετώπιση Αυτοάνοσων</li>
-            </ul>
-        </div>
-        <div class="sz-card reveal-trigger" style="transition-delay: 0.2s;">
-            <div class="sz-card-icon"><i class="fas fa-medal"></i></div>
-            <h3>Αθλητική Ψυχολογία</h3>
-            <ul class="sz-list">
-                <li>Βελτίωση Απόδοσης</li>
-                <li>Διαχείριση Αγωνιστικού Άγχους</li>
-                <li>Ενίσχυση Συγκέντρωσης</li>
-                <li>Αυτοπεποίθηση Αθλητή</li>
-                <li>Ομαδική Συμβουλευτική</li>
-            </ul>
-        </div>
-        <div class="sz-card reveal-trigger" style="transition-delay: 0.4s;">
-            <div class="sz-card-icon"><i class="fas fa-users"></i></div>
-            <h3>Συμβουλευτική</h3>
-            <ul class="sz-list">
-                <li>Θεραπεία Ζεύγους</li>
-                <li>Υποστήριξη ΛΟΑΤΚΙ+</li>
-                <li>Προσωποκεντρική Προσέγγιση</li>
-                <li>Online Συνεδρίες</li>
-                <li>Συμβουλευτική Γονέων</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="sz-space">
-    <div class="sz-space-overlay"></div>
-    <div class="sz-quote-box reveal-trigger">
-        <p class="sz-quote">"Ένας ασφαλής χώρος όπου κάθε άνθρωπος μπορεί να μιλήσει ανοιχτά, χωρίς κριτική, για όσα τον απασχολούν."</p>
-    </div>
-</div>
-
-<div class="sz-trust-section">
-    <div class="sz-trust-overlay"></div>
-    <div style="width: 100%; max-width: 1200px; margin: 0 auto;">
-        <div class="sz-trust-grid">
-            <div class="sz-trust-item reveal-trigger">
-                <div class="sz-trust-number" data-target="10">0</div>
-                <div class="sz-trust-text">Διαφορετικές Υπηρεσίες</div>
-            </div>
-            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.1s;">
-                <div class="sz-trust-number" data-target="10">0</div>
-                <div class="sz-trust-text">Χρόνια Εμπειρίας</div>
-            </div>
-            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.2s;">
-                <div class="sz-trust-number" data-target="100">0</div>
-                <div class="sz-trust-text">Εξατομικευμένη Φροντίδα</div>
-            </div>
-            <div class="sz-trust-item reveal-trigger" style="transition-delay: 0.3s;">
-                <div class="sz-trust-number" data-target="295">0</div>
-                <div class="sz-trust-text">Ευχαριστημένοι Πελάτες</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="sz-contact" id="contact">
-    <div class="sz-contact-grid">
-        <div class="reveal-trigger">
-            <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: var(--sz-dark);">Επικοινωνία</h2>
-            <div class="sz-info-item">
-                <div class="sz-icon-circle"><i class="fas fa-phone"></i></div>
-                <div class="sz-info-text">
-                    <h4>ΤΗΛΕΦΩΝΟ</h4>
-                    <a href="tel:6973080203">697 308 0203</a>
-                </div>
-            </div>
-            <div class="sz-info-item">
-                <div class="sz-icon-circle"><i class="fas fa-envelope"></i></div>
-                <div class="sz-info-text">
-                    <h4>EMAIL</h4>
-                    <a href="mailto:st.zampelis@gmail.com">st.zampelis@gmail.com</a>
-                </div>
-            </div>
-            <div class="sz-info-item">
-                <div class="sz-icon-circle"><i class="fab fa-instagram"></i></div>
-                <div class="sz-info-text">
-                    <h4>INSTAGRAM</h4>
-                    <a href="https://instagram.com/mind_mentality" target="_blank">@mind_mentality</a>
-                </div>
-            </div>
-             <div class="sz-info-item">
-                <div class="sz-icon-circle"><i class="far fa-clock"></i></div>
-                <div class="sz-info-text">
-                    <h4>ΩΡΑΡΙΟ</h4>
-                    <p>Δευτέρα - Παρασκευή (Κατόπιν Ραντεβού)</p>
+        <div class="z-container">
+            <div style="max-width: 700px; position: relative; z-index: 2; padding-top: 80px;">
+                <span class="z-reveal" style="display: block; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px; color: var(--z-col-primary); font-weight: 600;">
+                    Κλινικός & Αθλητικός Ψυχολόγος
+                </span>
+                
+                <h1 class="z-reveal" style="color: var(--z-col-primary); margin-bottom: 24px;">
+                    Επανασυνδεθείτε <br> <span style="font-style: italic; color: var(--z-col-accent);">με τον εαυτό σας.</span>
+                </h1>
+                
+                <p class="z-reveal" style="margin-bottom: 40px;">
+                    Σε έναν κόσμο που τρέχει γρήγορα, προσφέρω έναν ασφαλή χώρο για να σταθείτε, να κατανοήσετε τα συναισθήματά σας και να βρείτε την ισορροπία. Με εμπειρία 20+ ετών, περπατάμε μαζί το μονοπάτι της αλλαγής.
+                </p>
+                
+                <div class="z-reveal" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="https://www.doctoranytime.gr/d/Psychologos/xaroutiounian-roza?autobook=1" target="_blank" class="z-btn">
+                        Κλείστε Συνεδρία
+                    </a>
+                    <a href="#z-bio" style="display: inline-flex; align-items: center; padding: 16px 24px; color: var(--z-col-primary); font-weight: 600;">
+                        Γνωρίστε με ↓
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="sz-map-card reveal-trigger">
-            <div class="sz-map-overlay"></div>
-            <div class="sz-map-content">
-                <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--sz-gold); margin-bottom: 20px;"></i>
-                <h3 style="font-size: 1.8rem; margin-bottom: 10px;">Κορυδαλλός, Αθήνα</h3>
-                <p style="margin-bottom: 30px; opacity: 0.8;">Ιδιωτικό Γραφείο Ψυχολόγου</p>
-                <a href="https://maps.app.goo.gl/8Mx81VWWkgbLquhdA" target="_blank" class="sz-btn-gold" style="background: var(--sz-gold); color: var(--sz-dark);">ΑΝΟΙΓΜΑ ΧΑΡΤΗ</a>
+    </section>
+
+    <section id="z-bio" style="padding: 120px 0; position: relative; overflow: hidden;">
+        <div style="position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,169,137,0.15) 0%, rgba(255,255,255,0) 70%); top: 10%; right: -10%; border-radius: 50%; pointer-events: none;"></div>
+
+        <div class="z-container">
+            <div class="z-bio-grid" style="display: grid; align-items: center;">
+                
+                <div class="z-reveal">
+                    <div class="z-bio-img-mask">
+                        <div style="padding-bottom: 120%;"></div> <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff9b21f0300d683ba0.jpeg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        
+                        <div style="position: absolute; bottom: 30px; right: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 20px 0 0 20px; box-shadow: -10px 10px 30px rgba(0,0,0,0.05);">
+                            <p style="margin: 0; font-family: var(--z-font-heading); font-size: 1.2rem; color: var(--z-col-primary);">Στέφανος Ζαμπέλης</p>
+                            <p style="margin: 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--z-col-accent);">MSc Ψυχολόγος</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="z-reveal">
+                    <h2 style="margin-bottom: 30px; color: var(--z-col-primary);">Μια σχέση εμπιστοσύνης και αποδοχής.</h2>
+                    
+                    <p style="font-size: 1.15rem; font-weight: 500; color: var(--z-col-primary);">
+                        Η θεραπεία ξεκινά όταν νιώθεις ασφαλής να είσαι ο εαυτός σου.
+                    </p>
+                    
+                    <p>
+                        Ονομάζομαι Στέφανος Ζαμπέλης. Ως Κλινικός και Αθλητικός Ψυχολόγος, με σπουδές σε Ηνωμένο Βασίλειο και Ισπανία, έχω αφιερώσει την καριέρα μου στη δημιουργία ενός υποστηρικτικού πλαισίου – είτε στο ιδιωτικό μου γραφείο στον Κορυδαλλό είτε διαδικτυακά.
+                    </p>
+                    
+                    <p>
+                        Συνδυάζω τη Γνωσιακή-Συμπεριφορική (CBT) και τη Συστημική προσέγγιση, προσαρμόζοντας τη θεραπεία στη δική σας μοναδικότητα. Είτε διαχειρίζεστε προσωπικές δυσκολίες, είτε είστε αθλητής που επιζητά τη μέγιστη απόδοση, στόχος μας είναι η ενδυνάμωση.
+                    </p>
+
+                    <blockquote style="border-left: 3px solid var(--z-col-accent); padding-left: 20px; font-style: italic; color: var(--z-col-primary); margin: 30px 0;">
+                        "Μαζί δουλεύουμε με ρεαλιστικούς στόχους, με σεβασμό στον ρυθμό σας, για τη βελτίωση της ποιότητας ζωής σας."
+                    </blockquote>
+                </div>
+                
             </div>
         </div>
-    </div>
+    </section>
+
+    <section id="z-services" style="padding: 100px 0; background-color: white;">
+        <div class="z-container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 60px auto;" class="z-reveal">
+                <h2 style="color: var(--z-col-primary); margin-bottom: 15px;">Υπηρεσίες & Εξειδίκευση</h2>
+                <p>Επιστημονικά τεκμηριωμένη υποστήριξη για κάθε πτυχή της ζωής σας.</p>
+            </div>
+
+            <div class="z-grid z-reveal">
+                <div class="z-card"><h3><span class="z-icon">✦</span> Αγχώδεις Διαταραχές</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Αντιμετώπιση Στρες</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Θεραπείες Ζεύγους</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Διαχείριση Θυμού</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Burnout Syndrome</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Διαχείριση Πένθους</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Υποστήριξη ΛΟΑΤΚΙ+</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Αυτοάνοσα Νοσήματα</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Γνωσιακή Θεραπεία (CBT)</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Αθλητική Ψυχολογία</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Συμβουλευτική</h3></div>
+                <div class="z-card"><h3><span class="z-icon">✦</span> Κοινωνικό Άγχος</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="z-space" style="position: relative; padding: 140px 0; color: white; overflow: hidden; display: flex; align-items: center;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+             <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/696f54ff15885ede7ae6e87a.jpeg" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);">
+        </div>
+
+        <div class="z-container" style="z-index: 2; width: 100%;">
+            <div class="z-reveal" style="background: rgba(26, 44, 50, 0.7); backdrop-filter: blur(15px); padding: 50px; max-width: 550px; border-left: 4px solid var(--z-col-accent);">
+                <h2 style="color: white; margin-bottom: 20px;">Το Καταφύγιό σας</h2>
+                <p style="color: rgba(255,255,255,0.9);">
+                    Ένας ιδιωτικός, προσεγμένος χώρος στο κέντρο του Κορυδαλλού, σχεδιασμένος να εμπνέει ηρεμία. Εδώ, ο έξω κόσμος σταματά, επιτρέποντάς σας να εστιάσετε σε αυτό που πραγματικά έχει σημασία: εσάς.
+                </p>
+                <a href="https://maps.app.goo.gl/9txLdDr92Ybp1wJB8" target="_blank" style="color: var(--z-col-accent); font-weight: 600; font-size: 0.95rem; border-bottom: 1px solid var(--z-col-accent); padding-bottom: 4px;">
+                    Δείτε την τοποθεσία στον χάρτη →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 60px 0; background: var(--z-col-primary); color: white;">
+        <div class="z-container">
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px; text-align: center;">
+                <div class="z-reveal">
+                    <div style="font-family: var(--z-font-heading); font-size: 2.5rem; color: var(--z-col-accent);">100%</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px;">ΕΧΕΜΥΘΕΙΑ</div>
+                </div>
+                <div class="z-reveal" style="transition-delay: 0.1s;">
+                    <div style="font-family: var(--z-font-heading); font-size: 2.5rem; color: var(--z-col-accent);">Hybrid</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px;">ONLINE & ΔΙΑ ΖΩΣΗΣ</div>
+                </div>
+                <div class="z-reveal" style="transition-delay: 0.2s;">
+                    <div style="font-family: var(--z-font-heading); font-size: 2.5rem; color: var(--z-col-accent);">GR/EN</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px;">ΓΛΩΣΣΕΣ ΣΥΝΕΔΡΙΩΝ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" style="background: var(--z-col-dark); color: rgba(255,255,255,0.6); padding: 80px 0 30px 0;">
+        <div class="z-container">
+            <div class="z-footer-grid" style="display: grid; gap: 50px; margin-bottom: 60px;">
+                
+                <div>
+                    <h3 style="color: white; font-family: var(--z-font-heading); margin-bottom: 20px;">Στέφανος Ζαμπέλης</h3>
+                    <p style="font-size: 0.95rem;">Κλινικός & Αθλητικός Ψυχολόγος.<br>Κορυδαλλός, Αττική</p>
+                    <p style="font-size: 0.9rem;">Δημιουργώντας ένα καλύτερο αύριο, μέσα από την κατανόηση του σήμερα.</p>
+                </div>
+
+                <div>
+                    <h4 style="color: white; font-size: 1.1rem; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">Επικοινωνια</h4>
+                    <p style="margin-bottom: 12px;">
+                        <span style="color: var(--z-col-accent);">T:</span> <a href="tel:6973080203" style="color: white;">6973 080 203</a>
+                    </p>
+                    <p style="margin-bottom: 12px;">
+                        <span style="color: var(--z-col-accent);">E:</span> <a href="mailto:st.zampelis@gmail.com" style="color: white;">st.zampelis@gmail.com</a>
+                    </p>
+                    <p>
+                         <span style="color: var(--z-col-accent);">IG:</span> <a href="https://instagram.com/mind_mentality" target="_blank" style="color: white;">@mind_mentality</a>
+                    </p>
+                </div>
+
+                <div>
+                    <h4 style="color: white; font-size: 1.1rem; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">Ωραριο</h4>
+                    <p>Δευτέρα - Παρασκευή<br>Κατόπιν Ραντεβού</p>
+                    <div style="margin-top: 25px;">
+                         <a href="https://www.doctoranytime.gr/d/Psychologos/xaroutiounian-roza?autobook=1" target="_blank" class="z-btn" style="padding: 12px 24px; font-size: 0.9rem;">Κλείστε Ραντεβού</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.8rem;">
+                &copy; 2026 Stefanos Zampelis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
 </div>
 
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        
-        // 1. Reveal Animation
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal-trigger').forEach(el => {
-            el.classList.add('reveal');
-            revealObserver.observe(el);
-        });
-
-        // 2. Trust Numbers Animation (REBUILT FOR MOBILE)
-        const startCounter = (el) => {
-            const target = +el.getAttribute('data-target');
-            const duration = 2000;
-            const increment = target / (duration / 16); 
-            
-            let current = 0;
-            const timer = setInterval(() => {
-                current += increment;
-                if(current >= target) {
-                    el.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    el.textContent = Math.ceil(current);
-                }
-            }, 16);
-        };
-
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // Check if intersecting
-                if (entry.isIntersecting) {
-                    const counters = entry.target.querySelectorAll('.sz-trust-number');
-                    counters.forEach(counter => startCounter(counter));
-                    // Important: Stop observing once triggered so it doesn't reset or glitch
-                    counterObserver.unobserve(entry.target);
-                }
-            });
-        }, { 
-            // VITAL FOR MOBILE: Threshold 0 means "start as soon as 1 pixel is visible"
-            threshold: 0,
-            rootMargin: "0px 0px -10% 0px" 
-        });
-
-        const trustSection = document.querySelector('.sz-trust-section');
-        if (trustSection) {
-            counterObserver.observe(trustSection);
-        }
+(function() {
+    // A. Smooth Scroll Logic
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
     });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // B. Fade-Up Reveal Animation
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    const elementsToAnimate = document.querySelectorAll('.z-reveal');
+    elementsToAnimate.forEach(el => observer.observe(el));
+})();
 </script>
