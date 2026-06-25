@@ -7,7 +7,6 @@
   <style>
     body { margin: 0; }
 
-    /* Passcode gate */
     #gate { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center;
             justify-content: center; background: #F7F5F0; font-family: system-ui, sans-serif; }
     #gate .card { background: #fff; padding: 32px; border-radius: 14px; width: 340px;
@@ -18,43 +17,48 @@
     #gate button { width: 100%; font: inherit; font-weight: 600; border: 0; border-radius: 8px;
                    padding: 12px; cursor: pointer; background: #3A6B7E; color: #fff; }
 
-    /* Top save bar */
     #savebar { position: fixed; top: 0; left: 0; right: 0; z-index: 99999;
                display: none; align-items: center; justify-content: space-between;
                gap: 12px; padding: 12px 20px; background: #3A6B7E; color: #fff;
                font-family: system-ui, sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,.2); }
-    #savebar .msg { font-size: .9rem; opacity: .9; }
+    #savebar .msg { font-size: .9rem; opacity: .92; }
     #savebar button { font: inherit; font-weight: 600; border: 0; border-radius: 8px;
                       padding: 10px 20px; cursor: pointer; background: #c9a24b; color: #1E293B; }
     #savebar button:disabled { opacity: .5; cursor: default; }
 
-    /* push the page down so the bar doesn't cover it */
-    #stage { margin-top: 0; }
     body.editing #stage { margin-top: 56px; }
 
     /* Editable text highlight */
-    [data-edit] { outline: 2px dashed transparent; outline-offset: 3px;
+    body.editing [data-edit] { outline: 2px dashed transparent; outline-offset: 3px;
                   transition: outline-color .15s, background .15s; cursor: text; border-radius: 3px; }
-    body.editing [data-edit]:hover { outline-color: #c9a24b; background: rgba(201,162,75,.08); }
+    body.editing [data-edit]:hover { outline-color: #c9a24b; background: rgba(201,162,75,.10); }
     body.editing [data-edit]:focus { outline: 2px solid #3A6B7E; background: rgba(58,107,126,.06); }
 
-    /* Image paste-box overlay */
-    .img-editbox { font-family: system-ui, sans-serif; background: #fff; border: 1px solid #ddd;
-                   border-radius: 8px; padding: 8px; margin: 8px auto; max-width: 420px;
-                   box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-    .img-editbox label { display: block; font-size: .72rem; text-transform: uppercase;
-                         letter-spacing: .5px; color: #888; margin-bottom: 6px; }
-    .img-editbox input { width: 100%; font: inherit; border: 1px solid #ddd; border-radius: 6px;
-                         padding: 9px; box-sizing: border-box; }
+    /* In edit mode, neutralise links/buttons so clicks don't navigate */
+    body.editing #stage a { pointer-events: none; }
 
-    /* Gallery controls */
-    .gal-controls { font-family: system-ui, sans-serif; text-align: center; margin: 14px 0; }
-    .gal-controls .add { font: inherit; border: 1px dashed #3A6B7E; background: #fff; color: #3A6B7E;
-                         border-radius: 8px; padding: 10px 16px; cursor: pointer; }
-    .gal-del { position: absolute; top: 8px; right: 8px; z-index: 5; font-family: system-ui, sans-serif;
-               border: 0; background: rgba(138,43,43,.92); color: #fff; border-radius: 6px;
-               padding: 6px 10px; cursor: pointer; font-size: .8rem; }
-    .gal-add-input { font-family: system-ui, sans-serif; }
+    /* Edit boxes that sit under images and links */
+    .ax-box { font-family: system-ui, sans-serif; background: #fff; border: 1px solid #ddd;
+              border-radius: 8px; padding: 10px 12px; margin: 8px auto; max-width: 460px;
+              box-shadow: 0 2px 8px rgba(0,0,0,.10); position: relative; z-index: 50; }
+    .ax-box label { display: block; font-size: .7rem; text-transform: uppercase;
+                    letter-spacing: .5px; color: #888; margin: 6px 0 4px; }
+    .ax-box label:first-child { margin-top: 0; }
+    .ax-box input { width: 100%; font: inherit; border: 1px solid #ddd; border-radius: 6px;
+                    padding: 9px; box-sizing: border-box; }
+    .ax-box .row { display: flex; gap: 8px; align-items: center; }
+    .ax-box .thumb { width: 54px; height: 40px; object-fit: cover; border-radius: 5px;
+                     border: 1px solid #eee; flex-shrink: 0; }
+
+    .gal-controls { font-family: system-ui, sans-serif; text-align: center; margin: 14px 0;
+                    position: relative; z-index: 50; }
+    .gal-controls input { padding: 10px; border: 1px solid #ddd; border-radius: 8px;
+                          margin-right: 8px; width: 280px; max-width: 60%; font: inherit; }
+    .gal-controls .add { font: inherit; border: 1px dashed #3A6B7E; background: #fff;
+                         color: #3A6B7E; border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+    .gal-del { position: absolute; top: 8px; right: 8px; z-index: 60; font-family: system-ui, sans-serif;
+               border: 0; background: rgba(138,43,43,.95); color: #fff; border-radius: 6px;
+               padding: 6px 10px; cursor: pointer; font-size: .8rem; pointer-events: auto !important; }
 
     #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 99999;
              background: #1E293B; color: #fff; padding: 14px 22px; border-radius: 10px;
@@ -75,7 +79,7 @@
   </div>
 
   <div id="savebar">
-    <span class="msg">Πατήστε σε οποιοδήποτε κείμενο για να το αλλάξετε. Για εικόνες, επικολλήστε σύνδεσμο.</span>
+    <span class="msg">Πατήστε σε κείμενο για αλλαγή. Για εικόνες & κουμπιά, χρησιμοποιήστε τα λευκά πλαίσια.</span>
     <button id="saveBtn" onclick="save()">Αποθήκευση αλλαγών</button>
   </div>
 
@@ -98,52 +102,78 @@
       const html = await res.text();
       const doc = new DOMParser().parseFromString(html, "text/html");
 
-      // Move the page's body content into our stage
       const stage = document.getElementById("stage");
       stage.innerHTML = doc.body.innerHTML;
 
-      // Re-run the page's own scripts (icons, menus, animations) so it looks alive
-      doc.querySelectorAll("script").forEach(old => {
-        const s = document.createElement("script");
-        if (old.src) s.src = old.src; else s.textContent = old.textContent;
-        document.body.appendChild(s);
-      });
+      // Only re-run the icon library + reveal-on-load. Skip lightbox/menu scripts
+      // by running just lucide and forcing all reveals visible.
+      const lucide = document.createElement("script");
+      lucide.src = "https://unpkg.com/lucide@latest";
+      lucide.onload = () => { if (window.lucide) lucide.createIcons ? null : null; try { window.lucide.createIcons(); } catch(e){} };
+      document.body.appendChild(lucide);
 
-      // turn on edit mode after a moment (let icons render)
-      setTimeout(enableEditing, 600);
+      // Make sure reveal animations don't hide content in edit mode
+      const style = document.createElement("style");
+      style.textContent = "#stage .reveal{opacity:1 !important;transform:none !important;}";
+      document.head.appendChild(style);
+
+      setTimeout(enableEditing, 400);
     }
 
     function enableEditing() {
       document.body.classList.add("editing");
       document.getElementById("savebar").style.display = "flex";
 
-      // 1. TEXT: make every data-edit element directly editable
+      // Kill the page's own click handlers (lightbox etc.) by neutralising onclick attrs
+      document.querySelectorAll("#stage [onclick]").forEach(el => el.removeAttribute("onclick"));
+
+      // 1. TEXT
       document.querySelectorAll("#stage [data-edit]").forEach(el => {
         el.setAttribute("contenteditable", "true");
-        el.addEventListener("click", e => e.stopPropagation());
       });
 
-      // 2. IMAGES: add a paste-link box under each
+      // 2. SINGLE IMAGES — paste box with current link, under each
       document.querySelectorAll("#stage [data-img]").forEach(img => {
         const box = document.createElement("div");
-        box.className = "img-editbox";
-        box.innerHTML = '<label>Σύνδεσμος εικόνας (paste link)</label><input type="text">';
+        box.className = "ax-box";
+        box.innerHTML =
+          '<label>Σύνδεσμος εικόνας</label>' +
+          '<div class="row"><img class="thumb"><input type="text"></div>';
         const input = box.querySelector("input");
-        input.value = img.getAttribute("src");
-        input.addEventListener("input", () => { img.src = input.value; });
+        const thumb = box.querySelector(".thumb");
+        input.value = img.getAttribute("src") || "";
+        thumb.src = input.value;
+        input.addEventListener("input", () => { img.src = input.value; thumb.src = input.value; });
         img.insertAdjacentElement("afterend", box);
       });
 
-      // 3. GALLERIES: delete button on each photo + add box
+      // 3. LINKS / BUTTONS — edit visible text + destination URL
+      document.querySelectorAll("#stage [data-link]").forEach(a => {
+        const key = a.getAttribute("data-link");
+        // visible text = text nodes only (ignore icons)
+        let txt = "";
+        a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
+        txt = txt.trim();
+        const box = document.createElement("div");
+        box.className = "ax-box";
+        box.setAttribute("data-linkbox", key);
+        box.innerHTML =
+          '<label>Κείμενο κουμπιού</label><input type="text" class="ltext">' +
+          '<label>Σύνδεσμος (πού οδηγεί)</label><input type="text" class="lhref">';
+        box.querySelector(".ltext").value = txt;
+        box.querySelector(".lhref").value = a.getAttribute("href") || "";
+        a.insertAdjacentElement("afterend", box);
+      });
+
+      // 4. GALLERIES
       document.querySelectorAll("#stage [data-gallery]").forEach(gal => {
-        gal.style.position = gal.style.position || "relative";
+        gal.style.position = "relative";
         attachGalleryControls(gal);
       });
     }
 
     function attachGalleryControls(gal) {
-      // delete buttons on existing photos
-      gal.querySelectorAll("button").forEach(photoBtn => {
+      gal.querySelectorAll(":scope > button").forEach(photoBtn => {
         if (photoBtn.querySelector(".gal-del")) return;
         photoBtn.style.position = "relative";
         const del = document.createElement("button");
@@ -152,18 +182,16 @@
         del.onclick = (e) => { e.stopPropagation(); photoBtn.remove(); };
         photoBtn.appendChild(del);
       });
-      // add control after the gallery
       if (gal.nextElementSibling && gal.nextElementSibling.classList.contains("gal-controls")) return;
       const ctrl = document.createElement("div");
       ctrl.className = "gal-controls";
-      ctrl.innerHTML = '<input class="gal-add-input" type="text" placeholder="Σύνδεσμος νέας φωτογραφίας" style="padding:10px;border:1px solid #ddd;border-radius:8px;margin-right:8px;width:280px;max-width:60%"><button class="add">+ Προσθήκη</button>';
+      ctrl.innerHTML = '<input type="text" placeholder="Σύνδεσμος νέας φωτογραφίας"><button class="add">+ Προσθήκη φωτογραφίας</button>';
       const input = ctrl.querySelector("input");
       ctrl.querySelector(".add").onclick = () => {
         const url = input.value.trim();
         if (!url) return;
         const btn = document.createElement("button");
         btn.className = "w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md";
-        btn.setAttribute("onclick", "openLightbox('" + url + "')");
         btn.innerHTML = '<img src="' + url + '" alt="" class="w-full h-auto">';
         gal.appendChild(btn);
         input.value = "";
@@ -174,7 +202,7 @@
 
     async function save() {
       const btn = document.getElementById("saveBtn");
-      const edits = {}, images = {}, galleries = {};
+      const edits = {}, images = {}, links = {}, galleries = {};
 
       document.querySelectorAll("#stage [data-edit]").forEach(el => {
         edits[el.getAttribute("data-edit")] = el.innerText.trim();
@@ -182,9 +210,14 @@
       document.querySelectorAll("#stage [data-img]").forEach(img => {
         images[img.getAttribute("data-img")] = img.getAttribute("src");
       });
+      document.querySelectorAll("[data-linkbox]").forEach(box => {
+        const key = box.getAttribute("data-linkbox");
+        links[key] = { text: box.querySelector(".ltext").value.trim(),
+                       href: box.querySelector(".lhref").value.trim() };
+      });
       document.querySelectorAll("#stage [data-gallery]").forEach(gal => {
-        const key = gal.getAttribute("data-gallery");
-        galleries[key] = Array.from(gal.querySelectorAll("img")).map(i => i.getAttribute("src")).filter(Boolean);
+        galleries[gal.getAttribute("data-gallery")] =
+          Array.from(gal.querySelectorAll("img")).map(i => i.getAttribute("src")).filter(Boolean);
       });
 
       if (!confirm("Αποθήκευση των αλλαγών στην ιστοσελίδα;")) return;
@@ -192,7 +225,7 @@
       try {
         const res = await fetch("/.netlify/functions/save", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ passcode, edits, images, galleries }),
+          body: JSON.stringify({ passcode, edits, images, links, galleries }),
         });
         const data = await res.json();
         if (data.ok) toast("Αποθηκεύτηκε! Η ιστοσελίδα ενημερώνεται σε λίγο.");
