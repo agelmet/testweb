@@ -45,6 +45,30 @@ export default async (request) => {
     }
   }
 
+  // 1b. Links/buttons: { "cta-hero": {text:"...", href:"..."}, ... }
+  if (body.links) {
+    for (const [key, val] of Object.entries(body.links)) {
+      // Find the whole <a ... data-link="key" ...> ... </a>
+      const linkPat = new RegExp(
+        `(<a\\b[^>]*\\bdata-link=["']${escapeRegex(key)}["'][^>]*>)([\\s\\S]*?)(</a>)`, "i"
+      );
+      html = html.replace(linkPat, (full, open, inner, close) => {
+        // update href inside the opening tag
+        let newOpen = open;
+        if (/\shref=["'][^"']*["']/i.test(newOpen)) {
+          newOpen = newOpen.replace(/(\shref=["'])[^"']*(["'])/i, `$1${val.href}$2`);
+        } else {
+          newOpen = newOpen.replace(/<a\b/i, `<a href="${val.href}"`);
+        }
+        // keep any inner tags (icons like <i ...></i>), replace only text
+        const icons = (inner.match(/<[^>]+>[\s\S]*?<\/[^>]+>|<[^>]+\/?>/g) || []).join("");
+        const textPart = escapeHtml(val.text);
+        const newInner = icons ? `${textPart} ${icons}` : textPart;
+        return `${newOpen}${newInner}${close}`;
+      });
+    }
+  }
+
   // 2. Image swaps: { "hero-photo": "https://...", ... }
   if (body.images) {
     for (const [key, newUrl] of Object.entries(body.images)) {
