@@ -106,10 +106,13 @@
       if (tEls.length) tBox.innerHTML = '<h2 class="group">Κείμενα</h2>';
       tEls.forEach(el => {
         const key = el.getAttribute("data-edit");
+        const current = el.textContent.trim();
+        const labelText = current.length > 45 ? current.slice(0, 45) + "…" : current;
         const f = document.createElement("div");
         f.className = "field";
-        f.innerHTML = '<label>' + key + '</label><textarea data-key="' + key + '"></textarea>';
-        f.querySelector("textarea").value = el.textContent.trim();
+        f.innerHTML = '<label></label><textarea data-key="' + key + '"></textarea>';
+        f.querySelector("label").textContent = labelText || key;
+        f.querySelector("textarea").value = current;
         tBox.appendChild(f);
       });
 
