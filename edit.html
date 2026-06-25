@@ -3,211 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Επεξεργασία περιεχομένου</title>
+  <title>Επεξεργασία ιστοσελίδας</title>
   <style>
-    :root { --teal: #3A6B7E; --gold: #c9a24b; --bg: #F7F5F0; }
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; background: var(--bg); color: #1E293B; }
+    body { margin: 0; }
 
-    .bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
-           justify-content: space-between; gap: 12px; padding: 14px 20px;
-           background: var(--teal); color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.15); }
-    .bar strong { font-size: 1rem; }
-    .bar button { font: inherit; font-weight: 600; border: 0; border-radius: 8px;
-                  padding: 10px 18px; cursor: pointer; background: var(--gold); color: #1E293B; }
-    .bar button:disabled { opacity: .5; cursor: default; }
+    /* Passcode gate */
+    #gate { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center;
+            justify-content: center; background: #F7F5F0; font-family: system-ui, sans-serif; }
+    #gate .card { background: #fff; padding: 32px; border-radius: 14px; width: 340px;
+                  box-shadow: 0 4px 24px rgba(0,0,0,.1); text-align: center; }
+    #gate h1 { font-size: 1.2rem; margin: 0 0 18px; color: #1E293B; }
+    #gate input { width: 100%; font: inherit; padding: 12px; border: 1px solid #ddd;
+                  border-radius: 8px; margin-bottom: 14px; box-sizing: border-box; }
+    #gate button { width: 100%; font: inherit; font-weight: 600; border: 0; border-radius: 8px;
+                   padding: 12px; cursor: pointer; background: #3A6B7E; color: #fff; }
 
-    .wrap { max-width: 760px; margin: 28px auto; padding: 0 20px; }
-    .note { background: #fff; border-left: 4px solid var(--gold); padding: 14px 18px;
-            border-radius: 8px; margin-bottom: 24px; font-size: .95rem; line-height: 1.5; }
-    h2.group { font-size: 1.05rem; margin: 32px 0 12px; color: var(--teal); }
+    /* Top save bar */
+    #savebar { position: fixed; top: 0; left: 0; right: 0; z-index: 99999;
+               display: none; align-items: center; justify-content: space-between;
+               gap: 12px; padding: 12px 20px; background: #3A6B7E; color: #fff;
+               font-family: system-ui, sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,.2); }
+    #savebar .msg { font-size: .9rem; opacity: .9; }
+    #savebar button { font: inherit; font-weight: 600; border: 0; border-radius: 8px;
+                      padding: 10px 20px; cursor: pointer; background: #c9a24b; color: #1E293B; }
+    #savebar button:disabled { opacity: .5; cursor: default; }
 
-    .field { background: #fff; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;
-             box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-    .field label { display: block; font-size: .78rem; text-transform: uppercase;
-                   letter-spacing: .5px; color: #888; margin-bottom: 8px; }
-    .field textarea, .field input[type=text] { width: 100%; font: inherit; line-height: 1.5;
-                   border: 1px solid #ddd; border-radius: 8px; padding: 12px; resize: vertical; }
-    .field textarea { min-height: 52px; }
-    .field textarea:focus, .field input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
-    .preview { margin-top: 10px; max-height: 120px; border-radius: 8px; border: 1px solid #eee; }
+    /* push the page down so the bar doesn't cover it */
+    #stage { margin-top: 0; }
+    body.editing #stage { margin-top: 56px; }
 
-    .gal-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-    .gal-item img { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; flex-shrink: 0; }
-    .gal-item input { flex: 1; font: inherit; border: 1px solid #ddd; border-radius: 8px; padding: 10px; }
-    .gal-item button { font: inherit; border: 0; background: #f3d6d6; color: #8a2b2b;
-                       border-radius: 8px; padding: 10px 12px; cursor: pointer; }
-    .add-btn { font: inherit; border: 1px dashed var(--teal); background: #fff; color: var(--teal);
-               border-radius: 8px; padding: 12px; cursor: pointer; width: 100%; }
+    /* Editable text highlight */
+    [data-edit] { outline: 2px dashed transparent; outline-offset: 3px;
+                  transition: outline-color .15s, background .15s; cursor: text; border-radius: 3px; }
+    body.editing [data-edit]:hover { outline-color: #c9a24b; background: rgba(201,162,75,.08); }
+    body.editing [data-edit]:focus { outline: 2px solid #3A6B7E; background: rgba(58,107,126,.06); }
 
-    .gate { max-width: 360px; margin: 80px auto; background: #fff; padding: 32px;
-            border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,.1); text-align: center; }
-    .gate h1 { font-size: 1.3rem; margin: 0 0 18px; }
-    .gate input { width: 100%; font: inherit; padding: 12px; border: 1px solid #ddd;
-                  border-radius: 8px; margin-bottom: 14px; }
-    .gate button { width: 100%; font: inherit; font-weight: 600; border: 0; border-radius: 8px;
-                   padding: 12px; cursor: pointer; background: var(--teal); color: #fff; }
+    /* Image paste-box overlay */
+    .img-editbox { font-family: system-ui, sans-serif; background: #fff; border: 1px solid #ddd;
+                   border-radius: 8px; padding: 8px; margin: 8px auto; max-width: 420px;
+                   box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .img-editbox label { display: block; font-size: .72rem; text-transform: uppercase;
+                         letter-spacing: .5px; color: #888; margin-bottom: 6px; }
+    .img-editbox input { width: 100%; font: inherit; border: 1px solid #ddd; border-radius: 6px;
+                         padding: 9px; box-sizing: border-box; }
 
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    /* Gallery controls */
+    .gal-controls { font-family: system-ui, sans-serif; text-align: center; margin: 14px 0; }
+    .gal-controls .add { font: inherit; border: 1px dashed #3A6B7E; background: #fff; color: #3A6B7E;
+                         border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+    .gal-del { position: absolute; top: 8px; right: 8px; z-index: 5; font-family: system-ui, sans-serif;
+               border: 0; background: rgba(138,43,43,.92); color: #fff; border-radius: 6px;
+               padding: 6px 10px; cursor: pointer; font-size: .8rem; }
+    .gal-add-input { font-family: system-ui, sans-serif; }
+
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 99999;
              background: #1E293B; color: #fff; padding: 14px 22px; border-radius: 10px;
-             font-size: .95rem; opacity: 0; transition: opacity .3s; pointer-events: none; }
-    .toast.show { opacity: 1; }
-    .toast.error { background: #8a2b2b; }
+             font-family: system-ui, sans-serif; font-size: .95rem; opacity: 0;
+             transition: opacity .3s; pointer-events: none; }
+    #toast.show { opacity: 1; }
+    #toast.error { background: #8a2b2b; }
   </style>
 </head>
 <body>
 
-  <div id="gate" class="gate">
-    <h1>Επεξεργασία περιεχομένου</h1>
-    <input id="pass" type="password" placeholder="Κωδικός" autocomplete="off">
-    <button onclick="enter()">Είσοδος</button>
-  </div>
-
-  <div id="editor" style="display:none;">
-    <div class="bar">
-      <strong>Επεξεργασία περιεχομένου</strong>
-      <button id="saveBtn" onclick="save()">Αποθήκευση αλλαγών</button>
-    </div>
-    <div class="wrap">
-      <div class="note">
-        Αλλάξτε κείμενα και εικόνες παρακάτω και πατήστε <b>Αποθήκευση αλλαγών</b>.
-        Για εικόνες, επικολλήστε τον σύνδεσμο (link) της φωτογραφίας.
-        Η ιστοσελίδα ενημερώνεται σε περίπου ένα λεπτό.
-      </div>
-      <div id="textFields"></div>
-      <div id="imageFields"></div>
-      <div id="galleryFields"></div>
+  <div id="gate">
+    <div class="card">
+      <h1>Επεξεργασία ιστοσελίδας</h1>
+      <input id="pass" type="password" placeholder="Κωδικός" autocomplete="off">
+      <button onclick="enter()">Είσοδος</button>
     </div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <div id="savebar">
+    <span class="msg">Πατήστε σε οποιοδήποτε κείμενο για να το αλλάξετε. Για εικόνες, επικολλήστε σύνδεσμο.</span>
+    <button id="saveBtn" onclick="save()">Αποθήκευση αλλαγών</button>
+  </div>
+
+  <div id="stage"></div>
+  <div id="toast"></div>
 
   <script>
     const SOURCE_FILE = "index.html";
     let passcode = "";
-    let galleries = {}; // key -> array of urls
 
     function enter() {
       passcode = document.getElementById("pass").value.trim();
       if (!passcode) return;
       document.getElementById("gate").style.display = "none";
-      document.getElementById("editor").style.display = "block";
-      loadFields();
+      loadPage();
     }
 
-    async function loadFields() {
+    async function loadPage() {
       const res = await fetch(SOURCE_FILE + "?t=" + Date.now());
       const html = await res.text();
       const doc = new DOMParser().parseFromString(html, "text/html");
 
-      // TEXT
-      const tEls = doc.querySelectorAll("[data-edit]");
-      const tBox = document.getElementById("textFields");
-      if (tEls.length) tBox.innerHTML = '<h2 class="group">Κείμενα</h2>';
-      tEls.forEach(el => {
-        const key = el.getAttribute("data-edit");
-        const current = el.textContent.trim();
-        const labelText = current.length > 45 ? current.slice(0, 45) + "…" : current;
-        const f = document.createElement("div");
-        f.className = "field";
-        f.innerHTML = '<label></label><textarea data-key="' + key + '"></textarea>';
-        f.querySelector("label").textContent = labelText || key;
-        f.querySelector("textarea").value = current;
-        tBox.appendChild(f);
+      // Move the page's body content into our stage
+      const stage = document.getElementById("stage");
+      stage.innerHTML = doc.body.innerHTML;
+
+      // Re-run the page's own scripts (icons, menus, animations) so it looks alive
+      doc.querySelectorAll("script").forEach(old => {
+        const s = document.createElement("script");
+        if (old.src) s.src = old.src; else s.textContent = old.textContent;
+        document.body.appendChild(s);
       });
 
-      // SINGLE IMAGES
-      const iEls = doc.querySelectorAll("[data-img]");
-      const iBox = document.getElementById("imageFields");
-      if (iEls.length) iBox.innerHTML = '<h2 class="group">Εικόνες</h2>';
-      iEls.forEach(el => {
-        const key = el.getAttribute("data-img");
-        const cur = el.getAttribute("src");
-        const f = document.createElement("div");
-        f.className = "field";
-        f.innerHTML =
-          '<label>' + key + ' — σύνδεσμος εικόνας</label>' +
-          '<input type="text" data-imgkey="' + key + '" value="' + cur + '">' +
-          '<img class="preview" src="' + cur + '">';
-        const input = f.querySelector("input");
-        const prev = f.querySelector(".preview");
-        input.addEventListener("input", () => { prev.src = input.value; });
-        iBox.appendChild(f);
+      // turn on edit mode after a moment (let icons render)
+      setTimeout(enableEditing, 600);
+    }
+
+    function enableEditing() {
+      document.body.classList.add("editing");
+      document.getElementById("savebar").style.display = "flex";
+
+      // 1. TEXT: make every data-edit element directly editable
+      document.querySelectorAll("#stage [data-edit]").forEach(el => {
+        el.setAttribute("contenteditable", "true");
+        el.addEventListener("click", e => e.stopPropagation());
       });
 
-      // GALLERIES
-      const gEls = doc.querySelectorAll("[data-gallery]");
-      const gBox = document.getElementById("galleryFields");
-      gBox.innerHTML = "";
-      gEls.forEach(el => {
-        const key = el.getAttribute("data-gallery");
-        const urls = Array.from(el.querySelectorAll("img")).map(img => img.getAttribute("src"));
-        galleries[key] = urls;
-        const wrap = document.createElement("div");
-        wrap.innerHTML = '<h2 class="group">Συλλογή φωτογραφιών: ' + key + '</h2>';
-        const f = document.createElement("div");
-        f.className = "field";
-        f.id = "gal-" + key;
-        wrap.appendChild(f);
-        const add = document.createElement("button");
-        add.className = "add-btn";
-        add.textContent = "+ Προσθήκη φωτογραφίας";
-        add.onclick = () => { galleries[key].push(""); renderGallery(key); };
-        wrap.appendChild(add);
-        gBox.appendChild(wrap);
-        renderGallery(key);
+      // 2. IMAGES: add a paste-link box under each
+      document.querySelectorAll("#stage [data-img]").forEach(img => {
+        const box = document.createElement("div");
+        box.className = "img-editbox";
+        box.innerHTML = '<label>Σύνδεσμος εικόνας (paste link)</label><input type="text">';
+        const input = box.querySelector("input");
+        input.value = img.getAttribute("src");
+        input.addEventListener("input", () => { img.src = input.value; });
+        img.insertAdjacentElement("afterend", box);
+      });
+
+      // 3. GALLERIES: delete button on each photo + add box
+      document.querySelectorAll("#stage [data-gallery]").forEach(gal => {
+        gal.style.position = gal.style.position || "relative";
+        attachGalleryControls(gal);
       });
     }
 
-    function renderGallery(key) {
-      const box = document.getElementById("gal-" + key);
-      box.innerHTML = "";
-      galleries[key].forEach((url, idx) => {
-        const row = document.createElement("div");
-        row.className = "gal-item";
-        row.innerHTML =
-          '<img src="' + url + '">' +
-          '<input type="text" value="' + url + '" placeholder="σύνδεσμος εικόνας">' +
-          '<button>Διαγραφή</button>';
-        const input = row.querySelector("input");
-        const img = row.querySelector("img");
-        input.addEventListener("input", () => { galleries[key][idx] = input.value; img.src = input.value; });
-        row.querySelector("button").onclick = () => { galleries[key].splice(idx, 1); renderGallery(key); };
-        box.appendChild(row);
+    function attachGalleryControls(gal) {
+      // delete buttons on existing photos
+      gal.querySelectorAll("button").forEach(photoBtn => {
+        if (photoBtn.querySelector(".gal-del")) return;
+        photoBtn.style.position = "relative";
+        const del = document.createElement("button");
+        del.className = "gal-del";
+        del.textContent = "Διαγραφή";
+        del.onclick = (e) => { e.stopPropagation(); photoBtn.remove(); };
+        photoBtn.appendChild(del);
       });
+      // add control after the gallery
+      if (gal.nextElementSibling && gal.nextElementSibling.classList.contains("gal-controls")) return;
+      const ctrl = document.createElement("div");
+      ctrl.className = "gal-controls";
+      ctrl.innerHTML = '<input class="gal-add-input" type="text" placeholder="Σύνδεσμος νέας φωτογραφίας" style="padding:10px;border:1px solid #ddd;border-radius:8px;margin-right:8px;width:280px;max-width:60%"><button class="add">+ Προσθήκη</button>';
+      const input = ctrl.querySelector("input");
+      ctrl.querySelector(".add").onclick = () => {
+        const url = input.value.trim();
+        if (!url) return;
+        const btn = document.createElement("button");
+        btn.className = "w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md";
+        btn.setAttribute("onclick", "openLightbox('" + url + "')");
+        btn.innerHTML = '<img src="' + url + '" alt="" class="w-full h-auto">';
+        gal.appendChild(btn);
+        input.value = "";
+        attachGalleryControls(gal);
+      };
+      gal.insertAdjacentElement("afterend", ctrl);
     }
 
     async function save() {
       const btn = document.getElementById("saveBtn");
-      const edits = {}, images = {};
-      document.querySelectorAll("textarea[data-key]").forEach(t => { edits[t.getAttribute("data-key")] = t.value; });
-      document.querySelectorAll("input[data-imgkey]").forEach(t => { images[t.getAttribute("data-imgkey")] = t.value.trim(); });
-      const cleanGal = {};
-      for (const k in galleries) cleanGal[k] = galleries[k].filter(u => u.trim());
+      const edits = {}, images = {}, galleries = {};
+
+      document.querySelectorAll("#stage [data-edit]").forEach(el => {
+        edits[el.getAttribute("data-edit")] = el.innerText.trim();
+      });
+      document.querySelectorAll("#stage [data-img]").forEach(img => {
+        images[img.getAttribute("data-img")] = img.getAttribute("src");
+      });
+      document.querySelectorAll("#stage [data-gallery]").forEach(gal => {
+        const key = gal.getAttribute("data-gallery");
+        galleries[key] = Array.from(gal.querySelectorAll("img")).map(i => i.getAttribute("src")).filter(Boolean);
+      });
 
       if (!confirm("Αποθήκευση των αλλαγών στην ιστοσελίδα;")) return;
-
-      btn.disabled = true;
-      btn.textContent = "Αποθήκευση...";
+      btn.disabled = true; btn.textContent = "Αποθήκευση...";
       try {
         const res = await fetch("/.netlify/functions/save", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ passcode, edits, images, galleries: cleanGal }),
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ passcode, edits, images, galleries }),
         });
         const data = await res.json();
         if (data.ok) toast("Αποθηκεύτηκε! Η ιστοσελίδα ενημερώνεται σε λίγο.");
         else toast(data.error || "Κάτι πήγε στραβά.", true);
       } catch (e) { toast("Σφάλμα σύνδεσης.", true); }
-      btn.disabled = false;
-      btn.textContent = "Αποθήκευση αλλαγών";
+      btn.disabled = false; btn.textContent = "Αποθήκευση αλλαγών";
     }
 
     function toast(msg, isError) {
       const t = document.getElementById("toast");
       t.textContent = msg;
-      t.className = "toast show" + (isError ? " error" : "");
-      setTimeout(() => { t.className = "toast"; }, 4000);
+      t.className = "show" + (isError ? " error" : "");
+      setTimeout(() => { t.className = ""; }, 4000);
     }
   </script>
 </body>
