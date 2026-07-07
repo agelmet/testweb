@@ -7,56 +7,107 @@
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, sans-serif; }
+    :root { --teal:#3A6B7E; --gold:#c9a24b; --ink:#1E293B; --line:#e5e5e5; }
 
-    /* Passcode gate */
+    /* Gate */
     #gate { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center;
             justify-content: center; background: #F7F5F0; }
-    #gate .card { background: #fff; padding: 32px; border-radius: 14px; width: 340px;
-                  box-shadow: 0 4px 24px rgba(0,0,0,.1); text-align: center; }
-    #gate h1 { font-size: 1.2rem; margin: 0 0 18px; color: #1E293B; }
-    #gate input { width: 100%; font: inherit; padding: 12px; border: 1px solid #ddd;
-                  border-radius: 8px; margin-bottom: 14px; }
-    #gate button { width: 100%; font: inherit; font-weight: 600; border: 0; border-radius: 8px;
-                   padding: 12px; cursor: pointer; background: #3A6B7E; color: #fff; }
+    #gate .card { background:#fff; padding:32px; border-radius:14px; width:340px;
+                  box-shadow:0 4px 24px rgba(0,0,0,.1); text-align:center; }
+    #gate h1 { font-size:1.2rem; margin:0 0 18px; color:var(--ink); }
+    #gate input { width:100%; font:inherit; padding:12px; border:1px solid #ddd;
+                  border-radius:8px; margin-bottom:14px; }
+    #gate button { width:100%; font:inherit; font-weight:600; border:0; border-radius:8px;
+                   padding:12px; cursor:pointer; background:var(--teal); color:#fff; }
 
-    /* Save bar */
-    #savebar { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 99999;
-               display: none; align-items: center; justify-content: space-between; gap: 12px;
-               padding: 0 20px; background: #3A6B7E; color: #fff;
-               box-shadow: 0 2px 10px rgba(0,0,0,.2); }
-    #savebar .msg { font-size: .9rem; opacity: .92; }
-    #savebar .actions { display: flex; gap: 10px; align-items: center; }
-    #savebar button { font: inherit; font-weight: 600; border: 0; border-radius: 8px;
-                      padding: 10px 20px; cursor: pointer; background: #c9a24b; color: #1E293B; }
-    #savebar button:disabled { opacity: .5; cursor: default; }
+    /* Top bar */
+    #savebar { position:fixed; top:0; left:0; right:0; height:56px; z-index:99999;
+               display:none; align-items:center; justify-content:space-between; gap:12px;
+               padding:0 16px; background:var(--teal); color:#fff;
+               box-shadow:0 2px 10px rgba(0,0,0,.2); }
+    #savebar .msg { font-size:.85rem; opacity:.92; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    #savebar .actions { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+    #savebar button { font:inherit; font-weight:600; border:0; border-radius:8px;
+                      padding:9px 16px; cursor:pointer; }
+    #saveBtn { background:var(--gold); color:var(--ink); }
+    #sideToggle { background:rgba(255,255,255,.15); color:#fff; }
+    #savebar button:disabled { opacity:.5; cursor:default; }
 
-    /* Iframe holds the real, fully-styled page */
-    #frame { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; width: 100%;
-             height: calc(100% - 56px); border: 0; display: none; background: #fff; }
+    /* Layout: iframe + sidebar */
+    #frame { position:fixed; top:56px; left:0; bottom:0; width:100%; border:0;
+             display:none; background:#fff; transition:width .25s; }
+    body.side #frame { width:calc(100% - 380px); }
+    #side { position:fixed; top:56px; right:-380px; bottom:0; width:380px; background:#fafafa;
+            border-left:1px solid var(--line); overflow-y:auto; transition:right .25s; z-index:99998; }
+    body.side #side { right:0; }
+    @media (max-width: 800px) {
+      body.side #frame { width:100%; }
+      #side { width:100%; right:-100%; }
+    }
 
-    /* Floating editor panel (for image / button) */
-    #panel { position: fixed; z-index: 99998; display: none; width: 340px; background: #fff;
-             border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.18);
-             padding: 16px; }
-    #panel h3 { margin: 0 0 12px; font-size: .95rem; color: #3A6B7E; }
-    #panel label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .5px;
-                   color: #888; margin: 10px 0 4px; }
-    #panel label:first-of-type { margin-top: 0; }
-    #panel input { width: 100%; font: inherit; border: 1px solid #ddd; border-radius: 7px;
-                   padding: 9px; }
-    #panel .thumb { width: 100%; height: 90px; object-fit: cover; border-radius: 7px;
-                    border: 1px solid #eee; margin-top: 10px; }
-    #panel .panel-actions { display: flex; gap: 8px; margin-top: 14px; }
-    #panel .panel-actions button { flex: 1; font: inherit; border: 0; border-radius: 7px;
-                   padding: 9px; cursor: pointer; }
-    #panel .ok { background: #3A6B7E; color: #fff; }
-    #panel .cancel { background: #eee; color: #333; }
+    /* Sidebar content */
+    #side .sec { border-bottom:1px solid var(--line); }
+    #side .sec > .head { display:flex; align-items:center; justify-content:space-between;
+                         padding:14px 16px; cursor:pointer; background:#fff; font-weight:600;
+                         font-size:.92rem; color:var(--ink); }
+    #side .sec > .head .chev { transition:transform .2s; color:#999; }
+    #side .sec.open > .head .chev { transform:rotate(90deg); }
+    #side .sec > .body { display:none; padding:6px 16px 16px; }
+    #side .sec.open > .body { display:block; }
 
-    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100001;
-             background: #1E293B; color: #fff; padding: 14px 22px; border-radius: 10px;
-             font-size: .95rem; opacity: 0; transition: opacity .3s; pointer-events: none; }
-    #toast.show { opacity: 1; }
-    #toast.error { background: #8a2b2b; }
+    #side label { display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.5px;
+                  color:#888; margin:12px 0 4px; }
+    #side input[type=text], #side textarea { width:100%; font:inherit; font-size:.9rem;
+                  border:1px solid #ddd; border-radius:7px; padding:9px; background:#fff; }
+    #side textarea { resize:vertical; min-height:44px; line-height:1.45; }
+    #side input:focus, #side textarea:focus { outline:2px solid var(--teal); border-color:var(--teal); }
+
+    .colorrow { display:flex; align-items:center; gap:10px; margin:10px 0; }
+    .colorrow input[type=color] { width:42px; height:34px; border:1px solid #ddd; border-radius:7px;
+                  padding:2px; background:#fff; cursor:pointer; flex-shrink:0; }
+    .colorrow .cname { font-size:.85rem; color:var(--ink); flex:1; }
+    .colorrow .chex { font-size:.75rem; color:#999; font-family:monospace; }
+
+    .togglerow { display:flex; align-items:center; justify-content:space-between; margin:10px 0;
+                 font-size:.9rem; color:var(--ink); }
+    .switch { position:relative; width:42px; height:24px; flex-shrink:0; }
+    .switch input { opacity:0; width:0; height:0; }
+    .switch .sl { position:absolute; inset:0; background:#ccc; border-radius:24px; cursor:pointer; transition:.2s; }
+    .switch .sl:before { content:""; position:absolute; width:18px; height:18px; left:3px; top:3px;
+                 background:#fff; border-radius:50%; transition:.2s; }
+    .switch input:checked + .sl { background:var(--teal); }
+    .switch input:checked + .sl:before { transform:translateX(18px); }
+
+    .imgrow { display:flex; gap:8px; align-items:center; margin:8px 0; }
+    .imgrow img { width:52px; height:38px; object-fit:cover; border-radius:6px; border:1px solid #eee; flex-shrink:0; }
+    .imgrow input { flex:1; }
+    .imgrow .rm { border:0; background:#f3d6d6; color:#8a2b2b; border-radius:7px; padding:8px 10px;
+                  cursor:pointer; font-size:.8rem; flex-shrink:0; }
+    .addrow { width:100%; font:inherit; font-size:.85rem; border:1px dashed var(--teal); background:#fff;
+              color:var(--teal); border-radius:8px; padding:10px; cursor:pointer; margin-top:8px; }
+
+    .btncard { background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin:8px 0; }
+    .btncard .rm { float:right; border:0; background:#f3d6d6; color:#8a2b2b; border-radius:6px;
+                   padding:5px 9px; cursor:pointer; font-size:.75rem; }
+
+    /* Floating panel for in-page clicks */
+    #panel { position:fixed; z-index:99997; display:none; width:340px; background:#fff;
+             border:1px solid #ddd; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.18); padding:16px; }
+    #panel h3 { margin:0 0 12px; font-size:.95rem; color:var(--teal); }
+    #panel label { display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
+                   color:#888; margin:10px 0 4px; }
+    #panel input { width:100%; font:inherit; border:1px solid #ddd; border-radius:7px; padding:9px; }
+    #panel .thumb { width:100%; height:90px; object-fit:cover; border-radius:7px; border:1px solid #eee; margin-top:10px; }
+    #panel .pa { display:flex; gap:8px; margin-top:14px; }
+    #panel .pa button { flex:1; font:inherit; border:0; border-radius:7px; padding:9px; cursor:pointer; }
+    #panel .ok { background:var(--teal); color:#fff; }
+    #panel .cancel { background:#eee; color:#333; }
+
+    #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:100001;
+             background:var(--ink); color:#fff; padding:14px 22px; border-radius:10px;
+             font-size:.95rem; opacity:0; transition:opacity .3s; pointer-events:none; }
+    #toast.show { opacity:1; }
+    #toast.error { background:#8a2b2b; }
   </style>
 </head>
 <body>
@@ -70,21 +121,23 @@
   </div>
 
   <div id="savebar">
-    <span class="msg">Πατήστε σε κείμενο για αλλαγή. Σε εικόνα ή κουμπί για επεξεργασία.</span>
+    <span class="msg">Πατήστε πάνω στη σελίδα ή ανοίξτε το μενού για όλες τις επιλογές.</span>
     <div class="actions">
-      <button id="saveBtn" onclick="save()">Αποθήκευση αλλαγών</button>
+      <button id="sideToggle" onclick="toggleSide()">☰ Μενού</button>
+      <button id="saveBtn" onclick="save()">Αποθήκευση</button>
     </div>
   </div>
 
   <iframe id="frame"></iframe>
-
+  <aside id="side"></aside>
   <div id="panel"></div>
   <div id="toast"></div>
 
   <script>
     const SOURCE_FILE = "index.html";
-    let passcode = "";
-    let doc = null; // the iframe's document
+    let passcode = "", doc = null, rawHtml = "";
+    let palette = [];       // [{path,name,value,orig}]
+    let sectionsState = {}; // key -> visible
 
     function enter() {
       passcode = document.getElementById("pass").value.trim();
@@ -95,193 +148,377 @@
 
     async function loadPage() {
       const res = await fetch(SOURCE_FILE + "?t=" + Date.now());
-      let html = await res.text();
-
+      rawHtml = await res.text();
       const frame = document.getElementById("frame");
       frame.style.display = "block";
       doc = frame.contentDocument;
-      doc.open();
-      doc.write(html);
-      doc.close();
-
-      // Wait for the iframe page (fonts, tailwind, icons) to finish, then turn on editing
-      frame.onload = () => setTimeout(enableEditing, 300);
-      // Fallback if onload already fired
-      setTimeout(() => { if (!document.body.classList.contains("editing")) enableEditing(); }, 1500);
+      doc.open(); doc.write(rawHtml); doc.close();
+      frame.onload = () => setTimeout(init, 300);
+      setTimeout(() => { if (!document.body.classList.contains("ready")) init(); }, 1500);
     }
 
-    function enableEditing() {
-      if (document.body.classList.contains("editing")) return;
-      document.body.classList.add("editing");
+    function init() {
+      if (document.body.classList.contains("ready")) return;
+      document.body.classList.add("ready");
       document.getElementById("savebar").style.display = "flex";
 
-      // Inject highlight styles INTO the iframe
-      const style = doc.createElement("style");
-      style.textContent = `
+      // styles injected into the page
+      const st = doc.createElement("style");
+      st.textContent = `
         .reveal{opacity:1 !important;transform:none !important;}
         [data-edit]{outline:2px dashed transparent;outline-offset:3px;cursor:text;border-radius:3px;transition:.15s;}
         [data-edit]:hover{outline-color:#c9a24b;background:rgba(201,162,75,.10);}
         [data-edit]:focus{outline:2px solid #3A6B7E;background:rgba(58,107,126,.06);}
         [data-img],[data-link]{outline:2px dashed transparent;outline-offset:3px;cursor:pointer;transition:.15s;}
         [data-img]:hover,[data-link]:hover{outline-color:#3A6B7E;}
-        a{pointer-events:auto;}
+        [data-section][hidden]{display:none !important;}
         .ax-del{position:absolute;top:8px;right:8px;z-index:60;border:0;background:rgba(138,43,43,.95);
           color:#fff;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:.8rem;font-family:system-ui;}
-        .ax-galadd{display:block;margin:14px auto;text-align:center;font-family:system-ui;}
-        .ax-galadd input{padding:10px;border:1px solid #ddd;border-radius:8px;margin-right:8px;width:280px;max-width:55%;}
-        .ax-galadd button{border:1px dashed #3A6B7E;background:#fff;color:#3A6B7E;border-radius:8px;padding:10px 16px;cursor:pointer;}
       `;
-      doc.head.appendChild(style);
+      doc.head.appendChild(st);
+      const pv = doc.createElement("style"); pv.id = "ax-preview"; doc.head.appendChild(pv);
 
-      // Disable the page's own click scripts (lightbox/menu) so they don't hijack clicks
+      // neutralise the page's own click handlers
       doc.querySelectorAll("[onclick]").forEach(el => el.removeAttribute("onclick"));
 
-      // TEXT — editable in place
+      // in-page text editing
       doc.querySelectorAll("[data-edit]").forEach(el => {
         el.setAttribute("contenteditable", "true");
         el.addEventListener("click", e => e.stopPropagation());
+        el.addEventListener("input", () => syncSideField("t", el.getAttribute("data-edit"), el.innerText.trim()));
       });
 
-      // IMAGES — click opens floating panel
-      doc.querySelectorAll("[data-img]").forEach(img => {
-        img.addEventListener("click", e => {
-          e.preventDefault(); e.stopPropagation();
-          openImagePanel(img);
-        });
-      });
-
-      // LINKS / BUTTONS — click opens floating panel
+      // in-page image / link panels
+      doc.querySelectorAll("[data-img]").forEach(img =>
+        img.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); imagePanel(img); }));
       doc.querySelectorAll("[data-link]").forEach(a => {
-        a.addEventListener("click", e => {
-          e.preventDefault(); e.stopPropagation();
-          openLinkPanel(a);
+        if (a.closest("[data-buttons]")) return; // row buttons edited via the row UI
+        a.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); linkPanel(a); });
+      });
+
+      // gallery in-page delete buttons
+      doc.querySelectorAll("[data-gallery]").forEach(gal => {
+        gal.querySelectorAll(":scope > button, :scope > a").forEach(b => {
+          b.style.position = "relative";
+          const del = doc.createElement("button");
+          del.className = "ax-del"; del.textContent = "Διαγραφή";
+          del.onclick = e => { e.stopPropagation(); b.remove(); buildSidebar(); };
+          b.appendChild(del);
         });
       });
 
-      // GALLERIES — delete buttons + add control
-      doc.querySelectorAll("[data-gallery]").forEach(gal => {
-        gal.style.position = "relative";
-        attachGallery(gal);
-      });
-
-      // click elsewhere closes panel
       doc.addEventListener("click", closePanel);
+
+      parsePalette();
+      doc.querySelectorAll("[data-section]").forEach(s =>
+        sectionsState[s.getAttribute("data-section")] = !s.hasAttribute("hidden"));
+
+      buildSidebar();
     }
 
-    function attachGallery(gal) {
-      gal.querySelectorAll(":scope > button").forEach(b => {
-        if (b.querySelector(".ax-del")) return;
-        b.style.position = "relative";
-        const del = doc.createElement("button");
-        del.className = "ax-del"; del.textContent = "Διαγραφή";
-        del.onclick = (e) => { e.stopPropagation(); b.remove(); };
-        b.appendChild(del);
+    // ── palette parsing (from tailwind config in the raw HTML) ──
+    function parsePalette() {
+      palette = [];
+      const cfg = rawHtml.match(/colors:\s*\{/);
+      if (!cfg) return;
+      let i = rawHtml.indexOf(cfg[0]) + cfg[0].length, depth = 1, path = [];
+      let buf = "";
+      while (i < rawHtml.length && depth > 0) {
+        const ch = rawHtml[i];
+        if (ch === "{") { const k = buf.match(/([A-Za-z][\w-]*)\s*:\s*$/); if (k) path.push(k[1]); depth++; buf = ""; }
+        else if (ch === "}") { depth--; if (path.length) path.pop(); buf = ""; }
+        else {
+          buf += ch;
+          const m = buf.match(/([A-Za-z][\w-]*)\s*:\s*["'](#[0-9a-fA-F]{3,8})["']\s*,?\s*$/);
+          if (m) {
+            palette.push({ name: m[1], value: m[2], orig: m[2], path: [...path, m[1]].join("-") });
+            buf = "";
+          }
+        }
+        i++;
+      }
+    }
+
+    function previewColors() {
+      let css = "";
+      for (const c of palette) {
+        if (c.value === c.orig) continue;
+        css += `.bg-${c.path}{background-color:${c.value} !important;}`;
+        css += `.text-${c.path}{color:${c.value} !important;}`;
+        css += `.border-${c.path}{border-color:${c.value} !important;}`;
+      }
+      doc.getElementById("ax-preview").textContent = css;
+    }
+
+    // ── sidebar ──
+    function buildSidebar() {
+      const side = document.getElementById("side");
+      side.innerHTML = "";
+
+      // Colours
+      if (palette.length) {
+        const sec = mkSec("🎨 Χρώματα");
+        palette.forEach(c => {
+          const row = document.createElement("div");
+          row.className = "colorrow";
+          row.innerHTML = `<input type="color" value="${c.value}"><span class="cname">${c.path}</span><span class="chex">${c.value}</span>`;
+          const inp = row.querySelector("input");
+          inp.addEventListener("input", () => {
+            c.value = inp.value;
+            row.querySelector(".chex").textContent = inp.value;
+            previewColors();
+          });
+          sec.body.appendChild(row);
+        });
+        side.appendChild(sec.el);
+      }
+
+      // Section visibility
+      const secEls = Array.from(doc.querySelectorAll("[data-section]"));
+      if (secEls.length) {
+        const sec = mkSec("👁 Ενότητες (εμφάνιση / απόκρυψη)");
+        secEls.forEach(s => {
+          const k = s.getAttribute("data-section");
+          const h = s.querySelector("h1,h2,h3");
+          const label = h ? h.textContent.trim().slice(0, 34) : k;
+          const row = document.createElement("div");
+          row.className = "togglerow";
+          row.innerHTML = `<span>${label}</span><label class="switch"><input type="checkbox" ${sectionsState[k] ? "checked" : ""}><span class="sl"></span></label>`;
+          row.querySelector("input").addEventListener("change", e => {
+            sectionsState[k] = e.target.checked;
+            e.target.checked ? s.removeAttribute("hidden") : s.setAttribute("hidden", "");
+          });
+          sec.body.appendChild(row);
+        });
+        side.appendChild(sec.el);
+      }
+
+      // Per-section content groups
+      secEls.forEach(s => {
+        const k = s.getAttribute("data-section");
+        const h = s.querySelector("h1,h2,h3");
+        const title = "✏️ " + (h ? h.textContent.trim().slice(0, 30) : k);
+        const sec = mkSec(title);
+        let has = false;
+
+        s.querySelectorAll("[data-edit]").forEach(el => {
+          has = true;
+          const key = el.getAttribute("data-edit");
+          const lbl = document.createElement("label");
+          lbl.textContent = el.innerText.trim().slice(0, 42) || key;
+          const ta = document.createElement("textarea");
+          ta.value = el.innerText.trim();
+          ta.setAttribute("data-side-t", key);
+          ta.addEventListener("input", () => { el.innerText = ta.value; });
+          sec.body.appendChild(lbl); sec.body.appendChild(ta);
+        });
+
+        s.querySelectorAll("[data-img]").forEach(img => {
+          has = true;
+          const lbl = document.createElement("label"); lbl.textContent = "Εικόνα";
+          const row = document.createElement("div"); row.className = "imgrow";
+          row.innerHTML = `<img src="${img.getAttribute("src")}"><input type="text" value="${img.getAttribute("src")}">`;
+          const inp = row.querySelector("input"), th = row.querySelector("img");
+          inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; });
+          sec.body.appendChild(lbl); sec.body.appendChild(row);
+        });
+
+        s.querySelectorAll("[data-link]").forEach(a => {
+          if (a.closest("[data-buttons]")) return;
+          has = true;
+          let txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
+          const lbl = document.createElement("label");
+          lbl.textContent = "Κουμπί: " + (txt.trim().slice(0, 30) || "(εικονίδιο)");
+          const t1 = document.createElement("input"); t1.type = "text"; t1.value = txt.trim(); t1.placeholder = "Κείμενο";
+          const t2 = document.createElement("input"); t2.type = "text"; t2.value = a.getAttribute("href") || ""; t2.placeholder = "Σύνδεσμος"; t2.style.marginTop = "6px";
+          t1.addEventListener("input", () => setLinkText(a, t1.value));
+          t2.addEventListener("input", () => a.setAttribute("href", t2.value));
+          sec.body.appendChild(lbl); sec.body.appendChild(t1); sec.body.appendChild(t2);
+        });
+
+        // Button rows in this section
+        s.querySelectorAll("[data-buttons]").forEach(row => {
+          has = true;
+          const lbl = document.createElement("label"); lbl.textContent = "Σειρά κουμπιών";
+          sec.body.appendChild(lbl);
+          const holder = document.createElement("div");
+          sec.body.appendChild(holder);
+          renderRow(row, holder);
+        });
+
+        // Galleries in this section
+        s.querySelectorAll("[data-gallery]").forEach(gal => {
+          has = true;
+          const lbl = document.createElement("label"); lbl.textContent = "Συλλογή φωτογραφιών";
+          sec.body.appendChild(lbl);
+          const holder = document.createElement("div");
+          sec.body.appendChild(holder);
+          renderGal(gal, holder);
+        });
+
+        if (has) side.appendChild(sec.el);
       });
-      if (gal.nextElementSibling && gal.nextElementSibling.classList.contains("ax-galadd")) return;
-      const add = doc.createElement("div");
-      add.className = "ax-galadd";
-      add.innerHTML = '<input type="text" placeholder="Σύνδεσμος νέας φωτογραφίας"><button>+ Προσθήκη φωτογραφίας</button>';
-      const inp = add.querySelector("input");
-      add.querySelector("button").onclick = () => {
-        const url = inp.value.trim(); if (!url) return;
-        const b = doc.createElement("button");
-        b.className = "w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md";
-        b.innerHTML = '<img src="' + url + '" alt="" class="w-full h-auto">';
-        gal.appendChild(b); inp.value = ""; attachGallery(gal);
+    }
+
+    function renderRow(row, holder) {
+      holder.innerHTML = "";
+      row.querySelectorAll(":scope a").forEach(a => {
+        let txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
+        const card = document.createElement("div"); card.className = "btncard";
+        const rm = document.createElement("button"); rm.className = "rm"; rm.textContent = "✕";
+        rm.onclick = () => { a.remove(); renderRow(row, holder); };
+        const t1 = document.createElement("input"); t1.type = "text"; t1.value = txt.trim(); t1.placeholder = "Κείμενο";
+        const t2 = document.createElement("input"); t2.type = "text"; t2.value = a.getAttribute("href") || ""; t2.placeholder = "Σύνδεσμος"; t2.style.marginTop = "6px";
+        t1.addEventListener("input", () => setLinkText(a, t1.value));
+        t2.addEventListener("input", () => a.setAttribute("href", t2.value));
+        card.appendChild(rm); card.appendChild(t1); card.appendChild(t2);
+        holder.appendChild(card);
+      });
+      const add = document.createElement("button"); add.className = "addrow"; add.textContent = "+ Προσθήκη κουμπιού";
+      add.onclick = () => {
+        const first = row.querySelector("a");
+        if (!first) return;
+        const clone = first.cloneNode(true);
+        setLinkText(clone, "Νέο κουμπί");
+        clone.setAttribute("href", "#");
+        clone.removeAttribute("data-link");
+        row.appendChild(clone);
+        renderRow(row, holder);
       };
-      gal.insertAdjacentElement("afterend", add);
+      holder.appendChild(add);
     }
 
-    // ── Floating panels ──
-    function panelAt(targetRect) {
-      const panel = document.getElementById("panel");
-      panel.style.display = "block";
-      // position near the element, accounting for iframe offset (iframe starts at top:56)
-      const top = Math.min(targetRect.top + 56 + 10, window.innerHeight - 320);
-      const left = Math.min(Math.max(targetRect.left, 16), window.innerWidth - 356);
-      panel.style.top = Math.max(66, top) + "px";
-      panel.style.left = left + "px";
-      return panel;
+    function renderGal(gal, holder) {
+      holder.innerHTML = "";
+      gal.querySelectorAll("img").forEach(img => {
+        const row = document.createElement("div"); row.className = "imgrow";
+        row.innerHTML = `<img src="${img.getAttribute("src")}"><input type="text" value="${img.getAttribute("src")}"><button class="rm">✕</button>`;
+        const inp = row.querySelector("input"), th = row.querySelector("img");
+        inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; });
+        row.querySelector(".rm").onclick = () => {
+          const item = img.closest("button, a") || img;
+          item.remove(); renderGal(gal, holder);
+        };
+        holder.appendChild(row);
+      });
+      const add = document.createElement("button"); add.className = "addrow"; add.textContent = "+ Προσθήκη φωτογραφίας";
+      add.onclick = () => {
+        const url = prompt("Σύνδεσμος νέας φωτογραφίας:");
+        if (!url) return;
+        const first = gal.querySelector("button, a");
+        if (first) {
+          const clone = first.cloneNode(true);
+          const oldSrc = clone.querySelector("img").getAttribute("src");
+          clone.querySelector("img").setAttribute("src", url);
+          // also update lightbox onclick if present in attributes
+          if (clone.getAttribute("onclick")) clone.setAttribute("onclick", clone.getAttribute("onclick").split(oldSrc).join(url));
+          const del = clone.querySelector(".ax-del"); if (del) del.onclick = e => { e.stopPropagation(); clone.remove(); renderGal(gal, holder); };
+          gal.appendChild(clone);
+        }
+        renderGal(gal, holder);
+      };
+      holder.appendChild(add);
     }
 
-    function openImagePanel(img) {
-      const panel = panelAt(img.getBoundingClientRect());
-      panel.innerHTML =
-        '<h3>Αλλαγή εικόνας</h3>' +
-        '<label>Σύνδεσμος εικόνας</label><input type="text" id="p-src">' +
-        '<img class="thumb" id="p-thumb">' +
-        '<div class="panel-actions"><button class="cancel" onclick="closePanel()">Άκυρο</button>' +
-        '<button class="ok" id="p-ok">Εφαρμογή</button></div>';
-      const src = document.getElementById("p-src");
-      const thumb = document.getElementById("p-thumb");
-      src.value = img.getAttribute("src") || "";
-      thumb.src = src.value;
-      src.addEventListener("input", () => thumb.src = src.value);
-      document.getElementById("p-ok").onclick = () => { img.src = src.value; closePanel(); };
+    function setLinkText(a, text) {
+      const icons = Array.from(a.childNodes).filter(n => n.nodeType === 1);
+      a.textContent = "";
+      a.appendChild(doc.createTextNode(text + (icons.length ? " " : "")));
+      icons.forEach(ic => a.appendChild(ic));
     }
 
-    function openLinkPanel(a) {
-      const panel = panelAt(a.getBoundingClientRect());
+    function syncSideField(type, key, val) {
+      const ta = document.querySelector(`[data-side-t="${key}"]`);
+      if (ta && ta.value !== val) ta.value = val;
+    }
+
+    function mkSec(title) {
+      const el = document.createElement("div"); el.className = "sec";
+      el.innerHTML = `<div class="head"><span>${title}</span><span class="chev">›</span></div><div class="body"></div>`;
+      el.querySelector(".head").onclick = () => el.classList.toggle("open");
+      return { el, body: el.querySelector(".body") };
+    }
+
+    function toggleSide() {
+      document.body.classList.toggle("side");
+      if (document.body.classList.contains("side")) buildSidebar();
+    }
+
+    // ── floating panels (in-page view) ──
+    function panelAt(r) {
+      const p = document.getElementById("panel");
+      p.style.display = "block";
+      p.style.top = Math.max(66, Math.min(r.top + 66, window.innerHeight - 320)) + "px";
+      p.style.left = Math.min(Math.max(r.left, 16), window.innerWidth - 356) + "px";
+      return p;
+    }
+    function imagePanel(img) {
+      const p = panelAt(img.getBoundingClientRect());
+      p.innerHTML = `<h3>Αλλαγή εικόνας</h3><label>Σύνδεσμος εικόνας</label><input type="text" id="p-src">
+        <img class="thumb" id="p-th"><div class="pa"><button class="cancel" onclick="closePanel()">Άκυρο</button>
+        <button class="ok" id="p-ok">Εφαρμογή</button></div>`;
+      const s = document.getElementById("p-src"), th = document.getElementById("p-th");
+      s.value = img.getAttribute("src") || ""; th.src = s.value;
+      s.addEventListener("input", () => th.src = s.value);
+      document.getElementById("p-ok").onclick = () => { img.src = s.value; closePanel(); buildSidebar(); };
+    }
+    function linkPanel(a) {
+      const p = panelAt(a.getBoundingClientRect());
       let txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
-      panel.innerHTML =
-        '<h3>Επεξεργασία κουμπιού</h3>' +
-        '<label>Κείμενο</label><input type="text" id="p-text">' +
-        '<label>Σύνδεσμος (πού οδηγεί)</label><input type="text" id="p-href">' +
-        '<div class="panel-actions"><button class="cancel" onclick="closePanel()">Άκυρο</button>' +
-        '<button class="ok" id="p-ok">Εφαρμογή</button></div>';
-      document.getElementById("p-text").value = txt.trim();
-      document.getElementById("p-href").value = a.getAttribute("href") || "";
+      p.innerHTML = `<h3>Επεξεργασία κουμπιού</h3><label>Κείμενο</label><input type="text" id="p-t">
+        <label>Σύνδεσμος (πού οδηγεί)</label><input type="text" id="p-h">
+        <div class="pa"><button class="cancel" onclick="closePanel()">Άκυρο</button>
+        <button class="ok" id="p-ok">Εφαρμογή</button></div>`;
+      document.getElementById("p-t").value = txt.trim();
+      document.getElementById("p-h").value = a.getAttribute("href") || "";
       document.getElementById("p-ok").onclick = () => {
-        const newText = document.getElementById("p-text").value;
-        const newHref = document.getElementById("p-href").value;
-        // replace text nodes, keep icons
-        const icons = Array.from(a.childNodes).filter(n => n.nodeType === 1);
-        a.textContent = "";
-        a.appendChild(doc.createTextNode(newText + " "));
-        icons.forEach(ic => a.appendChild(ic));
-        a.setAttribute("href", newHref);
-        a.setAttribute("data-newtext", newText);
-        a.setAttribute("data-newhref", newHref);
-        closePanel();
+        setLinkText(a, document.getElementById("p-t").value);
+        a.setAttribute("href", document.getElementById("p-h").value);
+        closePanel(); buildSidebar();
       };
     }
+    function closePanel() { document.getElementById("panel").style.display = "none"; }
 
-    function closePanel() {
-      document.getElementById("panel").style.display = "none";
-    }
-
+    // ── save ──
     async function save() {
       const btn = document.getElementById("saveBtn");
-      const edits = {}, images = {}, links = {}, galleries = {};
+      const edits = {}, images = {}, links = {}, galleries = {}, buttonRows = {};
 
-      doc.querySelectorAll("[data-edit]").forEach(el => {
-        edits[el.getAttribute("data-edit")] = el.innerText.trim();
-      });
-      doc.querySelectorAll("[data-img]").forEach(img => {
-        images[img.getAttribute("data-img")] = img.getAttribute("src");
-      });
+      doc.querySelectorAll("[data-edit]").forEach(el => edits[el.getAttribute("data-edit")] = el.innerText.trim());
+      doc.querySelectorAll("[data-img]").forEach(img => images[img.getAttribute("data-img")] = img.getAttribute("src"));
       doc.querySelectorAll("[data-link]").forEach(a => {
-        let txt = a.getAttribute("data-newtext");
-        if (txt === null) { txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; }); txt = txt.trim(); }
-        links[a.getAttribute("data-link")] = { text: txt, href: a.getAttribute("href") || "" };
+        if (a.closest("[data-buttons]")) return;
+        let txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
+        links[a.getAttribute("data-link")] = { text: txt.trim(), href: a.getAttribute("href") || "" };
       });
-      doc.querySelectorAll("[data-gallery]").forEach(gal => {
+      doc.querySelectorAll("[data-gallery]").forEach(gal =>
         galleries[gal.getAttribute("data-gallery")] =
-          Array.from(gal.querySelectorAll("img")).map(i => i.getAttribute("src")).filter(Boolean);
-      });
+          Array.from(gal.querySelectorAll("img")).map(i => i.getAttribute("src")).filter(Boolean));
+      doc.querySelectorAll("[data-buttons]").forEach(row =>
+        buttonRows[row.getAttribute("data-buttons")] =
+          Array.from(row.querySelectorAll(":scope a")).map(a => {
+            let t = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) t += n.textContent; });
+            return { text: t.trim(), href: a.getAttribute("href") || "" };
+          }));
+      const colors = palette.filter(c => c.value !== c.orig)
+                            .map(c => ({ name: c.name, old: c.orig, value: c.value }));
 
       if (!confirm("Αποθήκευση των αλλαγών στην ιστοσελίδα;")) return;
       btn.disabled = true; btn.textContent = "Αποθήκευση...";
       try {
         const res = await fetch("/.netlify/functions/save", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ passcode, edits, images, links, galleries }),
+          body: JSON.stringify({ passcode, edits, images, links, galleries, buttonRows,
+                                 sections: sectionsState, colors }),
         });
         const data = await res.json();
-        if (data.ok) toast("Αποθηκεύτηκε! Η ιστοσελίδα ενημερώνεται σε λίγο.");
+        if (data.ok) {
+          toast("Αποθηκεύτηκε! Η ιστοσελίδα ενημερώνεται σε λίγο.");
+          palette.forEach(c => c.orig = c.value); // committed colours become the new baseline
+        }
         else toast(data.error || "Κάτι πήγε στραβά.", true);
       } catch (e) { toast("Σφάλμα σύνδεσης.", true); }
-      btn.disabled = false; btn.textContent = "Αποθήκευση αλλαγών";
+      btn.disabled = false; btn.textContent = "Αποθήκευση";
     }
 
     function toast(msg, isError) {
