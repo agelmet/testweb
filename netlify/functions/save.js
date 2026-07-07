@@ -1,14 +1,14 @@
-// netlify/functions/save.js
+// netlify/functions/save.js — Advon CMS universal save function
 // Runs on Netlify's server. The token stays here — clients never see it.
-// Handles: text edits, image swaps (by URL), and gallery add/remove (by URL).
+// Handles: text, images, links/buttons, galleries, button rows, section show/hide, colours.
 
 // ─────────────────────────────────────────────────────────────
-// CONFIG — change these to match your setup
-const OWNER    = "agelmet";      // your GitHub username
-const REPO     = "testweb";      // the website repo
-const FILE     = "index.html";   // the page being edited
+// CONFIG — the only lines you change per site
+const OWNER    = "agelmet";      // GitHub username
+const REPO     = "testweb";      // website repo
+const FILE     = "index.html";   // page being edited
 const BRANCH   = "main";
-const PASSCODE = "advon2026";    // client's password
+const PASSCODE = "advon2026";    // client password
 // ─────────────────────────────────────────────────────────────
 
 export default async (request) => {
@@ -35,60 +35,85 @@ export default async (request) => {
   const fileData = await getRes.json();
   let html = decodeBase64(fileData.content);
 
-  // 1. Text edits: { "hero-title": "new text", ... }
+  // 1. TEXT — { "t1": "new text", ... }
   if (body.edits) {
     for (const [key, newText] of Object.entries(body.edits)) {
-      const pattern = new RegExp(
-        `(data-edit=["']${escapeRegex(key)}["'][^>]*>)([\\s\\S]*?)(</)`, "i"
-      );
-      html = html.replace(pattern, `$1${escapeHtml(newText)}$3`);
+      const p = new RegExp(`(data-edit=["']${rx(key)}["'][^>]*>)([\\s\\S]*?)(</)`, "i");
+      html = html.replace(p, `$1${esc(newText)}$3`);
     }
   }
 
-  // 1b. Links/buttons: { "cta-hero": {text:"...", href:"..."}, ... }
+  // 2. IMAGES — { "img1": "https://...", ... }
+  if (body.images) {
+    for (const [key, url] of Object.entries(body.images)) {
+      const p = new RegExp(`(data-img=["']${rx(key)}["'][^>]*?\\ssrc=["'])([^"']*)(["'])`, "i");
+      html = html.replace(p, `$1${url}$3`);
+    }
+  }
+
+  // 3. LINKS/BUTTONS — { "l1": {text:"...", href:"..."}, ... }
   if (body.links) {
     for (const [key, val] of Object.entries(body.links)) {
-      // Find the whole <a ... data-link="key" ...> ... </a>
-      const linkPat = new RegExp(
-        `(<a\\b[^>]*\\bdata-link=["']${escapeRegex(key)}["'][^>]*>)([\\s\\S]*?)(</a>)`, "i"
-      );
-      html = html.replace(linkPat, (full, open, inner, close) => {
-        // update href inside the opening tag
+      const p = new RegExp(`(<a\\b[^>]*\\bdata-link=["']${rx(key)}["'][^>]*>)([\\s\\S]*?)(</a>)`, "i");
+      html = html.replace(p, (full, open, inner, close) => {
         let newOpen = open;
-        if (/\shref=["'][^"']*["']/i.test(newOpen)) {
+        if (/\shref=["'][^"']*["']/i.test(newOpen))
           newOpen = newOpen.replace(/(\shref=["'])[^"']*(["'])/i, `$1${val.href}$2`);
-        } else {
+        else
           newOpen = newOpen.replace(/<a\b/i, `<a href="${val.href}"`);
-        }
-        // keep any inner tags (icons like <i ...></i>), replace only text
         const icons = (inner.match(/<[^>]+>[\s\S]*?<\/[^>]+>|<[^>]+\/?>/g) || []).join("");
-        const textPart = escapeHtml(val.text);
-        const newInner = icons ? `${textPart} ${icons}` : textPart;
+        const hasText = inner.replace(/<[^>]+>/g, "").trim().length > 0;
+        // icon-only links keep their icon untouched; text links get new text + icons
+        const newInner = hasText ? (icons ? `${esc(val.text)} ${icons}` : esc(val.text)) : inner;
         return `${newOpen}${newInner}${close}`;
       });
     }
   }
 
-  // 2. Image swaps: { "hero-photo": "https://...", ... }
-  if (body.images) {
-    for (const [key, newUrl] of Object.entries(body.images)) {
-      const pattern = new RegExp(
-        `(data-img=["']${escapeRegex(key)}["'][^>]*\\ssrc=["'])([^"']*)(["'])`, "i"
-      );
-      html = html.replace(pattern, `$1${newUrl}$3`);
+  // 4. GALLERIES — { "gal1": ["url1","url2",...] } (rebuild from first item as template)
+  if (body.galleries) {
+    for (const [key, urls] of Object.entries(body.galleries)) {
+      html = rebuildContainer(html, "data-gallery", key, urls, (tpl, url) => {
+        // swap every occurrence of the template's img src (covers onclick lightbox too)
+        const srcMatch = tpl.match(/\ssrc=["']([^"']*)["']/i);
+        if (!srcMatch) return tpl;
+        return tpl.split(srcMatch[1]).join(url);
+      });
     }
   }
 
-  // 3. Galleries: { "clinic": ["url1","url2",...] } — rebuild the whole gallery
-  if (body.galleries) {
-    for (const [key, urls] of Object.entries(body.galleries)) {
-      const open = new RegExp(`(<div[^>]*data-gallery=["']${escapeRegex(key)}["'][^>]*>)`, "i");
-      const m = html.match(open);
-      if (!m) continue;
-      const start = html.indexOf(m[0]) + m[0].length;
-      const end = findClosingDiv(html, start);
-      const items = urls.map(u => galleryItem(u)).join("\n");
-      html = html.slice(0, start) + "\n" + items + "\n            " + html.slice(end);
+  // 5. BUTTON ROWS — { "row1": [{text,href}, ...] } (rebuild from first button as template)
+  if (body.buttonRows) {
+    for (const [key, buttons] of Object.entries(body.buttonRows)) {
+      html = rebuildContainer(html, "data-buttons", key, buttons, (tpl, btn) => {
+        let out = tpl.replace(/(\shref=["'])[^"']*(["'])/i, `$1${btn.href}$2`);
+        out = out.replace(/(<a\b[^>]*>)([\s\S]*?)(<\/a>)/i, (f, open, inner, close) => {
+          const icons = (inner.match(/<[^>]+>[\s\S]*?<\/[^>]+>|<[^>]+\/?>/g) || []).join("");
+          return `${open}${esc(btn.text)}${icons ? " " + icons : ""}${close}`;
+        });
+        // each rebuilt button must not carry the template's data-link key (avoid duplicates)
+        out = out.replace(/\sdata-link=["'][^"']*["']/i, "");
+        return out;
+      });
+    }
+  }
+
+  // 6. SECTIONS show/hide — { "bio": true (visible) / false (hidden), ... }
+  if (body.sections) {
+    for (const [key, visible] of Object.entries(body.sections)) {
+      const p = new RegExp(`<(section|header|footer|div)\\b([^>]*\\bdata-section=["']${rx(key)}["'][^>]*)>`, "i");
+      html = html.replace(p, (full, tag, attrs) => {
+        let a = attrs.replace(/\s+hidden\b/gi, "");
+        return `<${tag}${a}${visible ? "" : " hidden"}>`;
+      });
+    }
+  }
+
+  // 7. COLOURS — [ {name:"petrol", old:"#3A6B7E", value:"#224455"}, ... ]
+  if (body.colors) {
+    for (const col of body.colors) {
+      const p = new RegExp(`(\\b${rx(col.name)}\\s*:\\s*["'])${rx(col.old)}(["'])`, "g");
+      html = html.replace(p, `$1${col.value}$2`);
     }
   }
 
@@ -108,10 +133,20 @@ export default async (request) => {
   return json({ ok: true });
 };
 
-function galleryItem(url) {
-  return `                <button class="w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md" onclick="openLightbox('${url}')">
-                    <img src="${url}" alt="" class="w-full h-auto">
-                </button>`;
+// Rebuild the children of a marked container using its first child as a template.
+function rebuildContainer(html, attr, key, items, applyItem) {
+  const open = new RegExp(`<div\\b[^>]*\\b${attr}=["']${rx(key)}["'][^>]*>`, "i");
+  const m = html.match(open);
+  if (!m) return html;
+  const start = html.indexOf(m[0]) + m[0].length;
+  const end = findClosingDiv(html, start);
+  const inner = html.slice(start, end);
+  // template = first <a>...</a> or <button>...</button> child
+  const tplMatch = inner.match(/<(a|button)\b[\s\S]*?<\/\1>/i);
+  if (!tplMatch) return html;
+  const tpl = tplMatch[0];
+  const rebuilt = items.map(it => "                " + applyItem(tpl, it)).join("\n");
+  return html.slice(0, start) + "\n" + rebuilt + "\n            " + html.slice(end);
 }
 
 function findClosingDiv(html, from) {
@@ -131,5 +166,5 @@ function json(obj, status = 200) {
 }
 function decodeBase64(b64) { return Buffer.from(b64, "base64").toString("utf-8"); }
 function encodeBase64(str) { return Buffer.from(str, "utf-8").toString("base64"); }
-function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-function escapeHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function rx(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
