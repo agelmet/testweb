@@ -133,23 +133,28 @@
     </nav>
 
     <!-- Hero Section (Split Layout) -->
-    <section class="relative min-h-screen flex flex-col lg:flex-row bg-white pt-20 lg:pt-0">
+    <section class="relative min-h-screen flex flex-col lg:flex-row bg-white pt-20 lg:pt-0" data-section="s1">
         <!-- Left Side -->
         <div class="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-16 py-16 lg:py-0 z-10 bg-pastel-sand/50">
             <div class="max-w-xl reveal">
                 
                 <!-- Main Title: 3 Lines Format -->
-                <h1 class="font-sans text-pastel-textDark font-semibold text-4xl md:text-5xl lg:text-6xl leading-[1.15] tracking-tight mb-6" data-edit="t1">t
-e
-s
-t
-τα συμπτώματα</h1>
+                <h1 class="font-sans text-pastel-textDark font-semibold text-4xl md:text-5xl lg:text-6xl leading-[1.15] tracking-tight mb-6" data-edit="t1">
+                    Αναζητήστε την<br>
+                    αλήθεια πίσω από<br>
+                    τα συμπτώματα
+                </h1>
                 
-                <p class="text-lg text-pastel-textMuted mb-8 leading-reading font-light" data-edit="t2">Εστίαση σε άγχος, κατάθλιψη, κρίσεις πανικού, πένθος, θέματα ταυτότητας και φύλου, διατροφικές διαταραχές, με έμφαση στη σχέση θεραπευτή-θεραπευόμενου.</p>
+                <p class="text-lg text-pastel-textMuted mb-8 leading-reading font-light" data-edit="t2">
+                    Εστίαση σε άγχος, κατάθλιψη, κρίσεις πανικού, πένθος, θέματα ταυτότητας και φύλου, διατροφικές διαταραχές, με έμφαση στη σχέση θεραπευτή-θεραπευόμενου.
+                </p>
                 
                 <!-- CTA: Click to Call Priority -->
-                <div class="flex flex-col items-start gap-2">
-                    <a href="tel:6951955938" data-link="cta-hero" class="inline-flex items-center gap-3 px-10 py-4 bg-pastel-petrol text-white rounded-md font-sans font-medium text-base tracking-wide hover:bg-opacity-90 transition-all duration-300 shadow-md transform hover:-translate-y-0.5">TEST KOYMPI  <i data-lucide="phone" class="w-5 h-5"></i></a>
+                <div class="flex flex-col items-start gap-2" data-buttons="row1">
+                    <a data-link="l1" href="tel:6951955938" class="inline-flex items-center gap-3 px-10 py-4 bg-pastel-petrol text-white rounded-md font-sans font-medium text-base tracking-wide hover:bg-opacity-90 transition-all duration-300 shadow-md transform hover:-translate-y-0.5">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                        Κλείστε ραντεβού
+                    </a>
                 </div>
 
             </div>
@@ -157,39 +162,49 @@ t
 
         <!-- Right Side: Image -->
         <div class="w-full lg:w-1/2 h-[50vh] lg:h-screen relative">
-            <img data-img="hero-photo" src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_02.jpg" 
+            <img data-img="img1" src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_02.jpg" 
                  alt="Χώρος Ψυχοθεραπείας" 
                  class="absolute inset-0 w-full h-full object-cover object-top lg:object-center">
         </div>
     </section>
 
     <!-- Bio Section -->
-    <section id="bio" class="py-24 lg:py-32 px-6 lg:px-12 bg-white">
+    <section id="bio" class="py-24 lg:py-32 px-6 lg:px-12 bg-white" data-section="bio">
         <div class="max-w-[85rem] mx-auto grid lg:grid-cols-12 gap-16 items-center">
             
             <div class="lg:col-span-5 reveal">
                 <div class="rounded-xl overflow-hidden shadow-xl">
-                    <img data-img="bio-photo" src="" 
+                    <img data-img="img2" src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_01.jpg" 
                          alt="Κωνσταντίνος Χατζής" 
                          class="w-full h-auto object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-700">
                 </div>
             </div>
 
             <div class="lg:col-span-7 reveal delay-100">
-                <h2 class="text-xl md:text-2xl font-sans font-medium text-pastel-petrol mb-3 tracking-tight" data-edit="t3">Ψυχαναλυτική Ψυχοθεραπεία Ενηλίκων &amp; Εφήβων</h2>
-                <h3 class="text-3xl lg:text-4xl font-sans font-semibold text-pastel-textDark mb-8 tracking-tight" data-edit="t4">KWNNOS ET</h3>
+                <h2 class="text-xl md:text-2xl font-sans font-medium text-pastel-petrol mb-3 tracking-tight" data-edit="t3">
+                    Ψυχαναλυτική Ψυχοθεραπεία Ενηλίκων & Εφήβων
+                </h2>
+                <h3 class="text-3xl lg:text-4xl font-sans font-semibold text-pastel-textDark mb-8 tracking-tight" data-edit="t4">
+                    Κωνσταντίνος Χατζής — Ψυχαναλυτικός Ψυχοθεραπευτής
+                </h3>
                 
                 <div class="space-y-6 text-pastel-textMuted leading-reading font-light">
-                    <p data-edit="t5">Ο Κωνσταντίνος Χατζής είναι ψυχαναλυτικός ψυχοθεραπευτής και συνιδρυτής του κέντρου συμβουλευτικής και ψυχοθεραπείας Psychotherapy Home. Είναι συνεργαζόμενο μέλος του προγράμματος «Επέκεινα – Ψυχαναλυτική πράξη» και συνεργάτης του δικτύου κοινωνικής αλληλεγγύης, ψυχικής υποστήριξης και πολιτισμού «Συνύπαρξη». Στην ιδιωτική του πρακτική εργάζεται με εφήβους και ενήλικες σε ατομική ψυχοθεραπεία, οργανώνει ομαδικά βιωματικά σεμινάρια και συμμετέχει σε ερευνητικά προγράμματα.</p>
-                    <p data-edit="t6">Η εργασία του εστιάζει στα πρώιμα τραύματα και στις εκδηλώσεις τους στην καθημερινότητα και στις σχέσεις. Ειδικότερα σε θέματα ταυτότητας, διατροφικές διαταραχές, άγχος, κατάθλιψη, δυσκολία στο πένθος, εκδηλώσεις θυμού και κρίσεις πανικού.</p>
-                    <p data-edit="t7">Κεντρική θέση κατέχει η διερεύνηση του ασυνειδήτου και η ερμηνεία του λόγου, στο πλαίσιο μιας σταθερής θεραπευτικής σχέσης με εμπιστευτικότητα, ισοτιμία και αποφυγή υποβολών. Αρχικός στόχος είναι η ελάττωση της συμπτωματολογίας και η αποκατάσταση της ψυχικής ισορροπίας· μακροπρόθεσμα επιδιώκεται η ενίσχυση της ικανότητας διαχείρισης των συναισθημάτων και των εσωτερικών συγκρούσεων και η διαμόρφωση μιας νέας ανάγνωσης του εαυτού.</p>
+                    <p data-edit="t5">
+                        Ο Κωνσταντίνος Χατζής είναι ψυχαναλυτικός ψυχοθεραπευτής και συνιδρυτής του κέντρου συμβουλευτικής και ψυχοθεραπείας Psychotherapy Home. Είναι συνεργαζόμενο μέλος του προγράμματος «Επέκεινα – Ψυχαναλυτική πράξη» και συνεργάτης του δικτύου κοινωνικής αλληλεγγύης, ψυχικής υποστήριξης και πολιτισμού «Συνύπαρξη». Στην ιδιωτική του πρακτική εργάζεται με εφήβους και ενήλικες σε ατομική ψυχοθεραπεία, οργανώνει ομαδικά βιωματικά σεμινάρια και συμμετέχει σε ερευνητικά προγράμματα.
+                    </p>
+                    <p data-edit="t6">
+                        Η εργασία του εστιάζει στα πρώιμα τραύματα και στις εκδηλώσεις τους στην καθημερινότητα και στις σχέσεις. Ειδικότερα σε θέματα ταυτότητας, διατροφικές διαταραχές, άγχος, κατάθλιψη, δυσκολία στο πένθος, εκδηλώσεις θυμού και κρίσεις πανικού.
+                    </p>
+                    <p data-edit="t7">
+                        Κεντρική θέση κατέχει η διερεύνηση του ασυνειδήτου και η ερμηνεία του λόγου, στο πλαίσιο μιας σταθερής θεραπευτικής σχέσης με εμπιστευτικότητα, ισοτιμία και αποφυγή υποβολών. Αρχικός στόχος είναι η ελάττωση της συμπτωματολογίας και η αποκατάσταση της ψυχικής ισορροπίας· μακροπρόθεσμα επιδιώκεται η ενίσχυση της ικανότητας διαχείρισης των συναισθημάτων και των εσωτερικών συγκρούσεων και η διαμόρφωση μιας νέας ανάγνωσης του εαυτού.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Approach Section -->
-    <section id="approach" class="py-24 lg:py-32 px-6 lg:px-12 bg-pastel-petrolLight/50">
+    <section id="approach" class="py-24 lg:py-32 px-6 lg:px-12 bg-pastel-petrolLight/50" data-section="approach">
         <div class="max-w-[85rem] mx-auto">
             <div class="mb-16 reveal">
                 <h2 class="text-3xl lg:text-4xl font-sans font-semibold text-pastel-textDark tracking-tight mb-4" data-edit="t8">Προσέγγιση</h2>
@@ -199,8 +214,9 @@ t
             <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
                 <div class="reveal">
                     <h3 class="text-xl font-sans font-medium text-pastel-textDark mb-4" data-edit="t9">Τι είναι</h3>
-                    <p class="text-pastel-textMuted leading-reading font-light text-sm" data-edit="t10">Η ψυχαναλυτική ψυχοθεραπεία εστιάζει στη διερεύνηση των ασυνείδητων διεργασιών που επηρεάζουν τη σκέψη, τα συναισθήματα και τις σχέσεις. Η εργασία γίνεται μέσω της ερμηνείας του προφορικού λόγου και της ελεύθερης έκφρασης του θεραπευόμενου, σε σταθερό θεραπευτικό πλαίσιο που διασφαλίζει εμπιστευτικότητα και σεβασμό στα όρια. Ιδιαίτερη σημασία έχει η σχέση θεραπευτή-θεραπευόμενου, όπου αναγνωρίζονται και επεξεργάζονται τα σταθερά μοτίβα που συχνά μεταφέρονται στη συνάντηση και μπορούν να λειτουργήσουν θεραπευτικά.
-Αν αναζητάτε ψυχοθεραπεία στο Παγκράτι ή στην Αθήνα επικοινωνήστε μαζί μου.</strong>
+                    <p class="text-pastel-textMuted leading-reading font-light text-sm" data-edit="t10">
+                        Η ψυχαναλυτική ψυχοθεραπεία εστιάζει στη διερεύνηση των ασυνείδητων διεργασιών που επηρεάζουν τη σκέψη, τα συναισθήματα και τις σχέσεις. Η εργασία γίνεται μέσω της ερμηνείας του προφορικού λόγου και της ελεύθερης έκφρασης του θεραπευόμενου, σε σταθερό θεραπευτικό πλαίσιο που διασφαλίζει εμπιστευτικότητα και σεβασμό στα όρια. Ιδιαίτερη σημασία έχει η σχέση θεραπευτή-θεραπευόμενου, όπου αναγνωρίζονται και επεξεργάζονται τα σταθερά μοτίβα που συχνά μεταφέρονται στη συνάντηση και μπορούν να λειτουργήσουν θεραπευτικά. 
+                        <strong class="font-medium text-pastel-textDark block mt-3">Αν αναζητάτε ψυχοθεραπεία στο Παγκράτι ή στην Αθήνα επικοινωνήστε μαζί μου.</strong>
                     </p>
                 </div>
 
@@ -208,10 +224,7 @@ t
                     <h3 class="text-xl font-sans font-medium text-pastel-textDark mb-4" data-edit="t11">Τι να περιμένει ο θεραπευόμενος</h3>
                     <ul class="space-y-4 text-pastel-textMuted leading-reading font-light text-sm list-none">
                         <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t12">Αρχική αξιολόγηση για το αίτημα και την ιστορία σας και διαμόρφωση συμφωνημένων στόχων.</li>
-                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t13">ENf
-Αρχική αξιολόγηση για το αίτημα και την ιστορία σας και διαμόρφωση συμφωνημένων στόχων.
-Αρχική αξιολόγηση για το αίτημα και την ιστορία σας και διαμόρφωση συμφωνημένων στόχων.
-G</li>
+                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t13">Ενεργό ρόλο στην έκφραση σκέψεων και συναισθημάτων, με ενθάρρυνση για ελεύθερο λόγο χωρίς λογοκρισία.</li>
                         <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t14">Ερμηνευτική επεξεργασία των θεμάτων που αναδύονται, με αποφυγή υποβολής και με ισοτιμία.</li>
                         <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t15">Τακτική ανασκόπηση της πορείας, ώστε η διαδικασία να παραμένει σαφής και στοχευμένη.</li>
                         <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t16">Στόχοι: Αρχικά, ελάττωση συμπτωμάτων. Έπειτα, ενίσχυση ικανότητας διαχείρισης και ενίσχυση του Εγώ.</li>
@@ -221,10 +234,10 @@ G</li>
                 <div class="reveal delay-200">
                     <h3 class="text-xl font-sans font-medium text-pastel-textDark mb-4" data-edit="t17">Πλαίσιο / Συχνότητα</h3>
                     <ul class="space-y-4 text-pastel-textMuted leading-reading font-light text-sm list-none">
-                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t18">Συνεδρία: 45′</strong> 45′</li>
-                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t19">Συχνότητα: Τουλάχιστον 1 φορά την εβδομάδα σε σταθερή ημέρα και ώρα.</strong> Τουλάχιστον 1 φορά την εβδομάδα σε σταθερή ημέρα και ώρα.</li>
-                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t20">Τρόπος: Δια ζώσης (Αθήνα) &amp; online.</strong> Δια ζώσης (Αθήνα) & online.</li>
-                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t21">Πλαίσιο: Σαφείς όροι συνεργασίας, πολιτική ακυρώσεων, σεβασμός απορρήτου.</strong> Σαφείς όροι συνεργασίας, πολιτική ακυρώσεων, σεβασμός απορρήτου.</li>
+                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t18"><strong>Συνεδρία:</strong> 45′</li>
+                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t19"><strong>Συχνότητα:</strong> Τουλάχιστον 1 φορά την εβδομάδα σε σταθερή ημέρα και ώρα.</li>
+                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t20"><strong>Τρόπος:</strong> Δια ζώσης (Αθήνα) & online.</li>
+                        <li class="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-pastel-petrol before:rounded-full" data-edit="t21"><strong>Πλαίσιο:</strong> Σαφείς όροι συνεργασίας, πολιτική ακυρώσεων, σεβασμός απορρήτου.</li>
                     </ul>
                     <div class="mt-6 p-4 bg-white border-l-2 border-pastel-petrol text-xs text-pastel-textMuted shadow-sm">
                         <strong>Σημείωση:</strong> Σε περίπτωση επείγουσας ανάγκης, απευθυνθείτε άμεσα στις αρμόδιες υπηρεσίες βοήθειας ή στο 112.
@@ -235,7 +248,7 @@ G</li>
     </section>
 
     <!-- Services / Topics Section -->
-    <section id="services" class="py-24 lg:py-32 px-6 lg:px-12 bg-white border-b border-gray-100">
+    <section id="services" class="py-24 lg:py-32 px-6 lg:px-12 bg-white border-b border-gray-100" data-section="services">
         <div class="max-w-[85rem] mx-auto">
             <div class="mb-16 reveal">
                 <h2 class="text-3xl lg:text-4xl font-sans font-semibold text-pastel-textDark tracking-tight mb-4" data-edit="t22">Υπηρεσίες / Θέματα</h2>
@@ -244,7 +257,7 @@ G</li>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
                 <div class="reveal">
-                    <h4 class="font-sans font-medium text-pastel-textDark mb-2" data-edit="t23">Ατομική ψυχοθεραπεία εφήβων &amp; ενηλίκων</h4>
+                    <h4 class="font-sans font-medium text-pastel-textDark mb-2" data-edit="t23">Ατομική ψυχοθεραπεία εφήβων & ενηλίκων</h4>
                     <p class="text-pastel-textMuted text-sm leading-reading font-light" data-edit="t24">Εργασία σε σταθερό πλαίσιο με έμφαση στην ασφάλεια, την εμπιστευτικότητα και τη συνεργατική σχέση.</p>
                 </div>
                 <div class="reveal">
@@ -260,7 +273,7 @@ G</li>
                     <p class="text-pastel-textMuted text-sm leading-reading font-light" data-edit="t30">Κατανόηση των ψυχικών λειτουργιών που συνδέονται με τη σχέση με το σώμα και την τροφή, σε ασφαλές πλαίσιο.</p>
                 </div>
                 <div class="reveal">
-                    <h4 class="font-sans font-medium text-pastel-textDark mb-2" data-edit="t31">Άγχος &amp; κρίσεις πανικού</h4>
+                    <h4 class="font-sans font-medium text-pastel-textDark mb-2" data-edit="t31">Άγχος & κρίσεις πανικού</h4>
                     <p class="text-pastel-textMuted text-sm leading-reading font-light" data-edit="t32">Εντοπισμός μοτίβων, ερμηνεία υποκείμενων συγκρούσεων και σταδιακή οργάνωση και ενδυνάμωση του ψυχισμού.</p>
                 </div>
                 <div class="reveal">
@@ -288,17 +301,20 @@ G</li>
     </section>
 
     <!-- Clinic Space Images -->
-    <section class="py-24 px-6 lg:px-12 bg-pastel-sand/30">
+    <section class="py-24 px-6 lg:px-12 bg-pastel-sand/30" data-section="s2">
         <div class="max-w-[85rem] mx-auto">
-            <div data-gallery="clinic" class="columns-1 md:columns-2 gap-6 space-y-6">
+            <div data-gallery="gal1" class="columns-1 md:columns-2 gap-6 space-y-6">
                 <button class="w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md" onclick="openLightbox('https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_04.jpg')">
-                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_04.jpg" alt="" class="w-full h-auto">
+                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_04.jpg" alt="Psychotherapy Home 1" class="w-full h-auto">
+                </button>
+                <button class="w-full break-inside-avoid overflow-hidden group relative reveal delay-100 shadow-md rounded-md" onclick="openLightbox('https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_05.jpg')">
+                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_05.jpg" alt="Psychotherapy Home 2" class="w-full h-auto">
                 </button>
                 <button class="w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md" onclick="openLightbox('https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_08.jpg')">
-                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_08.jpg" alt="" class="w-full h-auto">
+                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_08.jpg" alt="Psychotherapy Home 3" class="w-full h-auto">
                 </button>
-                <button class="w-full break-inside-avoid overflow-hidden group relative reveal shadow-md rounded-md" onclick="openLightbox('https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_09.jpg')">
-                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_09.jpg" alt="" class="w-full h-auto">
+                <button class="w-full break-inside-avoid overflow-hidden group relative reveal delay-100 shadow-md rounded-md" onclick="openLightbox('https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_09.jpg')">
+                    <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/eacab278bc78a63c2ac250f9561f7e1d78c016d9/xatzis-konstantinos_09.jpg" alt="Psychotherapy Home 4" class="w-full h-auto">
                 </button>
             </div>
         </div>
@@ -325,28 +341,33 @@ G</li>
                     <ul class="space-y-6 text-pastel-textMuted text-sm font-light">
                         <li class="flex items-start gap-4">
                             <i data-lucide="map-pin" class="w-5 h-5 text-pastel-petrol shrink-0 mt-0.5"></i>
-                            <p data-edit="t44">Χατζής Κωνσταντίνος,
-Ριζάρη 17, Παγκράτι (πλησίον μετρό Ευαγγελισμός)</p>
+                            <p>Χατζής Κωνσταντίνος,<br>Ριζάρη 17, Παγκράτι (πλησίον μετρό Ευαγγελισμός)</p>
                         </li>
                         <li class="flex items-center gap-4">
                             <i data-lucide="phone" class="w-5 h-5 text-pastel-petrol shrink-0"></i>
-                            <a href="tel:6951955938" data-link="phone-contact" class="text-lg font-medium text-pastel-textDark hover:text-pastel-petrol transition-colors">+30 695 195 5938</a>
+                            <a data-link="l2" href="tel:6951955938" class="text-lg font-medium text-pastel-textDark hover:text-pastel-petrol transition-colors">+30 695 195 5938</a>
                         </li>
                         <li class="flex items-center gap-4">
                             <i data-lucide="mail" class="w-5 h-5 text-pastel-petrol shrink-0"></i>
-                            <a href="mailto:konstantinoschatzis00@gmail.com" data-link="email-contact" class="hover:text-pastel-petrol transition-colors">konstantinoschatzis00@gmail.com</a>
+                            <a data-link="l3" href="mailto:konstantinoschatzis00@gmail.com" class="hover:text-pastel-petrol transition-colors">konstantinoschatzis00@gmail.com</a>
                         </li>
                         <li class="flex items-center gap-4">
                             <i data-lucide="clock" class="w-5 h-5 text-pastel-petrol shrink-0"></i>
-                            <p data-edit="t47">ΔΕΥΤΕΡΑ - ΠΑΡΑΣΚΕΥΗ (Κατόπιν ραντεβού)</p>
+                            <p>ΔΕΥΤΕΡΑ - ΠΑΡΑΣΚΕΥΗ (Κατόπιν ραντεβού)</p>
                         </li>
                     </ul>
 
                     <!-- Social Media Icons (Images) under contact info -->
                     <div class="flex items-center gap-6 mt-10">
-                        <a data-link="instagram" href="https://www.instagram.com/aytognwsia_psychotherapy/" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300"> <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/instagram-logo-instagram-icon-transparent-free-png.png.webp" alt="Instagram" class="w-8 h-8 object-contain drop-shadow-sm"></a>
-                        <a data-link="facebook" href="https://www.facebook.com/Konstantinos.Chatzis.Psy" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300"> <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/icons8-facebook-480.png" alt="Facebook" class="w-8 h-8 object-contain drop-shadow-sm"></a>
-                        <a data-link="youtube" href="https://www.youtube.com/@KChatzis_Psychotherapist" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="w-9 h-auto object-contain drop-shadow-sm"></a>
+                        <a data-link="l4" href="https://www.instagram.com/aytognwsia_psychotherapy/" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300">
+                            <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/instagram-logo-instagram-icon-transparent-free-png.png.webp" alt="Instagram" class="w-8 h-8 object-contain drop-shadow-sm">
+                        </a>
+                        <a data-link="l5" href="https://www.facebook.com/Konstantinos.Chatzis.Psy" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300">
+                            <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/icons8-facebook-480.png" alt="Facebook" class="w-8 h-8 object-contain drop-shadow-sm">
+                        </a>
+                        <a data-link="l6" href="https://www.youtube.com/@KChatzis_Psychotherapist" target="_blank" rel="noopener" class="transform hover:scale-110 transition-transform duration-300">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="w-9 h-auto object-contain drop-shadow-sm">
+                        </a>
                     </div>
                 </div>
 
@@ -355,14 +376,18 @@ G</li>
                     <!-- Maps Embed -->
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.029490333792!2d23.7432095!3d37.9753443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a1bd4e933451bb%3A0x6335ab2cc6e6b014!2sRizari%2017%2C%20Athina%20116%2034!5e0!3m2!1sen!2sgr!4v1713536859000!5m2!1sen!2sgr" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-lg shadow-sm opacity-90 hover:opacity-100 transition-opacity"></iframe>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                        <a data-link="doctoranytime" href="https://www.doctoranytime.gr/d/Symvoulos-psychikis-ygeias/xatzis-konstantinos" 
+                    <div class="flex flex-col sm:flex-row gap-4 mt-6" data-buttons="row2">
+                        <a data-link="l7" href="https://www.doctoranytime.gr/d/Symvoulos-psychikis-ygeias/xatzis-konstantinos" 
                            target="_blank" rel="noopener"
-                           class="inline-flex items-center justify-center flex-1 bg-white border border-gray-200 text-pastel-textDark px-6 py-3 rounded-md text-sm font-medium hover:border-pastel-petrol transition-colors shadow-sm">DOTTEST <i data-lucide="external-link" class="w-4 h-4 ml-2 text-pastel-textMuted"></i></a>
+                           class="inline-flex items-center justify-center flex-1 bg-white border border-gray-200 text-pastel-textDark px-6 py-3 rounded-md text-sm font-medium hover:border-pastel-petrol transition-colors shadow-sm">
+                            Doctoranytime <i data-lucide="external-link" class="w-4 h-4 ml-2 text-pastel-textMuted"></i>
+                        </a>
                         
-                        <a data-link="google-business" href="https://share.google/5tIZgTPuQ7QqI2kwT" 
+                        <a data-link="l8" href="https://share.google/5tIZgTPuQ7QqI2kwT" 
                            target="_blank" rel="noopener"
-                           class="inline-flex items-center justify-center flex-1 bg-white border border-gray-200 text-pastel-textDark px-6 py-3 rounded-md text-sm font-medium hover:border-pastel-petrol transition-colors shadow-sm">Google Business <i data-lucide="map" class="w-4 h-4 ml-2 text-pastel-petrol"></i></a>
+                           class="inline-flex items-center justify-center flex-1 bg-white border border-gray-200 text-pastel-textDark px-6 py-3 rounded-md text-sm font-medium hover:border-pastel-petrol transition-colors shadow-sm">
+                            Google Business <i data-lucide="map" class="w-4 h-4 ml-2 text-pastel-petrol"></i>
+                        </a>
                     </div>
                 </div>
 
