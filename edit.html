@@ -3,150 +3,246 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Επεξεργασία ιστοσελίδας</title>
+  <title>Advon Editor — Επεξεργασία ιστοσελίδας</title>
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, sans-serif; }
-    :root { --teal:#3A6B7E; --gold:#c9a24b; --ink:#1E293B; --line:#e5e5e5; }
+    html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    :root { --teal:#3A6B7E; --teal-dark:#2C5262; --gold:#c9a24b; --ink:#1E293B;
+            --line:#e8e6e1; --bg:#F7F5F0; --ok:#2e7d4f; --err:#8a2b2b; }
+    button { font: inherit; }
 
-    /* Gate */
+    /* ── Gate ── */
     #gate { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center;
-            justify-content: center; background: #F7F5F0; }
-    #gate .card { background:#fff; padding:32px; border-radius:14px; width:340px;
-                  box-shadow:0 4px 24px rgba(0,0,0,.1); text-align:center; }
-    #gate h1 { font-size:1.2rem; margin:0 0 18px; color:var(--ink); }
-    #gate input { width:100%; font:inherit; padding:12px; border:1px solid #ddd;
-                  border-radius:8px; margin-bottom:14px; }
-    #gate button { width:100%; font:inherit; font-weight:600; border:0; border-radius:8px;
-                   padding:12px; cursor:pointer; background:var(--teal); color:#fff; }
+            justify-content: center; background: linear-gradient(160deg, var(--bg) 0%, #EBF2F4 100%); }
+    #gate .card { background:#fff; padding:40px 36px 32px; border-radius:18px; width:360px; max-width:92vw;
+                  box-shadow:0 10px 40px rgba(30,41,59,.12); text-align:center; }
+    #gate .logo { width:44px; height:44px; border-radius:12px; background:var(--teal); color:#fff;
+                  display:inline-flex; align-items:center; justify-content:center; font-weight:700;
+                  font-size:1.15rem; margin-bottom:16px; letter-spacing:.5px; }
+    #gate h1 { font-size:1.15rem; margin:0 0 6px; color:var(--ink); }
+    #gate .sub { font-size:.85rem; color:#8a8a8a; margin:0 0 22px; }
+    #gate input { width:100%; font:inherit; padding:13px 14px; border:1.5px solid #ddd;
+                  border-radius:10px; margin-bottom:12px; text-align:center; letter-spacing:2px; }
+    #gate input:focus { outline:none; border-color:var(--teal); }
+    #gate button { width:100%; font-weight:600; border:0; border-radius:10px;
+                   padding:13px; cursor:pointer; background:var(--teal); color:#fff; transition:background .15s; }
+    #gate button:hover { background:var(--teal-dark); }
+    #gate button:disabled { opacity:.6; cursor:default; }
+    #gate .err { color:var(--err); font-size:.82rem; min-height:18px; margin-top:10px; }
 
-    /* Top bar */
+    /* ── Loading overlay ── */
+    #loading { position:fixed; inset:0; top:56px; z-index:99996; display:none; align-items:center;
+               justify-content:center; background:var(--bg); flex-direction:column; gap:14px; }
+    .spin { width:34px; height:34px; border:3px solid #ddd; border-top-color:var(--teal);
+            border-radius:50%; animation:sp 1s linear infinite; }
+    @keyframes sp { to { transform:rotate(360deg); } }
+    #loading span { font-size:.9rem; color:#888; }
+
+    /* ── Top bar ── */
     #savebar { position:fixed; top:0; left:0; right:0; height:56px; z-index:99999;
                display:none; align-items:center; justify-content:space-between; gap:12px;
-               padding:0 16px; background:var(--teal); color:#fff;
-               box-shadow:0 2px 10px rgba(0,0,0,.2); }
-    #savebar .msg { font-size:.85rem; opacity:.92; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+               padding:0 14px 0 18px; background:var(--teal); color:#fff;
+               box-shadow:0 2px 12px rgba(0,0,0,.18); }
+    #savebar .brand { display:flex; align-items:center; gap:10px; min-width:0; }
+    #savebar .dot { width:26px; height:26px; border-radius:8px; background:rgba(255,255,255,.18);
+                    display:flex; align-items:center; justify-content:center; font-weight:700;
+                    font-size:.8rem; flex-shrink:0; }
+    #savebar .msg { font-size:.84rem; opacity:.92; overflow:hidden; text-overflow:ellipsis;
+                    white-space:nowrap; }
     #savebar .actions { display:flex; gap:8px; align-items:center; flex-shrink:0; }
-    #savebar button { font:inherit; font-weight:600; border:0; border-radius:8px;
-                      padding:9px 16px; cursor:pointer; }
-    #saveBtn { background:var(--gold); color:var(--ink); }
-    #sideToggle { background:rgba(255,255,255,.15); color:#fff; }
-    #savebar button:disabled { opacity:.5; cursor:default; }
+    #savebar button { font-weight:600; border:0; border-radius:9px; padding:9px 15px; cursor:pointer;
+                      transition:filter .15s; }
+    #savebar button:hover { filter:brightness(1.08); }
+    #resetBtn { background:rgba(255,255,255,.14); color:#fff; }
+    #sideToggle { background:rgba(255,255,255,.14); color:#fff; }
+    #saveBtn { background:var(--gold); color:var(--ink); position:relative; }
+    #saveBtn.dirty::after { content:""; position:absolute; top:-4px; right:-4px; width:11px; height:11px;
+                            border-radius:50%; background:#fff; border:2.5px solid var(--gold); }
+    #savebar button:disabled { opacity:.55; cursor:default; filter:none; }
 
-    /* Layout: iframe + sidebar */
+    /* ── Layout ── */
     #frame { position:fixed; top:56px; left:0; bottom:0; width:100%; border:0;
-             display:none; background:#fff; transition:width .25s; }
-    body.side #frame { width:calc(100% - 380px); }
-    #side { position:fixed; top:56px; right:-380px; bottom:0; width:380px; background:#fafafa;
-            border-left:1px solid var(--line); overflow-y:auto; transition:right .25s; z-index:99998; }
+             display:none; background:#fff; transition:width .25s ease; }
+    body.side #frame { width:calc(100% - 384px); }
+    #side { position:fixed; top:56px; right:-384px; bottom:0; width:384px; background:#fbfaf8;
+            border-left:1px solid var(--line); overflow-y:auto; transition:right .25s ease; z-index:99998; }
     body.side #side { right:0; }
     @media (max-width: 800px) {
       body.side #frame { width:100%; }
       #side { width:100%; right:-100%; }
+      #savebar .msg { display:none; }
     }
 
-    /* Sidebar content */
-    #side .sec { border-bottom:1px solid var(--line); }
-    #side .sec > .head { display:flex; align-items:center; justify-content:space-between;
-                         padding:14px 16px; cursor:pointer; background:#fff; font-weight:600;
-                         font-size:.92rem; color:var(--ink); }
-    #side .sec > .head .chev { transition:transform .2s; color:#999; }
+    /* ── Sidebar ── */
+    #side .sidehead { position:sticky; top:0; z-index:5; background:#fbfaf8; padding:16px 18px 12px;
+                      border-bottom:1px solid var(--line); display:flex; align-items:center;
+                      justify-content:space-between; }
+    #side .sidehead b { font-size:.95rem; color:var(--ink); }
+    #side .sidehead .x { border:0; background:#eee; border-radius:8px; width:30px; height:30px;
+                         cursor:pointer; color:#666; }
+    #side .sec { border-bottom:1px solid var(--line); background:#fff; }
+    #side .sec > .head { display:flex; align-items:center; gap:10px; padding:14px 18px; cursor:pointer;
+                         font-weight:600; font-size:.9rem; color:var(--ink); user-select:none; }
+    #side .sec > .head .ico { width:28px; height:28px; border-radius:8px; background:var(--bg);
+                         display:flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0; }
+    #side .sec > .head .cnt { margin-left:auto; font-size:.72rem; color:#aaa; font-weight:500; }
+    #side .sec > .head .chev { color:#bbb; transition:transform .2s; font-size:.9rem; }
     #side .sec.open > .head .chev { transform:rotate(90deg); }
-    #side .sec > .body { display:none; padding:6px 16px 16px; }
+    #side .sec > .body { display:none; padding:4px 18px 18px; }
     #side .sec.open > .body { display:block; }
 
-    #side label { display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.5px;
-                  color:#888; margin:12px 0 4px; }
-    #side input[type=text], #side textarea { width:100%; font:inherit; font-size:.9rem;
-                  border:1px solid #ddd; border-radius:7px; padding:9px; background:#fff; }
-    #side textarea { resize:vertical; min-height:44px; line-height:1.45; }
-    #side input:focus, #side textarea:focus { outline:2px solid var(--teal); border-color:var(--teal); }
+    #side label { display:block; font-size:.67rem; text-transform:uppercase; letter-spacing:.6px;
+                  color:#999; margin:14px 0 5px; font-weight:600; }
+    #side input[type=text], #side textarea { width:100%; font:inherit; font-size:.88rem;
+                  border:1.5px solid #e3e1dc; border-radius:8px; padding:9px 11px; background:#fff;
+                  transition:border-color .15s; }
+    #side textarea { resize:vertical; min-height:46px; line-height:1.5; }
+    #side input:focus, #side textarea:focus { outline:none; border-color:var(--teal); }
 
-    .colorrow { display:flex; align-items:center; gap:10px; margin:10px 0; }
-    .colorrow input[type=color] { width:42px; height:34px; border:1px solid #ddd; border-radius:7px;
+    .colorrow { display:flex; align-items:center; gap:11px; margin:11px 0; }
+    .colorrow input[type=color] { width:44px; height:36px; border:1.5px solid #e3e1dc; border-radius:9px;
                   padding:2px; background:#fff; cursor:pointer; flex-shrink:0; }
-    .colorrow .cname { font-size:.85rem; color:var(--ink); flex:1; }
-    .colorrow .chex { font-size:.75rem; color:#999; font-family:monospace; }
+    .colorrow .cname { font-size:.85rem; color:var(--ink); flex:1; min-width:0;
+                       overflow:hidden; text-overflow:ellipsis; }
+    .colorrow .chex { font-size:.72rem; color:#aaa; font-family:ui-monospace, monospace; }
+    .colorrow .undo { border:0; background:transparent; color:#bbb; cursor:pointer; font-size:.95rem;
+                      padding:4px; display:none; }
+    .colorrow.changed .undo { display:block; }
+    .colorrow.changed .cname { font-weight:600; }
 
-    .togglerow { display:flex; align-items:center; justify-content:space-between; margin:10px 0;
-                 font-size:.9rem; color:var(--ink); }
-    .switch { position:relative; width:42px; height:24px; flex-shrink:0; }
+    .togglerow { display:flex; align-items:center; justify-content:space-between; margin:12px 0;
+                 font-size:.88rem; color:var(--ink); gap:10px; }
+    .togglerow span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .switch { position:relative; width:44px; height:25px; flex-shrink:0; }
     .switch input { opacity:0; width:0; height:0; }
-    .switch .sl { position:absolute; inset:0; background:#ccc; border-radius:24px; cursor:pointer; transition:.2s; }
-    .switch .sl:before { content:""; position:absolute; width:18px; height:18px; left:3px; top:3px;
-                 background:#fff; border-radius:50%; transition:.2s; }
+    .switch .sl { position:absolute; inset:0; background:#d5d3ce; border-radius:25px; cursor:pointer; transition:.2s; }
+    .switch .sl:before { content:""; position:absolute; width:19px; height:19px; left:3px; top:3px;
+                 background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
     .switch input:checked + .sl { background:var(--teal); }
-    .switch input:checked + .sl:before { transform:translateX(18px); }
+    .switch input:checked + .sl:before { transform:translateX(19px); }
 
-    .imgrow { display:flex; gap:8px; align-items:center; margin:8px 0; }
-    .imgrow img { width:52px; height:38px; object-fit:cover; border-radius:6px; border:1px solid #eee; flex-shrink:0; }
-    .imgrow input { flex:1; }
-    .imgrow .rm { border:0; background:#f3d6d6; color:#8a2b2b; border-radius:7px; padding:8px 10px;
+    .imgrow { display:flex; gap:9px; align-items:center; margin:9px 0; }
+    .imgrow img { width:54px; height:40px; object-fit:cover; border-radius:7px;
+                  border:1px solid #eee; flex-shrink:0; background:#f3f3f3; }
+    .imgrow input { flex:1; min-width:0; }
+    .imgrow .rm { border:0; background:#f6dede; color:var(--err); border-radius:8px; padding:9px 11px;
                   cursor:pointer; font-size:.8rem; flex-shrink:0; }
-    .addrow { width:100%; font:inherit; font-size:.85rem; border:1px dashed var(--teal); background:#fff;
-              color:var(--teal); border-radius:8px; padding:10px; cursor:pointer; margin-top:8px; }
+    .addrow { width:100%; font-size:.85rem; border:1.5px dashed var(--teal); background:#fff;
+              color:var(--teal); border-radius:9px; padding:11px; cursor:pointer; margin-top:10px;
+              font-weight:600; transition:background .15s; }
+    .addrow:hover { background:#f2f7f8; }
 
-    .btncard { background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin:8px 0; }
-    .btncard .rm { float:right; border:0; background:#f3d6d6; color:#8a2b2b; border-radius:6px;
+    .btncard { background:#fdfcfa; border:1.5px solid var(--line); border-radius:10px;
+               padding:11px 13px; margin:9px 0; }
+    .btncard .rm { float:right; border:0; background:#f6dede; color:var(--err); border-radius:7px;
                    padding:5px 9px; cursor:pointer; font-size:.75rem; }
+    .btncard input { margin-bottom:6px; }
 
-    /* Floating panel for in-page clicks */
-    #panel { position:fixed; z-index:99997; display:none; width:340px; background:#fff;
-             border:1px solid #ddd; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.18); padding:16px; }
-    #panel h3 { margin:0 0 12px; font-size:.95rem; color:var(--teal); }
-    #panel label { display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
-                   color:#888; margin:10px 0 4px; }
-    #panel input { width:100%; font:inherit; border:1px solid #ddd; border-radius:7px; padding:9px; }
-    #panel .thumb { width:100%; height:90px; object-fit:cover; border-radius:7px; border:1px solid #eee; margin-top:10px; }
-    #panel .pa { display:flex; gap:8px; margin-top:14px; }
-    #panel .pa button { flex:1; font:inherit; border:0; border-radius:7px; padding:9px; cursor:pointer; }
+    /* ── Floating panel ── */
+    #panel { position:fixed; z-index:99997; display:none; width:344px; max-width:92vw; background:#fff;
+             border:1px solid #e3e1dc; border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.2); padding:18px; }
+    #panel h3 { margin:0 0 10px; font-size:.95rem; color:var(--teal); }
+    #panel label { display:block; font-size:.67rem; text-transform:uppercase; letter-spacing:.6px;
+                   color:#999; margin:11px 0 4px; font-weight:600; }
+    #panel input { width:100%; font:inherit; border:1.5px solid #e3e1dc; border-radius:8px; padding:9px 11px; }
+    #panel input:focus { outline:none; border-color:var(--teal); }
+    #panel .thumb { width:100%; height:92px; object-fit:cover; border-radius:8px;
+                    border:1px solid #eee; margin-top:10px; background:#f3f3f3; }
+    #panel .pa { display:flex; gap:8px; margin-top:15px; }
+    #panel .pa button { flex:1; border:0; border-radius:8px; padding:10px; cursor:pointer; font-weight:600; }
     #panel .ok { background:var(--teal); color:#fff; }
-    #panel .cancel { background:#eee; color:#333; }
+    #panel .cancel { background:#efedea; color:#555; }
 
-    #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:100001;
-             background:var(--ink); color:#fff; padding:14px 22px; border-radius:10px;
-             font-size:.95rem; opacity:0; transition:opacity .3s; pointer-events:none; }
-    #toast.show { opacity:1; }
-    #toast.error { background:#8a2b2b; }
+    /* ── Toast ── */
+    #toast { position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(8px); z-index:100001;
+             background:var(--ink); color:#fff; padding:14px 22px; border-radius:12px;
+             font-size:.92rem; opacity:0; transition:opacity .25s, transform .25s; pointer-events:none;
+             box-shadow:0 6px 24px rgba(0,0,0,.25); max-width:88vw; text-align:center; }
+    #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    #toast.ok { background:var(--ok); }
+    #toast.error { background:var(--err); }
   </style>
 </head>
 <body>
 
   <div id="gate">
     <div class="card">
+      <div class="logo">A</div>
       <h1>Επεξεργασία ιστοσελίδας</h1>
-      <input id="pass" type="password" placeholder="Κωδικός" autocomplete="off">
-      <button onclick="enter()">Είσοδος</button>
+      <p class="sub">Εισάγετε τον κωδικό σας για να συνεχίσετε</p>
+      <input id="pass" type="password" placeholder="••••••••" autocomplete="off">
+      <button id="enterBtn" onclick="enter()">Είσοδος</button>
+      <div class="err" id="gateErr"></div>
     </div>
   </div>
 
   <div id="savebar">
-    <span class="msg">Πατήστε πάνω στη σελίδα ή ανοίξτε το μενού για όλες τις επιλογές.</span>
+    <div class="brand">
+      <div class="dot">A</div>
+      <span class="msg">Πατήστε πάνω στη σελίδα ή ανοίξτε το μενού για όλες τις επιλογές.</span>
+    </div>
     <div class="actions">
+      <button id="resetBtn" onclick="resetAll()" title="Αναίρεση όλων των αλλαγών">↺ Επαναφορά</button>
       <button id="sideToggle" onclick="toggleSide()">☰ Μενού</button>
       <button id="saveBtn" onclick="save()">Αποθήκευση</button>
     </div>
   </div>
 
+  <div id="loading"><div class="spin"></div><span>Φόρτωση της σελίδας…</span></div>
   <iframe id="frame"></iframe>
   <aside id="side"></aside>
   <div id="panel"></div>
   <div id="toast"></div>
 
   <script>
+    // ─────────────────────────────────────────────
+    // CONFIG — change only if the page file is not index.html
     const SOURCE_FILE = "index.html";
-    let passcode = "", doc = null, rawHtml = "";
-    let palette = [];       // [{path,name,value,orig}]
-    let sectionsState = {}; // key -> visible
+    // ─────────────────────────────────────────────
 
-    function enter() {
-      passcode = document.getElementById("pass").value.trim();
-      if (!passcode) return;
-      document.getElementById("gate").style.display = "none";
-      loadPage();
+    let passcode = "", doc = null, rawHtml = "";
+    let palette = [];
+    let sectionsState = {};
+    let dirty = false;
+
+    function markDirty() {
+      if (dirty) return;
+      dirty = true;
+      document.getElementById("saveBtn").classList.add("dirty");
     }
+    window.addEventListener("beforeunload", e => {
+      if (dirty) { e.preventDefault(); e.returnValue = ""; }
+    });
+
+    // ── Gate: verify passcode with the server before entering ──
+    async function enter() {
+      const btn = document.getElementById("enterBtn");
+      const err = document.getElementById("gateErr");
+      passcode = document.getElementById("pass").value.trim();
+      if (!passcode) { err.textContent = "Συμπληρώστε τον κωδικό."; return; }
+      btn.disabled = true; btn.textContent = "Έλεγχος…"; err.textContent = "";
+      try {
+        const res = await fetch("/.netlify/functions/save", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "verify", passcode }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById("gate").style.display = "none";
+          loadPage();
+        } else {
+          err.textContent = "Λάθος κωδικός. Δοκιμάστε ξανά.";
+        }
+      } catch (e) {
+        err.textContent = "Δεν ήταν δυνατή η σύνδεση. Ελέγξτε ότι βρίσκεστε στη διεύθυνση της ιστοσελίδας (όχι σε τοπικό αρχείο).";
+      }
+      btn.disabled = false; btn.textContent = "Είσοδος";
+    }
+    document.getElementById("pass").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
 
     async function loadPage() {
+      document.getElementById("savebar").style.display = "flex";
+      document.getElementById("loading").style.display = "flex";
       const res = await fetch(SOURCE_FILE + "?t=" + Date.now());
       rawHtml = await res.text();
       const frame = document.getElementById("frame");
@@ -154,60 +250,79 @@
       doc = frame.contentDocument;
       doc.open(); doc.write(rawHtml); doc.close();
       frame.onload = () => setTimeout(init, 300);
-      setTimeout(() => { if (!document.body.classList.contains("ready")) init(); }, 1500);
+      setTimeout(() => { if (!document.body.classList.contains("ready")) init(); }, 1600);
+    }
+
+    function resetAll() {
+      if (!confirm("Να αναιρεθούν όλες οι μη αποθηκευμένες αλλαγές;")) return;
+      dirty = false;
+      document.getElementById("saveBtn").classList.remove("dirty");
+      document.body.classList.remove("ready");
+      palette = []; sectionsState = {};
+      closePanel();
+      loadPage();
+      if (document.body.classList.contains("side")) setTimeout(buildSidebar, 1700);
     }
 
     function init() {
       if (document.body.classList.contains("ready")) return;
       document.body.classList.add("ready");
-      document.getElementById("savebar").style.display = "flex";
+      document.getElementById("loading").style.display = "none";
 
-      // styles injected into the page
+      // styles injected into the page — appended to <body> so they win the cascade
       const st = doc.createElement("style");
       st.textContent = `
-        .reveal{opacity:1 !important;transform:none !important;}
-        [data-edit]{outline:2px dashed transparent;outline-offset:3px;cursor:text;border-radius:3px;transition:.15s;}
+        .reveal, .reveal.delay-100, .reveal.delay-200 {
+          opacity:1 !important; transform:none !important; transition:none !important; }
+        [data-edit]{outline:2px dashed transparent;outline-offset:3px;cursor:text;border-radius:3px;transition:outline-color .15s, background .15s;}
         [data-edit]:hover{outline-color:#c9a24b;background:rgba(201,162,75,.10);}
         [data-edit]:focus{outline:2px solid #3A6B7E;background:rgba(58,107,126,.06);}
-        [data-img],[data-link]{outline:2px dashed transparent;outline-offset:3px;cursor:pointer;transition:.15s;}
+        [data-img],[data-link]{outline:2px dashed transparent;outline-offset:3px;cursor:pointer;transition:outline-color .15s;}
         [data-img]:hover,[data-link]:hover{outline-color:#3A6B7E;}
         [data-section][hidden]{display:none !important;}
         .ax-del{position:absolute;top:8px;right:8px;z-index:60;border:0;background:rgba(138,43,43,.95);
           color:#fff;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:.8rem;font-family:system-ui;}
       `;
-      doc.head.appendChild(st);
-      const pv = doc.createElement("style"); pv.id = "ax-preview"; doc.head.appendChild(pv);
+      doc.body.appendChild(st);
+      const pv = doc.createElement("style"); pv.id = "ax-preview"; doc.body.appendChild(pv);
+
+      // the site's own reveal logic: treat everything as already revealed
+      doc.querySelectorAll(".reveal").forEach(el => el.classList.add("active"));
 
       // neutralise the page's own click handlers
       doc.querySelectorAll("[onclick]").forEach(el => el.removeAttribute("onclick"));
 
-      // in-page text editing
+      // TEXT
       doc.querySelectorAll("[data-edit]").forEach(el => {
         el.setAttribute("contenteditable", "true");
         el.addEventListener("click", e => e.stopPropagation());
-        el.addEventListener("input", () => syncSideField("t", el.getAttribute("data-edit"), el.innerText.trim()));
+        el.addEventListener("input", () => {
+          markDirty();
+          syncSideField(el.getAttribute("data-edit"), el.textContent.trim());
+        });
       });
 
-      // in-page image / link panels
+      // IMAGES / LINKS
       doc.querySelectorAll("[data-img]").forEach(img =>
         img.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); imagePanel(img); }));
       doc.querySelectorAll("[data-link]").forEach(a => {
-        if (a.closest("[data-buttons]")) return; // row buttons edited via the row UI
+        if (a.closest("[data-buttons]")) return;
         a.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); linkPanel(a); });
       });
 
-      // gallery in-page delete buttons
+      // GALLERY in-page delete
       doc.querySelectorAll("[data-gallery]").forEach(gal => {
         gal.querySelectorAll(":scope > button, :scope > a").forEach(b => {
           b.style.position = "relative";
           const del = doc.createElement("button");
           del.className = "ax-del"; del.textContent = "Διαγραφή";
-          del.onclick = e => { e.stopPropagation(); b.remove(); buildSidebar(); };
+          del.onclick = e => { e.stopPropagation(); b.remove(); markDirty(); buildSidebar(); };
           b.appendChild(del);
         });
       });
 
       doc.addEventListener("click", closePanel);
+      document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel(); });
 
       parsePalette();
       doc.querySelectorAll("[data-section]").forEach(s =>
@@ -216,13 +331,12 @@
       buildSidebar();
     }
 
-    // ── palette parsing (from tailwind config in the raw HTML) ──
+    // ── palette ──
     function parsePalette() {
       palette = [];
       const cfg = rawHtml.match(/colors:\s*\{/);
       if (!cfg) return;
-      let i = rawHtml.indexOf(cfg[0]) + cfg[0].length, depth = 1, path = [];
-      let buf = "";
+      let i = rawHtml.indexOf(cfg[0]) + cfg[0].length, depth = 1, path = [], buf = "";
       while (i < rawHtml.length && depth > 0) {
         const ch = rawHtml[i];
         if (ch === "{") { const k = buf.match(/([A-Za-z][\w-]*)\s*:\s*$/); if (k) path.push(k[1]); depth++; buf = ""; }
@@ -230,10 +344,7 @@
         else {
           buf += ch;
           const m = buf.match(/([A-Za-z][\w-]*)\s*:\s*["'](#[0-9a-fA-F]{3,8})["']\s*,?\s*$/);
-          if (m) {
-            palette.push({ name: m[1], value: m[2], orig: m[2], path: [...path, m[1]].join("-") });
-            buf = "";
-          }
+          if (m) { palette.push({ name: m[1], value: m[2], orig: m[2], path: [...path, m[1]].join("-") }); buf = ""; }
         }
         i++;
       }
@@ -247,7 +358,8 @@
         css += `.text-${c.path}{color:${c.value} !important;}`;
         css += `.border-${c.path}{border-color:${c.value} !important;}`;
       }
-      doc.getElementById("ax-preview").textContent = css;
+      const pv = doc.getElementById("ax-preview");
+      if (pv) pv.textContent = css;
     }
 
     // ── sidebar ──
@@ -255,61 +367,78 @@
       const side = document.getElementById("side");
       side.innerHTML = "";
 
-      // Colours
+      const head = document.createElement("div");
+      head.className = "sidehead";
+      head.innerHTML = `<b>Επεξεργασία</b><button class="x" onclick="toggleSide()">✕</button>`;
+      side.appendChild(head);
+
+      let firstSec = null;
+
       if (palette.length) {
-        const sec = mkSec("🎨 Χρώματα");
+        const sec = mkSec("🎨", "Χρώματα", palette.length);
+        firstSec = firstSec || sec.el;
         palette.forEach(c => {
           const row = document.createElement("div");
-          row.className = "colorrow";
-          row.innerHTML = `<input type="color" value="${c.value}"><span class="cname">${c.path}</span><span class="chex">${c.value}</span>`;
+          row.className = "colorrow" + (c.value !== c.orig ? " changed" : "");
+          row.innerHTML = `<input type="color" value="${c.value}"><span class="cname">${c.path}</span>
+            <span class="chex">${c.value}</span><button class="undo" title="Επαναφορά">↺</button>`;
           const inp = row.querySelector("input");
           inp.addEventListener("input", () => {
             c.value = inp.value;
             row.querySelector(".chex").textContent = inp.value;
-            previewColors();
+            row.classList.toggle("changed", c.value !== c.orig);
+            markDirty(); previewColors();
           });
+          row.querySelector(".undo").onclick = () => {
+            c.value = c.orig; inp.value = c.orig;
+            row.querySelector(".chex").textContent = c.orig;
+            row.classList.remove("changed");
+            previewColors();
+          };
           sec.body.appendChild(row);
         });
         side.appendChild(sec.el);
       }
 
-      // Section visibility
       const secEls = Array.from(doc.querySelectorAll("[data-section]"));
       if (secEls.length) {
-        const sec = mkSec("👁 Ενότητες (εμφάνιση / απόκρυψη)");
+        const sec = mkSec("👁", "Ενότητες", secEls.length);
         secEls.forEach(s => {
           const k = s.getAttribute("data-section");
           const h = s.querySelector("h1,h2,h3");
-          const label = h ? h.textContent.trim().slice(0, 34) : k;
+          const label = h ? h.textContent.trim().slice(0, 32) : k;
           const row = document.createElement("div");
           row.className = "togglerow";
           row.innerHTML = `<span>${label}</span><label class="switch"><input type="checkbox" ${sectionsState[k] ? "checked" : ""}><span class="sl"></span></label>`;
           row.querySelector("input").addEventListener("change", e => {
             sectionsState[k] = e.target.checked;
             e.target.checked ? s.removeAttribute("hidden") : s.setAttribute("hidden", "");
+            markDirty();
           });
           sec.body.appendChild(row);
         });
         side.appendChild(sec.el);
       }
 
-      // Per-section content groups
       secEls.forEach(s => {
         const k = s.getAttribute("data-section");
         const h = s.querySelector("h1,h2,h3");
-        const title = "✏️ " + (h ? h.textContent.trim().slice(0, 30) : k);
-        const sec = mkSec(title);
+        const title = h ? h.textContent.trim().slice(0, 28) : k;
+        const nItems = s.querySelectorAll("[data-edit],[data-img],[data-link],[data-gallery],[data-buttons]").length;
+        const sec = mkSec("✏️", title, nItems);
         let has = false;
 
         s.querySelectorAll("[data-edit]").forEach(el => {
           has = true;
           const key = el.getAttribute("data-edit");
           const lbl = document.createElement("label");
-          lbl.textContent = el.innerText.trim().slice(0, 42) || key;
+          const lang = el.getAttribute("data-l");
+          const badge = lang ? "[" + lang.toUpperCase() + "] " : "";
+          lbl.textContent = badge + (el.textContent.trim().slice(0, 40) || key);
           const ta = document.createElement("textarea");
-          ta.value = el.innerText.trim();
+          ta.value = el.textContent.trim();
           ta.setAttribute("data-side-t", key);
-          ta.addEventListener("input", () => { el.innerText = ta.value; });
+          ta.addEventListener("input", () => { el.textContent = ta.value; markDirty(); });
           sec.body.appendChild(lbl); sec.body.appendChild(ta);
         });
 
@@ -319,7 +448,7 @@
           const row = document.createElement("div"); row.className = "imgrow";
           row.innerHTML = `<img src="${img.getAttribute("src")}"><input type="text" value="${img.getAttribute("src")}">`;
           const inp = row.querySelector("input"), th = row.querySelector("img");
-          inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; });
+          inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; markDirty(); });
           sec.body.appendChild(lbl); sec.body.appendChild(row);
         });
 
@@ -331,12 +460,11 @@
           lbl.textContent = "Κουμπί: " + (txt.trim().slice(0, 30) || "(εικονίδιο)");
           const t1 = document.createElement("input"); t1.type = "text"; t1.value = txt.trim(); t1.placeholder = "Κείμενο";
           const t2 = document.createElement("input"); t2.type = "text"; t2.value = a.getAttribute("href") || ""; t2.placeholder = "Σύνδεσμος"; t2.style.marginTop = "6px";
-          t1.addEventListener("input", () => setLinkText(a, t1.value));
-          t2.addEventListener("input", () => a.setAttribute("href", t2.value));
+          t1.addEventListener("input", () => { setLinkText(a, t1.value); markDirty(); });
+          t2.addEventListener("input", () => { a.setAttribute("href", t2.value); markDirty(); });
           sec.body.appendChild(lbl); sec.body.appendChild(t1); sec.body.appendChild(t2);
         });
 
-        // Button rows in this section
         s.querySelectorAll("[data-buttons]").forEach(row => {
           has = true;
           const lbl = document.createElement("label"); lbl.textContent = "Σειρά κουμπιών";
@@ -346,7 +474,6 @@
           renderRow(row, holder);
         });
 
-        // Galleries in this section
         s.querySelectorAll("[data-gallery]").forEach(gal => {
           has = true;
           const lbl = document.createElement("label"); lbl.textContent = "Συλλογή φωτογραφιών";
@@ -358,6 +485,8 @@
 
         if (has) side.appendChild(sec.el);
       });
+
+      if (firstSec) firstSec.classList.add("open");
     }
 
     function renderRow(row, holder) {
@@ -366,11 +495,11 @@
         let txt = ""; a.childNodes.forEach(n => { if (n.nodeType === 3) txt += n.textContent; });
         const card = document.createElement("div"); card.className = "btncard";
         const rm = document.createElement("button"); rm.className = "rm"; rm.textContent = "✕";
-        rm.onclick = () => { a.remove(); renderRow(row, holder); };
+        rm.onclick = () => { a.remove(); markDirty(); renderRow(row, holder); };
         const t1 = document.createElement("input"); t1.type = "text"; t1.value = txt.trim(); t1.placeholder = "Κείμενο";
-        const t2 = document.createElement("input"); t2.type = "text"; t2.value = a.getAttribute("href") || ""; t2.placeholder = "Σύνδεσμος"; t2.style.marginTop = "6px";
-        t1.addEventListener("input", () => setLinkText(a, t1.value));
-        t2.addEventListener("input", () => a.setAttribute("href", t2.value));
+        const t2 = document.createElement("input"); t2.type = "text"; t2.value = a.getAttribute("href") || ""; t2.placeholder = "Σύνδεσμος";
+        t1.addEventListener("input", () => { setLinkText(a, t1.value); markDirty(); });
+        t2.addEventListener("input", () => { a.setAttribute("href", t2.value); markDirty(); });
         card.appendChild(rm); card.appendChild(t1); card.appendChild(t2);
         holder.appendChild(card);
       });
@@ -383,6 +512,7 @@
         clone.setAttribute("href", "#");
         clone.removeAttribute("data-link");
         row.appendChild(clone);
+        markDirty();
         renderRow(row, holder);
       };
       holder.appendChild(add);
@@ -394,10 +524,10 @@
         const row = document.createElement("div"); row.className = "imgrow";
         row.innerHTML = `<img src="${img.getAttribute("src")}"><input type="text" value="${img.getAttribute("src")}"><button class="rm">✕</button>`;
         const inp = row.querySelector("input"), th = row.querySelector("img");
-        inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; });
+        inp.addEventListener("input", () => { img.src = inp.value; th.src = inp.value; markDirty(); });
         row.querySelector(".rm").onclick = () => {
           const item = img.closest("button, a") || img;
-          item.remove(); renderGal(gal, holder);
+          item.remove(); markDirty(); renderGal(gal, holder);
         };
         holder.appendChild(row);
       });
@@ -408,12 +538,15 @@
         const first = gal.querySelector("button, a");
         if (first) {
           const clone = first.cloneNode(true);
-          const oldSrc = clone.querySelector("img").getAttribute("src");
-          clone.querySelector("img").setAttribute("src", url);
-          // also update lightbox onclick if present in attributes
-          if (clone.getAttribute("onclick")) clone.setAttribute("onclick", clone.getAttribute("onclick").split(oldSrc).join(url));
-          const del = clone.querySelector(".ax-del"); if (del) del.onclick = e => { e.stopPropagation(); clone.remove(); renderGal(gal, holder); };
+          const im = clone.querySelector("img");
+          const oldSrc = im.getAttribute("src");
+          im.setAttribute("src", url);
+          if (clone.getAttribute("onclick"))
+            clone.setAttribute("onclick", clone.getAttribute("onclick").split(oldSrc).join(url));
+          const del = clone.querySelector(".ax-del");
+          if (del) del.onclick = e => { e.stopPropagation(); clone.remove(); markDirty(); renderGal(gal, holder); };
           gal.appendChild(clone);
+          markDirty();
         }
         renderGal(gal, holder);
       };
@@ -427,14 +560,15 @@
       icons.forEach(ic => a.appendChild(ic));
     }
 
-    function syncSideField(type, key, val) {
+    function syncSideField(key, val) {
       const ta = document.querySelector(`[data-side-t="${key}"]`);
       if (ta && ta.value !== val) ta.value = val;
     }
 
-    function mkSec(title) {
+    function mkSec(icon, title, count) {
       const el = document.createElement("div"); el.className = "sec";
-      el.innerHTML = `<div class="head"><span>${title}</span><span class="chev">›</span></div><div class="body"></div>`;
+      el.innerHTML = `<div class="head"><span class="ico">${icon}</span><span>${title}</span>
+        <span class="cnt">${count}</span><span class="chev">›</span></div><div class="body"></div>`;
       el.querySelector(".head").onclick = () => el.classList.toggle("open");
       return { el, body: el.querySelector(".body") };
     }
@@ -444,12 +578,12 @@
       if (document.body.classList.contains("side")) buildSidebar();
     }
 
-    // ── floating panels (in-page view) ──
+    // ── floating panels ──
     function panelAt(r) {
       const p = document.getElementById("panel");
       p.style.display = "block";
-      p.style.top = Math.max(66, Math.min(r.top + 66, window.innerHeight - 320)) + "px";
-      p.style.left = Math.min(Math.max(r.left, 16), window.innerWidth - 356) + "px";
+      p.style.top = Math.max(66, Math.min(r.top + 66, window.innerHeight - 330)) + "px";
+      p.style.left = Math.min(Math.max(r.left, 12), window.innerWidth - 360) + "px";
       return p;
     }
     function imagePanel(img) {
@@ -460,7 +594,9 @@
       const s = document.getElementById("p-src"), th = document.getElementById("p-th");
       s.value = img.getAttribute("src") || ""; th.src = s.value;
       s.addEventListener("input", () => th.src = s.value);
-      document.getElementById("p-ok").onclick = () => { img.src = s.value; closePanel(); buildSidebar(); };
+      s.addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("p-ok").click(); });
+      document.getElementById("p-ok").onclick = () => { img.src = s.value; markDirty(); closePanel(); buildSidebar(); };
+      s.focus();
     }
     function linkPanel(a) {
       const p = panelAt(a.getBoundingClientRect());
@@ -471,11 +607,14 @@
         <button class="ok" id="p-ok">Εφαρμογή</button></div>`;
       document.getElementById("p-t").value = txt.trim();
       document.getElementById("p-h").value = a.getAttribute("href") || "";
-      document.getElementById("p-ok").onclick = () => {
+      const apply = () => {
         setLinkText(a, document.getElementById("p-t").value);
         a.setAttribute("href", document.getElementById("p-h").value);
-        closePanel(); buildSidebar();
+        markDirty(); closePanel(); buildSidebar();
       };
+      document.getElementById("p-ok").onclick = apply;
+      p.querySelectorAll("input").forEach(i => i.addEventListener("keydown", e => { if (e.key === "Enter") apply(); }));
+      document.getElementById("p-t").focus();
     }
     function closePanel() { document.getElementById("panel").style.display = "none"; }
 
@@ -484,7 +623,7 @@
       const btn = document.getElementById("saveBtn");
       const edits = {}, images = {}, links = {}, galleries = {}, buttonRows = {};
 
-      doc.querySelectorAll("[data-edit]").forEach(el => edits[el.getAttribute("data-edit")] = el.innerText.trim());
+      doc.querySelectorAll("[data-edit]").forEach(el => edits[el.getAttribute("data-edit")] = el.textContent.trim());
       doc.querySelectorAll("[data-img]").forEach(img => images[img.getAttribute("data-img")] = img.getAttribute("src"));
       doc.querySelectorAll("[data-link]").forEach(a => {
         if (a.closest("[data-buttons]")) return;
@@ -504,7 +643,7 @@
                             .map(c => ({ name: c.name, old: c.orig, value: c.value }));
 
       if (!confirm("Αποθήκευση των αλλαγών στην ιστοσελίδα;")) return;
-      btn.disabled = true; btn.textContent = "Αποθήκευση...";
+      btn.disabled = true; btn.textContent = "Αποθήκευση…";
       try {
         const res = await fetch("/.netlify/functions/save", {
           method: "POST", headers: { "Content-Type": "application/json" },
@@ -513,19 +652,23 @@
         });
         const data = await res.json();
         if (data.ok) {
-          toast("Αποθηκεύτηκε! Η ιστοσελίδα ενημερώνεται σε λίγο.");
-          palette.forEach(c => c.orig = c.value); // committed colours become the new baseline
+          toast("✓ Αποθηκεύτηκε! Η ιστοσελίδα θα ενημερωθεί σε περίπου 1 λεπτό.", "ok");
+          palette.forEach(c => c.orig = c.value);
+          dirty = false;
+          btn.classList.remove("dirty");
+          buildSidebar();
+        } else {
+          toast(data.error || "Κάτι πήγε στραβά.", "error");
         }
-        else toast(data.error || "Κάτι πήγε στραβά.", true);
-      } catch (e) { toast("Σφάλμα σύνδεσης.", true); }
+      } catch (e) { toast("Σφάλμα σύνδεσης. Δοκιμάστε ξανά.", "error"); }
       btn.disabled = false; btn.textContent = "Αποθήκευση";
     }
 
-    function toast(msg, isError) {
+    function toast(msg, kind) {
       const t = document.getElementById("toast");
       t.textContent = msg;
-      t.className = "show" + (isError ? " error" : "");
-      setTimeout(() => { t.className = ""; }, 4000);
+      t.className = "show" + (kind ? " " + kind : "");
+      setTimeout(() => { t.className = ""; }, 4500);
     }
   </script>
 </body>
