@@ -8,7 +8,7 @@ const OWNER    = "agelmet";      // GitHub username
 const REPO     = "testweb";      // website repo
 const FILE     = "index.html";   // page being edited
 const BRANCH   = "main";
-const PASSCODE = "advon2026";    // client password
+const PASSCODE = "Anemos-5084%";    // client password
 // ─────────────────────────────────────────────────────────────
 
 export default async (request) => {
@@ -22,6 +22,9 @@ export default async (request) => {
   catch { return json({ error: "Bad request." }, 400); }
 
   if (body.passcode !== PASSCODE) return json({ error: "Wrong passcode." }, 401);
+
+  // Gate check: verify passcode without saving anything
+  if (body.action === "verify") return json({ ok: true });
 
   const headers = {
     Authorization: `Bearer ${token}`,
